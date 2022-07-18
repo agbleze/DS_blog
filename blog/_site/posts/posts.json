@@ -1,0 +1,59 @@
+[
+  {
+    "path": "posts/2022-07-18-timeseries-benchmark-models/",
+    "title": "Timeseries benchmark models",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Linus Agbleze",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2022-07-18",
+    "categories": [
+      "Timeseries analysis"
+    ],
+    "contents": "\nTimeseries analysis\nThis post is on timeseries analysis, mainly the basics.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2022-07-18T01:06:08+02:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2022-07-17-data-visualization/",
+    "title": "Data visualization",
+    "description": "This post entails the use of ggplot for data visualization.",
+    "author": [
+      {
+        "name": "Linus Agbleze",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2022-07-17",
+    "categories": [
+      "visualization"
+    ],
+    "contents": "\n\n\n\nDistill is a publication format for scientific and technical writing, native to the web.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "preview": "posts/2022-07-17-data-visualization/data-visualization_files/figure-html5/unnamed-chunk-1-1.png",
+    "last_modified": "2022-07-18T01:58:59+02:00",
+    "input_file": {},
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to new()",
+    "description": "Welcome to our new blog, new(). We hope you enjoy \nreading what we have to say!",
+    "author": [
+      {
+        "name": "Nora Jones",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2022-07-17",
+    "categories": [],
+    "contents": "\n\n\n\n",
+    "preview": {},
+    "last_modified": "2022-07-17T22:02:32+02:00",
+    "input_file": {}
+  }
+]

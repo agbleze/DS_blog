@@ -1,0 +1,29 @@
+---
+title: "Timeseries benchmark models"
+description: |
+  This post entails timeseries prediction with 
+  very simple models that serve as benchmark against 
+  which more advance models .
+author:
+  - name: Linus Agbleze
+    url: https://example.com/norajones
+date: 2022-07-18
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+categories:
+  - Timeseries analysis
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Timeseries analysis
+This post is on timeseries analysis, mainly the basics.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+

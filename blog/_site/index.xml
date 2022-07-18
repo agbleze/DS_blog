@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>Data science tutorials</title>
+    <link>https://addurl/</link>
+    <atom:link href="https://addurl/index.xml" rel="self" type="application/rss+xml"/>
+    <description>This blog aims demonstrating various data analysis techniques in a 
+practical way.
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Mon, 18 Jul 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Timeseries benchmark models</title>
+      <dc:creator>Linus Agbleze</dc:creator>
+      <link>https://addurl/posts/2022-07-18-timeseries-benchmark-models</link>
+      <description>A short description of the post.</description>
+      <category>Timeseries analysis</category>
+      <guid>https://addurl/posts/2022-07-18-timeseries-benchmark-models</guid>
+      <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Data visualization</title>
+      <dc:creator>Linus Agbleze</dc:creator>
+      <link>https://addurl/posts/2022-07-17-data-visualization</link>
+      <description>This post entails the use of ggplot for data visualization.</description>
+      <category>visualization</category>
+      <guid>https://addurl/posts/2022-07-17-data-visualization</guid>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://addurl/posts/2022-07-17-data-visualization/data-visualization_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Welcome to new()</title>
+      <dc:creator>Nora Jones</dc:creator>
+      <link>https://addurl/posts/welcome</link>
+      <description>Welcome to our new blog, new(). We hope you enjoy 
+reading what we have to say!</description>
+      <guid>https://addurl/posts/welcome</guid>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
