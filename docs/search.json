@@ -1,0 +1,12 @@
+{
+  "articles": [
+    {
+      "path": "index.html",
+      "title": "Tutorials in R",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2022-07-21T01:11:36+02:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}

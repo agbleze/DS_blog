@@ -15,7 +15,7 @@ collections:
     subscribe: _subscribe.html
 rss:
   full_content: true
-output_dir: "_site"
+output_dir: "."
 navbar:
   logo: images/image.png
   right:
