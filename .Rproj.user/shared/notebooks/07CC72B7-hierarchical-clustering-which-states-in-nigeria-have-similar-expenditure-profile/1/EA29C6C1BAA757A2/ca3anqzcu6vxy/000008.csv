@@ -1,0 +1,3 @@
+"0","fuel_expenditure <- read_csv(""Data/sect8b_plantingw3.csv"")  ## load the dataset"
+"2","Error: 'Data/sect8b_plantingw3.csv' does not exist in current working directory ('/Users/lin/Documents/DS_blog/blog').
+"

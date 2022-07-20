@@ -1,0 +1,32 @@
+---
+title: "Data visualization"
+description: |
+  This post entails the use of ggplot for data visualization.
+author:
+  - name: Linus Agbleze
+    url: https://example.com/norajones
+date: 2022-07-17
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+categories: 
+  - visualization
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r, layout="l-body-outset", preview=TRUE}
+library(ggplot2)
+ggplot(diamonds, aes(carat, price)) + geom_smooth() + facet_grid(~ cut)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
