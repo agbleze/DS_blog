@@ -3,7 +3,7 @@
     "path": "~/Documents/DS_blog/blog/blog.R",
     "project_path": "blog/blog.R",
     "type": "r_source",
-    "hash": "0",
+    "hash": "1428020283",
     "contents": "",
     "dirty": true,
     "created": 1658110832657.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "13,0",
-        "scrollLine": "6"
+        "cursorPosition": "14,0",
+        "scrollLine": "8"
     },
     "folds": "",
-    "lastKnownWriteTime": 1658275588,
+    "lastKnownWriteTime": 1658278866,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1658276155413,
+    "last_content_update": 1658280879348,
     "read_only": false,
     "read_only_alternatives": []
 }

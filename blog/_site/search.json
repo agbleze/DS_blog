@@ -6,14 +6,14 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-07-20T02:49:45+02:00"
+      "last_modified": "2022-07-20T03:39:30+02:00"
     },
     {
       "path": "index.html",
       "title": "Tutorials in R",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2022-07-20T02:49:46+02:00"
+      "last_modified": "2022-07-20T03:30:43+02:00"
     }
   ],
   "collections": ["posts/posts.json"]

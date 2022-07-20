@@ -5,7 +5,7 @@ description: |
   A short description of the post.
 author:
   - name: Linus Agbleze
-    url: https://agbleze.github.io/Portfolio/#work
+    url: https://agbleze.github.io/Portfolio/
 date: 2022-07-18
 output:
   distill::distill_article:

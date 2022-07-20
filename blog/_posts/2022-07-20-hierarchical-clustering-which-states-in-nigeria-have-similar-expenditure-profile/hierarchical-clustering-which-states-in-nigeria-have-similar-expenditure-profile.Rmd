@@ -6,7 +6,7 @@ description: |
   learning techniques that categorize data into groups of similarity.
 author:
   - name: Linus Agbleze
-    url: https://agbleze.github.io/Portfolio/#work
+    url: https://agbleze.github.io/Portfolio/
 date: 2022-07-18
 output:
   distill::distill_article:
@@ -449,7 +449,7 @@ The dashed lines show cluster combinations different from others.
 
 Visualizing results has never been less important for cluster analysis where observations are grouped and there is the need for more colourful differentiation of groups to better understand the results presented. There are options for this. First, we can chain multiple dendrograms together to customize them easily.
 
-```{r customize-dendro, fig.height=6, fig.width=8}
+```{r customize-dendro, fig.height=6, fig.width=8, preview=TRUE}
 # create a dendlist
 dend_list_agnes_complete_ward <- dendlist(agnes_complete_dendrogram, agnes_ward_dendrogram)
 

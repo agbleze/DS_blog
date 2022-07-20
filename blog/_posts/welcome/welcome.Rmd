@@ -1,13 +1,12 @@
 ---
-title: "Welcome to new()"
+title: "Welcome to Datasiast!"
 description: |
-  Welcome to our new blog, new(). We hope you enjoy 
-  reading what we have to say!
+  Datasiast exists for enthusiatic data science knowledge sharing and practice.
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
+  - name: Linus Agbleze 
+    url: https://agbleze.github.io/Portfolio/
+    #affiliation: Spacely Sprockets
+    #affiliation_url: https://agbleze.github.io/Portfolio/
 date: 07-17-2022
 output:
   distill::distill_article:
