@@ -10,26 +10,813 @@ practical way.
     <generator>Distill</generator>
     <lastBuildDate>Mon, 18 Jul 2022 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Timeseries benchmark models</title>
-      <dc:creator>Linus Agbleze</dc:creator>
-      <link>https://addurl/posts/2022-07-18-timeseries-benchmark-models</link>
-      <description>This post entails timeseries prediction with 
-very simple models that serve as benchmark against 
-which more advance models .</description>
-      <category>Timeseries analysis</category>
-      <guid>https://addurl/posts/2022-07-18-timeseries-benchmark-models</guid>
-      <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-    </item>
-    <item>
       <title>Hierarchical clustering -- Which states in Nigeria have similar expenditure profile?</title>
       <dc:creator>Linus Agbleze</dc:creator>
       <link>https://addurl/posts/2022-07-20-hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile</link>
-      <description>Clustering analysis is popular unsupervised machine 
-learning techniques that categorize data into groups of similarity.</description>
+      <description>
+
+
+&lt;h2 id="introduction-to-clustering-analysis"&gt;Introduction to clustering analysis&lt;/h2&gt;
+&lt;p&gt;Clustering analysis is one of the important exploratory data analysis you will consider undertaking in order to identify groupings in your dataset. It belongs to the segment of unsupervised classification which draws the data into clusters of similarity. Infact, many classification schemes have this underpinning of classifying a large set of individual elements or observations into a small number of classes. Talk of species classification, the periodic table, development index among others. Remember, it is groups of similarity. This notion also runs in business or rather dominates business decisions. Differential pricing, product and market segmentation among others require identifying the different groups present and tailoring policies that best serve each of them. So clustering analysis is important there!&lt;/p&gt;
+&lt;p&gt;That being said, there are typically two set of clustering techniques that are use to identify groups of similarity. Namely;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hierarchical clustering&lt;/li&gt;
+&lt;li&gt;K-means clustering&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In order to do a little deep dive, we will take them in turns. This tutorial will focus on hierarchical clustering where a tree structure is produce for the clusters – dendrograms.&lt;/p&gt;
+&lt;h2 id="hierarchical-clustering-analysis"&gt;Hierarchical clustering analysis&lt;/h2&gt;
+&lt;p&gt;Hierarchical clustering is of two types; agglomerative nesting and divisive analysis. The two are oppose in terms of where formation of clusters begin from.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Agglomerative Nesting (AGNES) merges similar clusters beginning from the bottom-most, into nodes and in a sequential manner continue merging them until all clusters form a single root at the top of the tree.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Divisive clustering also known as DIANA (Divise Analysis) runs in opposite direction to AGNES. The algorithm starts by disaggregating the root cluster, which is the single cluster containing all other clusters, into dissimilar clusters at each step (with each cluster being internally similar) until all the dissimilarity between clusters are completely exhausted. Thus, it ends with the leafs, which are clusters at the bottom, entirely dissimilar to each other.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;So AGNES adds up similar cluster leafs to form a cluster node and then a root while DIANA divides a single cluster root into dissimilar cluster nodes and then finally cluster leafs. Thus, AGNES is favoured for finding small clusters while DIANA works well for large clusters.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id="workflow-for-hierarchical-clustering-analysis"&gt;Workflow for hierarchical clustering analysis&lt;/h4&gt;
+&lt;p&gt;In order to undertake hierarchical clustering, the data has to be cleaned and prepared for that purpose such that variables are comparable. This involve the following;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Data wraggling and transformation that results in a tidy data such that;
+&lt;ul&gt;
+&lt;li&gt;Each column is a variable&lt;/li&gt;
+&lt;li&gt;Each row is a recording or observation&lt;/li&gt;
+&lt;li&gt;Each cell is a data&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Standardizing / scaling the data&lt;/li&gt;
+&lt;li&gt;Calculating dissimilarity measure between clusters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In measuring dissimilarity between clusters, different methods can be use and are required to be specified when using AGNES. The methods are identified as follows;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Maximum / complete linkage: uses the highest dissimilarity found between clusters after pairwise calculation of dissimilarities of elements in different clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Minimum / single linkage: uses the least dissimilarity between clusters following similar method as complete linkage in calculating dissimilarity&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Mean / average linkage: as the name suggests, uses average dissimilarity as distance between clusters after computing pairwise dissimilarity between observations in different clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Centroid linkage: based on the dissimilarity between the centroid of clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ward’s minimum variance: focuses on minimizing inward cluster difference by merging groups with least between-cluster distance.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The best way to understand the workflow and methods identified for computing hierarchical clustering is by practicing with a project. We are going to define a simple research that clustering analysis can be used for and go through the complete pipeline required to execute it.&lt;/p&gt;
+&lt;p&gt;So let’s take a break from the long discussion and start with practicals.&lt;/p&gt;
+&lt;h2 id="research-objective"&gt;Research objective&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;To identify states in Nigeria with similar expenditure profile on petrol, kerosene and health (excluding insurance)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="dataset"&gt;Dataset&lt;/h2&gt;
+&lt;p&gt;The dataset to be used for this tutorial is Living Standard Measurement Study (LSMS) for Nigeria. Specifically, we will use the General Household Survey, 2015-2016 Panel data which is the Wave 3. The dataset can be accessed from (&lt;a href="https://microdata.worldbank.org/index.php/catalog/2734/related-materials" class="uri"&gt;https://microdata.worldbank.org/index.php/catalog/2734/related-materials&lt;/a&gt;).&lt;/p&gt;
+&lt;h4 id="know-the-metadata-of-your-data"&gt;Know the Metadata of your data&lt;/h4&gt;
+&lt;p&gt;As part of most data science projects in the real world, background checks has to be done even before data exploration and analysis. We have covered our first step which is accessing the data. The data can even be provided to us by our client or project partner or whoever we are working for. But one thing that we will have to do ourselves is to familiarize ourselves with variable names used, questionnaire administered and its design, how data was collected, units of measurement for the various variables among several others. Understanding these elements will influence how we explore the data, organize it in terms of merging datasets and variables, and analyze it.&lt;/p&gt;
+&lt;p&gt;To do this for our dataset, we need to look at the documentation of the dataset which is also available on the site (&lt;a href="https://microdata.worldbank.org/index.php/catalog/2734/data-dictionary" class="uri"&gt;https://microdata.worldbank.org/index.php/catalog/2734/data-dictionary&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;After familiarizing ourselves with the metadata files, it is clear that the variables we want to analyze are in two different files namely sect8b_plantingw3.csv (contains expenditure on various fuels including kerosene and petrol among others) and sect8c_plantingw3.csv (contains expenditure on health). The dataset create opportunity for us to learn key skills of data wrangling and transformation before the actual clustering analysis. This is typical of many projects.&lt;/p&gt;
+&lt;h4 id="project-tasks"&gt;Project Tasks&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Data wrangling and transformation
+&lt;ul&gt;
+&lt;li&gt;Subseting dataset&lt;/li&gt;
+&lt;li&gt;filtering dataset&lt;/li&gt;
+&lt;li&gt;grouping dataset&lt;/li&gt;
+&lt;li&gt;summarizing&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Scaling dataset&lt;/li&gt;
+&lt;li&gt;Hierarchical clustering
+&lt;ul&gt;
+&lt;li&gt;AGNES clustering&lt;/li&gt;
+&lt;li&gt;DIANA clustering&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Determining optimal clusters&lt;/li&gt;
+&lt;li&gt;Customizing visualization of clusters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="packages-and-libraries"&gt;Packages and libraries&lt;/h4&gt;
+&lt;p&gt;Now that we know the tasks we will be undertaking, we have to install (if not already installed) and load the libraries needed&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## install librabries if not already available
+### I have commented the code for installation because I have already installed them
+# install.packages(&amp;quot;tidyverse&amp;quot;)
+# install.packages(&amp;quot;cluster&amp;quot;)
+# install.packages(&amp;quot;factoextra&amp;quot;)
+# install.packages(&amp;quot;dendextend&amp;quot;)
+# install.packages(&amp;quot;DT&amp;quot;)
+# install.packages(&amp;quot;skimr&amp;quot;)
+# install.packages(&amp;quot;dplyr&amp;quot;)
+# install.packages(&amp;quot;dendextend&amp;quot;)
+# install.packages(&amp;quot;ape&amp;quot;)
+
+## load librabries
+library(readr)  ## to read csv file
+library(tidyverse) ## to tidy the data
+library(cluster) ##  for cluster analysis
+library(factoextra) ## to visualize clusters
+library(dendextend)  ## to compare dendrograms
+library(stats)  ## for statistical analysis
+library(DT)  ## to present beautiful tables
+library(skimr)  ## for quick descriptive view of the dataset
+library(ape)  ## to visualize dendrograms&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id="reading-the-dataset"&gt;Reading the dataset&lt;/h4&gt;
+&lt;p&gt;The first thing to do is to import the dataset (hopefully you have downloaded them) and get a general understanding of it. This can be achieve with the code below&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;fuel_expenditure &amp;lt;- read_csv(&amp;quot;sect8b_plantingw3.csv&amp;quot;)  ## load the dataset
+health_expenditure &amp;lt;- read_csv(&amp;quot;sect8c_plantingw3.csv&amp;quot;) ## load the dataset
+
+skim(fuel_expenditure)  ## get data summary&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;caption&gt;(#tab:data-load)Data summary&lt;/caption&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Name&lt;/td&gt;
+&lt;td align="left"&gt;fuel_expenditure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Number of rows&lt;/td&gt;
+&lt;td align="left"&gt;137729&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Number of columns&lt;/td&gt;
+&lt;td align="left"&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;_______________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Column type frequency:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;character&lt;/td&gt;
+&lt;td align="left"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;numeric&lt;/td&gt;
+&lt;td align="left"&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;________________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Group variables&lt;/td&gt;
+&lt;td align="left"&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Variable type: character&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;skim_variable&lt;/th&gt;
+&lt;th align="right"&gt;n_missing&lt;/th&gt;
+&lt;th align="right"&gt;complete_rate&lt;/th&gt;
+&lt;th align="right"&gt;min&lt;/th&gt;
+&lt;th align="right"&gt;max&lt;/th&gt;
+&lt;th align="right"&gt;empty&lt;/th&gt;
+&lt;th align="right"&gt;n_unique&lt;/th&gt;
+&lt;th align="right"&gt;whitespace&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;item_desc&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="right"&gt;30&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;30&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Variable type: numeric&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;skim_variable&lt;/th&gt;
+&lt;th align="right"&gt;n_missing&lt;/th&gt;
+&lt;th align="right"&gt;complete_rate&lt;/th&gt;
+&lt;th align="right"&gt;mean&lt;/th&gt;
+&lt;th align="right"&gt;sd&lt;/th&gt;
+&lt;th align="right"&gt;p0&lt;/th&gt;
+&lt;th align="right"&gt;p25&lt;/th&gt;
+&lt;th align="right"&gt;p50&lt;/th&gt;
+&lt;th align="right"&gt;p75&lt;/th&gt;
+&lt;th align="right"&gt;p100&lt;/th&gt;
+&lt;th align="left"&gt;hist&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;zone&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;3.52&lt;/td&gt;
+&lt;td align="right"&gt;1.71&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="right"&gt;5&lt;/td&gt;
+&lt;td align="right"&gt;6&lt;/td&gt;
+&lt;td align="left"&gt;▇▅▅▅▅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;state&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;18.57&lt;/td&gt;
+&lt;td align="right"&gt;10.36&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="right"&gt;19&lt;/td&gt;
+&lt;td align="right"&gt;28&lt;/td&gt;
+&lt;td align="right"&gt;37&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;lga&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1868.92&lt;/td&gt;
+&lt;td align="right"&gt;1035.81&lt;/td&gt;
+&lt;td align="right"&gt;102&lt;/td&gt;
+&lt;td align="right"&gt;1001&lt;/td&gt;
+&lt;td align="right"&gt;1921&lt;/td&gt;
+&lt;td align="right"&gt;2806&lt;/td&gt;
+&lt;td align="right"&gt;3706&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;sector&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1.68&lt;/td&gt;
+&lt;td align="right"&gt;0.47&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;▃▁▁▁▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;ea&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;993.11&lt;/td&gt;
+&lt;td align="right"&gt;932.12&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;330&lt;/td&gt;
+&lt;td align="right"&gt;760&lt;/td&gt;
+&lt;td align="right"&gt;1390&lt;/td&gt;
+&lt;td align="right"&gt;7586&lt;/td&gt;
+&lt;td align="left"&gt;▇▂▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;hhid&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;185571.19&lt;/td&gt;
+&lt;td align="right"&gt;103683.68&lt;/td&gt;
+&lt;td align="right"&gt;10001&lt;/td&gt;
+&lt;td align="right"&gt;90124&lt;/td&gt;
+&lt;td align="right"&gt;190093&lt;/td&gt;
+&lt;td align="right"&gt;280038&lt;/td&gt;
+&lt;td align="right"&gt;370040&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;item_cd&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;315.50&lt;/td&gt;
+&lt;td align="right"&gt;8.66&lt;/td&gt;
+&lt;td align="right"&gt;301&lt;/td&gt;
+&lt;td align="right"&gt;308&lt;/td&gt;
+&lt;td align="right"&gt;315&lt;/td&gt;
+&lt;td align="right"&gt;323&lt;/td&gt;
+&lt;td align="right"&gt;330&lt;/td&gt;
+&lt;td align="left"&gt;▇▇▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;s8q3&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1.82&lt;/td&gt;
+&lt;td align="right"&gt;0.39&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;▂▁▁▁▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;s8q4&lt;/td&gt;
+&lt;td align="right"&gt;112727&lt;/td&gt;
+&lt;td align="right"&gt;0.18&lt;/td&gt;
+&lt;td align="right"&gt;1911.06&lt;/td&gt;
+&lt;td align="right"&gt;43304.31&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;250&lt;/td&gt;
+&lt;td align="right"&gt;600&lt;/td&gt;
+&lt;td align="right"&gt;1500&lt;/td&gt;
+&lt;td align="right"&gt;6584185&lt;/td&gt;
+&lt;td align="left"&gt;▇▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class="r"&gt;&lt;code&gt;skim(health_expenditure) ## get data summary&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;caption&gt;(#tab:data-load)Data summary&lt;/caption&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Name&lt;/td&gt;
+&lt;td align="left"&gt;health_expenditure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Number of rows&lt;/td&gt;
+&lt;td align="left"&gt;188230&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Number of columns&lt;/td&gt;
+&lt;td align="left"&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;_______________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Column type frequency:&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;character&lt;/td&gt;
+&lt;td align="left"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;numeric&lt;/td&gt;
+&lt;td align="left"&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;________________________&lt;/td&gt;
+&lt;td align="left"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Group variables&lt;/td&gt;
+&lt;td align="left"&gt;None&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Variable type: character&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;skim_variable&lt;/th&gt;
+&lt;th align="right"&gt;n_missing&lt;/th&gt;
+&lt;th align="right"&gt;complete_rate&lt;/th&gt;
+&lt;th align="right"&gt;min&lt;/th&gt;
+&lt;th align="right"&gt;max&lt;/th&gt;
+&lt;th align="right"&gt;empty&lt;/th&gt;
+&lt;th align="right"&gt;n_unique&lt;/th&gt;
+&lt;th align="right"&gt;whitespace&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;item_desc&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;6&lt;/td&gt;
+&lt;td align="right"&gt;30&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;41&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Variable type: numeric&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;skim_variable&lt;/th&gt;
+&lt;th align="right"&gt;n_missing&lt;/th&gt;
+&lt;th align="right"&gt;complete_rate&lt;/th&gt;
+&lt;th align="right"&gt;mean&lt;/th&gt;
+&lt;th align="right"&gt;sd&lt;/th&gt;
+&lt;th align="right"&gt;p0&lt;/th&gt;
+&lt;th align="right"&gt;p25&lt;/th&gt;
+&lt;th align="right"&gt;p50&lt;/th&gt;
+&lt;th align="right"&gt;p75&lt;/th&gt;
+&lt;th align="right"&gt;p100&lt;/th&gt;
+&lt;th align="left"&gt;hist&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;zone&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;3.52&lt;/td&gt;
+&lt;td align="right"&gt;1.71&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="right"&gt;5&lt;/td&gt;
+&lt;td align="right"&gt;6&lt;/td&gt;
+&lt;td align="left"&gt;▇▅▅▅▅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;state&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;18.57&lt;/td&gt;
+&lt;td align="right"&gt;10.36&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="right"&gt;19&lt;/td&gt;
+&lt;td align="right"&gt;28&lt;/td&gt;
+&lt;td align="right"&gt;37&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;lga&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1868.92&lt;/td&gt;
+&lt;td align="right"&gt;1035.80&lt;/td&gt;
+&lt;td align="right"&gt;102&lt;/td&gt;
+&lt;td align="right"&gt;1001&lt;/td&gt;
+&lt;td align="right"&gt;1921&lt;/td&gt;
+&lt;td align="right"&gt;2806&lt;/td&gt;
+&lt;td align="right"&gt;3706&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;sector&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1.68&lt;/td&gt;
+&lt;td align="right"&gt;0.47&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;▃▁▁▁▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;ea&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;993.11&lt;/td&gt;
+&lt;td align="right"&gt;932.12&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;330&lt;/td&gt;
+&lt;td align="right"&gt;760&lt;/td&gt;
+&lt;td align="right"&gt;1390&lt;/td&gt;
+&lt;td align="right"&gt;7586&lt;/td&gt;
+&lt;td align="left"&gt;▇▂▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;hhid&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;185571.20&lt;/td&gt;
+&lt;td align="right"&gt;103683.48&lt;/td&gt;
+&lt;td align="right"&gt;10001&lt;/td&gt;
+&lt;td align="right"&gt;90124&lt;/td&gt;
+&lt;td align="right"&gt;190093&lt;/td&gt;
+&lt;td align="right"&gt;280038&lt;/td&gt;
+&lt;td align="right"&gt;370040&lt;/td&gt;
+&lt;td align="left"&gt;▇▆▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;item_cd&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;421.00&lt;/td&gt;
+&lt;td align="right"&gt;11.83&lt;/td&gt;
+&lt;td align="right"&gt;401&lt;/td&gt;
+&lt;td align="right"&gt;411&lt;/td&gt;
+&lt;td align="right"&gt;421&lt;/td&gt;
+&lt;td align="right"&gt;431&lt;/td&gt;
+&lt;td align="right"&gt;441&lt;/td&gt;
+&lt;td align="left"&gt;▇▇▇▇▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;s8q5&lt;/td&gt;
+&lt;td align="right"&gt;0&lt;/td&gt;
+&lt;td align="right"&gt;1.00&lt;/td&gt;
+&lt;td align="right"&gt;1.84&lt;/td&gt;
+&lt;td align="right"&gt;0.36&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;▂▁▁▁▇&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;s8q6&lt;/td&gt;
+&lt;td align="right"&gt;158505&lt;/td&gt;
+&lt;td align="right"&gt;0.16&lt;/td&gt;
+&lt;td align="right"&gt;2822.90&lt;/td&gt;
+&lt;td align="right"&gt;6896.99&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;580&lt;/td&gt;
+&lt;td align="right"&gt;1500&lt;/td&gt;
+&lt;td align="right"&gt;3000&lt;/td&gt;
+&lt;td align="right"&gt;300000&lt;/td&gt;
+&lt;td align="left"&gt;▇▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The skim() function gives us an overview of the dataset. It shows that there are 10 columns in both the fuel_expenditure and health_expenditure data objects. Among others, it gives the mean and number of missing cases for each variable. Depending on the type of variable, that is whether character or numeric, we get different type of summary. Some of the variables are not in their right data type format. Example, zone, state and lga are numeric instead of being character but that is not the focus here. The variable s8q4 from fuel_expenditure data object has 112727 missing records.&lt;/p&gt;
+&lt;p&gt;We keep saying the variable and that brings up the question, what does the variable actually mean? This is where our earlier exercise of viewing the metadata plays its role. If we indeed went through the various documentations and questionnaire that comes with the data, we will realize that variable s8q4 (fuel_expenditure data) represents household monthly expenditure measured in Naire for various items identified in item_desc variable. Likewise, s8q6 (health_expenditure data) represents expenditure for items but this time round it covers 6 month duration.&lt;/p&gt;
+&lt;p&gt;Our dataset is quite large to be viewed in a table nicely and adequately; so we will subset the first 100 rows (remember rows are individual records or observations) and show them in an interactive table using the datatable() function from DT package.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;datatable(fuel_expenditure[1:100, ])  ## view the first 100 observations in fuel_expenditure data&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-cadaee5170feb7fbf243" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-cadaee5170feb7fbf243"&gt;{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670],[10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10004,10004,10004,10004,10004,10004,10004,10004,10004,10004],[301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,301,302,303,304,305,306,307,308,309,310],["KEROSENE","PALM KERNEL OIL","GAS","OTHER LIQUID COOKING FUEL","ELECTRICITY","CANDLES","FIREWOOD","CHARCOAL","PETROL","DIESEL","LIGHT BULBS/GLOBES","WATER","SOAP AND WASHING POWDER","TOILET PAPER","PERSONAL CARE GOODS","VITAMIN SUPLEMENTS","INSECTICIDES, DISINFECTANT AND","POSTAL","RECHARGE CARDS","LANDLINE CHARGES","INTERNET SERVICES","RECREATIONAL","MOTOR VEHICLE SERVICE, REPAIR,","BICYCLE SERVICE, REPAIR, OR","WAGES PAID TO STAFF/MAID/LAWNS","MORTGAGE - REGULAR PAYMENT","REPAIRS &amp;amp; MAINTENANCE TO DWELL","REPAIRS TO HOUSEHOLD AND PERSO","HOUSE RENT","LUBRICANTS","KEROSENE","PALM KERNEL OIL","GAS","OTHER LIQUID COOKING FUEL","ELECTRICITY","CANDLES","FIREWOOD","CHARCOAL","PETROL","DIESEL","LIGHT BULBS/GLOBES","WATER","SOAP AND WASHING POWDER","TOILET PAPER","PERSONAL CARE GOODS","VITAMIN SUPLEMENTS","INSECTICIDES, DISINFECTANT AND","POSTAL","RECHARGE CARDS","LANDLINE CHARGES","INTERNET SERVICES","RECREATIONAL","MOTOR VEHICLE SERVICE, REPAIR,","BICYCLE SERVICE, REPAIR, OR","WAGES PAID TO STAFF/MAID/LAWNS","MORTGAGE - REGULAR PAYMENT","REPAIRS &amp;amp; MAINTENANCE TO DWELL","REPAIRS TO HOUSEHOLD AND PERSO","HOUSE RENT","LUBRICANTS","KEROSENE","PALM KERNEL OIL","GAS","OTHER LIQUID COOKING FUEL","ELECTRICITY","CANDLES","FIREWOOD","CHARCOAL","PETROL","DIESEL","LIGHT BULBS/GLOBES","WATER","SOAP AND WASHING POWDER","TOILET PAPER","PERSONAL CARE GOODS","VITAMIN SUPLEMENTS","INSECTICIDES, DISINFECTANT AND","POSTAL","RECHARGE CARDS","LANDLINE CHARGES","INTERNET SERVICES","RECREATIONAL","MOTOR VEHICLE SERVICE, REPAIR,","BICYCLE SERVICE, REPAIR, OR","WAGES PAID TO STAFF/MAID/LAWNS","MORTGAGE - REGULAR PAYMENT","REPAIRS &amp;amp; MAINTENANCE TO DWELL","REPAIRS TO HOUSEHOLD AND PERSO","HOUSE RENT","LUBRICANTS","KEROSENE","PALM KERNEL OIL","GAS","OTHER LIQUID COOKING FUEL","ELECTRICITY","CANDLES","FIREWOOD","CHARCOAL","PETROL","DIESEL"],[1,2,2,2,1,2,2,2,1,2,2,1,1,1,2,2,1,2,1,2,2,2,2,2,1,2,2,2,2,1,1,2,1,2,1,2,2,2,1,2,1,2,1,1,1,1,1,2,1,2,2,2,1,2,2,2,1,2,2,1,1,2,2,2,1,2,2,2,1,2,2,2,1,1,1,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,1,2,2,2,1,2],[1700,null,null,null,2200,null,null,null,3200,null,null,200,450,200,null,null,350,null,1200,null,null,null,null,null,12000,null,null,null,null,750,2000,null,4200,null,5200,null,null,null,3500,null,500,null,700,1000,1500,3800,1000,null,3000,null,null,null,25000,null,null,null,10000,null,null,700,3400,null,null,null,4500,null,null,null,4000,null,null,null,2500,1500,2000,null,null,null,5000,null,null,null,null,null,null,null,null,null,null,null,4000,null,null,null,4500,null,null,null,5000,null]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;zone&lt;\/th&gt;\n      &lt;th&gt;state&lt;\/th&gt;\n      &lt;th&gt;lga&lt;\/th&gt;\n      &lt;th&gt;sector&lt;\/th&gt;\n      &lt;th&gt;ea&lt;\/th&gt;\n      &lt;th&gt;hhid&lt;\/th&gt;\n      &lt;th&gt;item_cd&lt;\/th&gt;\n      &lt;th&gt;item_desc&lt;\/th&gt;\n      &lt;th&gt;s8q3&lt;\/th&gt;\n      &lt;th&gt;s8q4&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;p&gt;The fuel_expenditure table above shows that we have more variables than needed for our analysis as we are only interested in Petrol and Kerosene captured in the item_desc variable. Moreover, the variable names are not understandable. So just by viewing the table, we will realize that some data wrangling tasks await us. The same can be said for the health_expenditure data object.&lt;/p&gt;
+&lt;p&gt;Let’s view the first 100 rows of health_expenditure data.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;datatable(health_expenditure[1:100, ]) ## view the health_expenditure data &lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-1b0e3ab47ab74fd6b937" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-1b0e3ab47ab74fd6b937"&gt;{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115,115],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670,670],[10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10001,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10002,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003,10003],[401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418],["INFANT CLOTHING","BABY NAPPIES/DIAPERS","BOYS TAILORED CLOTHES","BOYS DRESS (READY MADE)","GIRLS TAILORED CLOTHES","GIRLS DRESS (READY MADE)","MEN TAILORED CLOTHES","MEN DRESS (READY MADE)","WOMEN TAILORED CLOTHES","WOMEN DRESS (READY MADE)","ANKARA, GEORGE MATERIALS","OTHER CLOTHING MATERIALS","BOY'S SHOES","MEN'S SHOES","GIRL'S SHOES","LADY'S SHOES","TAILORING CHARGES","LAUNDRY AND DRY CLEANING","BOWLS, GLASSWARE, PLATES, SILV","COOKING UTENSILS (COOKPOTS, ST","CLEANING UTENSILS (BROOMS, BRU","TORCH / FLASHLIGHT","UMBRELLA AND RAINCOAT","PARAFFIN LAMP (HURRICANE OR PR","STATIONERY ITEMS (NOT FOR SCHO","BOOKS (NOT FOR SCHOOL)","HOUSE DECORATIONS","NIGHT'S LODGING IN REST HOUSE","DONATIONS TO CHURCH, MOSQUE, O","HEALTH EXPENDITURES (EXCLUDING","HAND LOOMED: ASO-OKE","REPAIRS OF FOOTWEAR","ELECTRIC KETTLE","COAL POT/OTHER NON-ELECTRIC AP","REPAIRS OF APPLIANCES","BED SHEETS, BED COVER, BLANKET","PILLOW","CURTAIN AND OTHER LINEN","CARPET AND OTHER FLOOR COVERIN","CELL PHONE HAND SET","PERSONAL COMPTURE","INFANT CLOTHING","BABY NAPPIES/DIAPERS","BOYS TAILORED CLOTHES","BOYS DRESS (READY MADE)","GIRLS TAILORED CLOTHES","GIRLS DRESS (READY MADE)","MEN TAILORED CLOTHES","MEN DRESS (READY MADE)","WOMEN TAILORED CLOTHES","WOMEN DRESS (READY MADE)","ANKARA, GEORGE MATERIALS","OTHER CLOTHING MATERIALS","BOY'S SHOES","MEN'S SHOES","GIRL'S SHOES","LADY'S SHOES","TAILORING CHARGES","LAUNDRY AND DRY CLEANING","BOWLS, GLASSWARE, PLATES, SILV","COOKING UTENSILS (COOKPOTS, ST","CLEANING UTENSILS (BROOMS, BRU","TORCH / FLASHLIGHT","UMBRELLA AND RAINCOAT","PARAFFIN LAMP (HURRICANE OR PR","STATIONERY ITEMS (NOT FOR SCHO","BOOKS (NOT FOR SCHOOL)","HOUSE DECORATIONS","NIGHT'S LODGING IN REST HOUSE","DONATIONS TO CHURCH, MOSQUE, O","HEALTH EXPENDITURES (EXCLUDING","HAND LOOMED: ASO-OKE","REPAIRS OF FOOTWEAR","ELECTRIC KETTLE","COAL POT/OTHER NON-ELECTRIC AP","REPAIRS OF APPLIANCES","BED SHEETS, BED COVER, BLANKET","PILLOW","CURTAIN AND OTHER LINEN","CARPET AND OTHER FLOOR COVERIN","CELL PHONE HAND SET","PERSONAL COMPTURE","INFANT CLOTHING","BABY NAPPIES/DIAPERS","BOYS TAILORED CLOTHES","BOYS DRESS (READY MADE)","GIRLS TAILORED CLOTHES","GIRLS DRESS (READY MADE)","MEN TAILORED CLOTHES","MEN DRESS (READY MADE)","WOMEN TAILORED CLOTHES","WOMEN DRESS (READY MADE)","ANKARA, GEORGE MATERIALS","OTHER CLOTHING MATERIALS","BOY'S SHOES","MEN'S SHOES","GIRL'S SHOES","LADY'S SHOES","TAILORING CHARGES","LAUNDRY AND DRY CLEANING"],[2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,1,1,2,2,1,2,2,2,2,2,2,1,2,1,1,2,1,2,1,2,2,2,1,1,1,1,1,1,1,2,1,2,2,1,2,2,2,2,2,2,1,1,1,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2,1,2,2,2,1,2,2,2,1,1],[null,null,null,null,null,null,null,null,null,null,4200,null,null,null,null,null,null,null,null,5000,500,2000,null,null,null,null,null,null,25000,30000,null,null,4500,null,null,null,null,null,null,10000,null,6000,6500,null,4000,null,10000,null,null,null,15000,4200,5000,2000,5000,2000,3500,null,1500,null,null,300,null,null,null,null,null,null,16000,50000,7000,null,500,null,null,null,null,null,null,null,15000,null,null,null,null,null,null,null,4500,null,1500,null,null,null,2000,null,null,null,1000,2000]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;zone&lt;\/th&gt;\n      &lt;th&gt;state&lt;\/th&gt;\n      &lt;th&gt;lga&lt;\/th&gt;\n      &lt;th&gt;sector&lt;\/th&gt;\n      &lt;th&gt;ea&lt;\/th&gt;\n      &lt;th&gt;hhid&lt;\/th&gt;\n      &lt;th&gt;item_cd&lt;\/th&gt;\n      &lt;th&gt;item_desc&lt;\/th&gt;\n      &lt;th&gt;s8q5&lt;\/th&gt;\n      &lt;th&gt;s8q6&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;h2 id="data-wrangling-and-transformation"&gt;Data wrangling and transformation&lt;/h2&gt;
+&lt;p&gt;We have imported and viewed our dataset successfully and now we have to clean, and transform our data to the required format for analysis. Data wrangling and transformation activities are not a cast in a stone despite some activities are very common. The type and structure of dataset and analysis we want to perform determines what we need to do.&lt;/p&gt;
+&lt;p&gt;Looking at our dataset, we need to reduce it to only columns that we are interested in, add some new columns with transformed data and clean out the missing data. We will be utilizing piping approach (%&amp;gt;%) to harness its benefit of logical and clear flow of analysis. This can be achieve with the code below for fuel_expenditure.&lt;/p&gt;
+&lt;div id="htmlwidget-81c48b27d33eb6267291" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-81c48b27d33eb6267291"&gt;{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,24,24,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,24,24,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],["KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","PETROL","PETROL","PETROL","KEROSENE","KEROSENE","PETROL","PETROL","PETROL","PETROL","PETROL","KEROSENE","KEROSENE","PETROL","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","PETROL","KEROSENE","KEROSENE","PETROL","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE","KEROSENE"],[1700,3200,2000,3500,3400,4000,4000,5000,2700,5000,2000,5000,1200,5000,2000,10000,1000,8000,400,400,2000,2500,2500,700,1000,4000,600,8000,650,200,10000,150,600,500,1000,220,600,150,800,1000,500,2800,3000,3000,1600,1500,1000,1350,2800,3000,6000,1000,2000,4500,2500,500,6400,1500,8000,500,2500,1500,6000,2000,1700,1500,1400,2400,1500,1300,800,700,4000,3000,3000,4000,1700,3000,1040,15000,600,400,1200,200,2500,500,3000,300,2000,1000,2500,2000,500,500,1000,500,1000,100,400,600,700,700,3500,140,800,2600,650,700,150,450,700,200,700,2000,200,150,1700,80,150,500,700,650,500,600,400,900,500,3000,100,200,300,150,500,500,3000,50,300,600,1200,3000,140,750,2750,320,650,500,1200,1200,1500,150,250,4500,2250,1200,3000,200,50,2000,2500,900,500,2000,1500,6000,700,19400,150,3000,500,500,2500,1200,200,2000,10000,1700,700,1300,4200,2800,2000,3000,20000,1500,5000,900,5000,2000,10000,1500,3500,6000,2600,4500,1500,2000,1000,500,2040,1000]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;state&lt;\/th&gt;\n      &lt;th&gt;item_desc&lt;\/th&gt;\n      &lt;th&gt;s8q4&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;p&gt;Now, we have reduced the data to only variables needed. Yet, it is obvious there is still work to be done. First of all, the varaible &lt;strong&gt;“state”&lt;/strong&gt; has meaningless numbers instead of names of states in Nigeria. This was useful for data collection and data entry but not our analysis where audience have to know state names explicitely. How do we know exactly what these numbers represent? Again, this is where our metadata exploration comes to our rescue. When we reviewed the documentation that came with the data, we realized that under &lt;strong&gt;“state code”&lt;/strong&gt;, the corresponding state names are provided. With this, we can add a new column that has the corresponding state names.&lt;/p&gt;
+&lt;p&gt;Another issue to note, which also influences how to transform our data is that, the number of observations recorded for each state varies. This has to do with the sampling technique used during data collection in order to achieve good representativeness. We want to make sure that, the states are comparable in terms of expenditure. So instead of summarizing base on the total expenditure for each state, we will do so based on the mean. With that, we will see mean expenditure of state and not sum of households. In order to captured this as our labeling when we do the clustering analysis, we will convert the column of state names to row names.&lt;/p&gt;
+&lt;p&gt;Now, let’s code all that we have discussed so far.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;fuel_expenditure_transformed &amp;lt;- fuel_expenditure_transformed %&amp;gt;%
+  dplyr::mutate(state_names = case_when(  ## add a new column containing state names
+     state == 1 ~ &amp;quot;Abia&amp;quot;,
+     state == 2 ~ &amp;quot;Adamawa&amp;quot;,
+     state == 3 ~ &amp;quot;Akwa Ibom&amp;quot;,
+     state == 4 ~ &amp;quot;Anambra&amp;quot;,
+     state == 5 ~ &amp;quot;Bauchi&amp;quot;,
+     state == 6 ~ &amp;quot;Bayelsa&amp;quot;,
+     state == 7 ~ &amp;quot;Benue&amp;quot;,
+     state == 8 ~ &amp;quot;Borno&amp;quot;, 
+     state == 9 ~ &amp;quot;Cross River&amp;quot;, 
+     state == 10 ~ &amp;quot;Delta&amp;quot;, 
+     state == 11 ~ &amp;quot;Ebonyi&amp;quot;, 
+     state == 12 ~ &amp;quot;Edo&amp;quot;,
+     state == 13 ~ &amp;quot;Ekiti&amp;quot;, 
+     state == 14 ~ &amp;quot;Enugu&amp;quot;, 
+     state == 15 ~ &amp;quot;Gombe&amp;quot;, 
+     state == 16 ~ &amp;quot;Imo&amp;quot;, 
+     state == 17 ~ &amp;quot;Jigawa&amp;quot;, 
+     state == 18 ~ &amp;quot;Kaduna&amp;quot;, 
+     state == 19 ~ &amp;quot;Kano&amp;quot;, 
+     state == 20 ~ &amp;quot;Katsina&amp;quot;, 
+     state == 21 ~ &amp;quot;Kebbi&amp;quot;,
+     state ==22 ~ &amp;quot;Kogi&amp;quot;, 
+     state == 23 ~ &amp;quot;Kwara&amp;quot;, 
+     state == 24 ~ &amp;quot;Lagos&amp;quot;, 
+     state == 25 ~ &amp;quot;Nasarawa&amp;quot;,
+     state == 26 ~ &amp;quot;Niger&amp;quot;, 
+     state == 27 ~ &amp;quot;Ogun&amp;quot;, 
+     state == 28 ~ &amp;quot;Ondo&amp;quot;, 
+     state == 29 ~ &amp;quot;Osun&amp;quot;, 
+     state == 30 ~ &amp;quot;Oyo&amp;quot;,
+     state == 31 ~ &amp;quot;Plateau&amp;quot;, 
+     state == 32 ~ &amp;quot;Rivers&amp;quot;, 
+     state == 33 ~ &amp;quot;Sokoto&amp;quot;, 
+     state == 34 ~ &amp;quot;Taraba&amp;quot;,
+     state == 35 ~ &amp;quot;Yobe&amp;quot;,
+     state == 36 ~ &amp;quot;Zamfara&amp;quot;, 
+     state == 37 ~ &amp;quot;FCT Abuja&amp;quot;)
+   ) %&amp;gt;%
+  tidyr::pivot_wider(names_from = item_desc, values_from = s8q4, values_fn = mean)
+
+datatable(fuel_expenditure_transformed)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-2ed846fd1df240c9e8de" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-2ed846fd1df240c9e8de"&gt;{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37"],[1,4,24,3,2,11,9,5,34,31,6,22,7,8,25,10,12,13,14,26,15,16,32,17,23,18,19,36,20,21,29,27,28,33,30,37,35],["Abia","Anambra","Lagos","Akwa Ibom","Adamawa","Ebonyi","Cross River","Bauchi","Taraba","Plateau","Bayelsa","Kogi","Benue","Borno","Nasarawa","Delta","Edo","Ekiti","Enugu","Niger","Gombe","Imo","Rivers","Jigawa","Kwara","Kaduna","Kano","Zamfara","Katsina","Kebbi","Osun","Ogun","Ondo","Sokoto","Oyo","FCT Abuja","Yobe"],[1061.59574468085,1078.50515463918,924.621212121212,1425.44117647059,529.166666666667,523.776978417266,717.173913043478,564.230769230769,456.086956521739,522,1139.18367346939,652.554347826087,348.5,678.571428571429,705,915.097345132743,877.349397590361,734.366666666667,620.630630630631,341.428571428571,689.473684210526,697.183908045977,1274.94505494505,1258.5,630.909090909091,563.378378378378,633.695652173913,361.643835616438,446.666666666667,244.117647058824,819.857142857143,870.210526315789,870.978260869565,219.2,981.875,1825,260],[3781.11111111111,2523.15789473684,4760.30303030303,5087.40740740741,3290,2948.07692307692,4168.18181818182,2161.53846153846,2039.18918918919,4387.74193548387,4690.90909090909,2704.73684210526,2243,3338.63636363636,3622.5,4392.19512195122,2893.47826086957,4342.5,3452.4,2855.2380952381,8012.28571428571,2647.95454545455,3605.61224489796,1865.51724137931,3648.52941176471,2403.22580645161,2691.37931034483,1092.55319148936,3990.71428571429,3073.81395348837,3907.27272727273,4548.97959183673,6020.17543859649,7411.11111111111,6099.775,10010,3400]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;state&lt;\/th&gt;\n      &lt;th&gt;state_names&lt;\/th&gt;\n      &lt;th&gt;KEROSENE&lt;\/th&gt;\n      &lt;th&gt;PETROL&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":[1,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;p&gt;After cleaning and transforming fuel_expenditure data, we need to make sure that the second data is also transform to be at the same quality level or format. Remember that health_expenditure is for 6 months which means that in order to analyze both data properly for the same time scale, we need to convert it to monthly data and then calculate the mean.&lt;/p&gt;
+&lt;p&gt;The code to transform health expenditure data to required format is below;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;health_expenditure_transformed &amp;lt;- health_expenditure %&amp;gt;%
+  dplyr::select(state, item_desc, s8q6)%&amp;gt;%
+  dplyr::filter(item_desc %in% &amp;quot;HEALTH EXPENDITURES (EXCLUDING&amp;quot;) %&amp;gt;%
+  na.omit() %&amp;gt;%
+   dplyr::mutate(state_names = case_when(
+     state == 1 ~ &amp;quot;Abia&amp;quot;,
+     state == 2 ~ &amp;quot;Adamawa&amp;quot;,
+     state == 3 ~ &amp;quot;Akwa Ibom&amp;quot;,
+     state == 4 ~ &amp;quot;Anambra&amp;quot;,
+     state == 5 ~ &amp;quot;Bauchi&amp;quot;,
+     state == 6 ~ &amp;quot;Bayelsa&amp;quot;,
+     state == 7 ~ &amp;quot;Benue&amp;quot;,
+     state == 8 ~ &amp;quot;Borno&amp;quot;,
+     state == 9 ~ &amp;quot;Cross River&amp;quot;,
+     state == 10 ~ &amp;quot;Delta&amp;quot;,
+     state == 11 ~ &amp;quot;Ebonyi&amp;quot;,
+     state == 12 ~ &amp;quot;Edo&amp;quot;,
+     state == 13 ~ &amp;quot;Ekiti&amp;quot;,
+     state == 14 ~ &amp;quot;Enugu&amp;quot;,
+     state == 15 ~ &amp;quot;Gombe&amp;quot;,
+     state == 16 ~ &amp;quot;Imo&amp;quot;,
+     state == 17 ~ &amp;quot;Jigawa&amp;quot;,
+     state == 18 ~ &amp;quot;Kaduna&amp;quot;,
+     state == 19 ~ &amp;quot;Kano&amp;quot;,
+     state == 20 ~ &amp;quot;Katsina&amp;quot;,
+     state == 21 ~ &amp;quot;Kebbi&amp;quot;,
+     state ==22 ~ &amp;quot;Kogi&amp;quot;,
+     state == 23 ~ &amp;quot;Kwara&amp;quot;,
+     state == 24 ~ &amp;quot;Lagos&amp;quot;,
+     state == 25 ~ &amp;quot;Nasarawa&amp;quot;,
+     state == 26 ~ &amp;quot;Niger&amp;quot;,
+     state == 27 ~ &amp;quot;Ogun&amp;quot;,
+     state == 28 ~ &amp;quot;Ondo&amp;quot;,
+     state == 29 ~ &amp;quot;Osun&amp;quot;,
+     state == 30 ~ &amp;quot;Oyo&amp;quot;,
+     state == 31 ~ &amp;quot;Plateau&amp;quot;,
+     state == 32 ~ &amp;quot;Rivers&amp;quot;,
+     state == 33 ~ &amp;quot;Sokoto&amp;quot;,
+     state == 34 ~ &amp;quot;Taraba&amp;quot;,
+     state == 35 ~ &amp;quot;Yobe&amp;quot;,
+     state == 36 ~ &amp;quot;Zamfara&amp;quot;,
+     state == 37 ~ &amp;quot;FCT Abuja&amp;quot;)
+   ) %&amp;gt;%
+  dplyr::group_by(state_names) 
+
+  health_expenditure_transformed &amp;lt;- dplyr::summarize(health_expenditure_transformed, Monthly_mean_health_expenditure = mean(s8q6/6))
+ 
+ datatable(health_expenditure_transformed)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-0d0da7bca6177c8f2a9f" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-0d0da7bca6177c8f2a9f"&gt;{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36"],["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","FCT Abuja","Gombe","Imo","Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"],[1312.24489795918,425.177304964539,1457.14285714286,607.31981981982,488.032581453634,2423.78787878788,981.971326164875,1757.24637681159,1543.31223628692,501.530612244898,2266.40211640212,617.578125,309.375,1538.81355932203,666.666666666667,605.263157894737,1542.1568627451,914.416666666667,645.963302752294,461.011904761905,1024.44444444444,986.041666666667,1214.06593406593,1175,921.111111111111,671.03825136612,1690.47619047619,670.575396825397,779.651162790698,847.02380952381,670.833333333333,1136.11111111111,467.105263157895,263.541666666667,773.666666666667,182.47619047619]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;state_names&lt;\/th&gt;\n      &lt;th&gt;Monthly_mean_health_expenditure&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;p&gt;Now, we have transformed both datasets and we need to verify if they are equal in terms of number of rows and columns before joining together for further analysis.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;nrow(fuel_expenditure_transformed)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 37&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="r"&gt;&lt;code&gt;nrow(health_expenditure_transformed)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 36&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We will realize that the number of rows are different for fuel_expenditure_transformed (37) and health_expenditure_transformed (36). This is a common occurrence in data exploration and preparation. There is a state without data in health_expenditure_transformed. If we are to inspect the data, we will realize that there is no record for Jigawa state. This is an instance where we face the decision of either employing a data imputation method to provide values for Jigasaw or leaving it out altogether. We will tackle data imputation in a different post. For now, the better choice will be to leave Jigawa state out of the analysis. So we will remove the row for Jigawa state in fuel_expenditure_transformed in order to have 36 rows for both datasets and join them together. Then, we will convert the column &lt;strong&gt;“state_names”&lt;/strong&gt; to row names for labeling the cluster leafs to be more meaningful. The code to achieve that is as follows;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;dataset_all &amp;lt;- subset.data.frame(fuel_expenditure_transformed, fuel_expenditure_transformed$state != 17) %&amp;gt;%
+  dplyr::left_join(health_expenditure_transformed) %&amp;gt;%  ## join the two datasets
+  tibble::column_to_rownames(var = &amp;quot;state_names&amp;quot;) %&amp;gt;% ## transform variable state_names to rownames
+  select(-1) ## select all columns except the first one (state) which we don&amp;#39;t need again
+
+datatable(dataset_all)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id="htmlwidget-bacaa6db8ffc7d0f8003" style="width:100%;height:auto;" class="datatables html-widget"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-bacaa6db8ffc7d0f8003"&gt;{"x":{"filter":"none","data":[["Abia","Anambra","Lagos","Akwa Ibom","Adamawa","Ebonyi","Cross River","Bauchi","Taraba","Plateau","Bayelsa","Kogi","Benue","Borno","Nasarawa","Delta","Edo","Ekiti","Enugu","Niger","Gombe","Imo","Rivers","Kwara","Kaduna","Kano","Zamfara","Katsina","Kebbi","Osun","Ogun","Ondo","Sokoto","Oyo","FCT Abuja","Yobe"],[1061.59574468085,1078.50515463918,924.621212121212,1425.44117647059,529.166666666667,523.776978417266,717.173913043478,564.230769230769,456.086956521739,522,1139.18367346939,652.554347826087,348.5,678.571428571429,705,915.097345132743,877.349397590361,734.366666666667,620.630630630631,341.428571428571,689.473684210526,697.183908045977,1274.94505494505,630.909090909091,563.378378378378,633.695652173913,361.643835616438,446.666666666667,244.117647058824,819.857142857143,870.210526315789,870.978260869565,219.2,981.875,1825,260],[3781.11111111111,2523.15789473684,4760.30303030303,5087.40740740741,3290,2948.07692307692,4168.18181818182,2161.53846153846,2039.18918918919,4387.74193548387,4690.90909090909,2704.73684210526,2243,3338.63636363636,3622.5,4392.19512195122,2893.47826086957,4342.5,3452.4,2855.2380952381,8012.28571428571,2647.95454545455,3605.61224489796,3648.52941176471,2403.22580645161,2691.37931034483,1092.55319148936,3990.71428571429,3073.81395348837,3907.27272727273,4548.97959183673,6020.17543859649,7411.11111111111,6099.775,10010,3400],[1312.24489795918,607.31981981982,1175,1457.14285714286,425.177304964539,2266.40211640212,1543.31223628692,488.032581453634,263.541666666667,670.833333333333,2423.78787878788,986.041666666667,981.971326164875,1757.24637681159,921.111111111111,501.530612244898,617.578125,309.375,1538.81355932203,671.03825136612,605.263157894737,1542.1568627451,1136.11111111111,1214.06593406593,914.416666666667,645.963302752294,182.47619047619,461.011904761905,1024.44444444444,779.651162790698,1690.47619047619,670.575396825397,467.105263157895,847.02380952381,666.666666666667,773.666666666667]],"container":"&lt;table class=\"display\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt; &lt;\/th&gt;\n      &lt;th&gt;KEROSENE&lt;\/th&gt;\n      &lt;th&gt;PETROL&lt;\/th&gt;\n      &lt;th&gt;Monthly_mean_health_expenditure&lt;\/th&gt;\n    &lt;\/tr&gt;\n  &lt;\/thead&gt;\n&lt;\/table&gt;","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;p&gt;Now our data is ready for analysis!. But before then, we have to do clustering relevant data preparation&lt;/p&gt;
+&lt;h4 id="clustering-relevant-data-preparation"&gt;Clustering relevant data preparation&lt;/h4&gt;
+&lt;p&gt;The data preparation done at this stage is not one that we will do for all types of analysis. We are doing them in order to successfully undertake a clustering analysis that is appropriate.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Data standardization: Before applying various clustering algorithms, we need to standardize the data to have mean zero and standard deviation one. This is done to make our variables have a common scale hence comparable.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Computation of dissimilarity measure: This is done to identify observations that belong to the same clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, let’s write our code for that;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## scale the data
+ dataset_all_scaled &amp;lt;- scale(dataset_all)
+ 
+ ## calculate dissimilarity 
+ dataset_dissimilarity &amp;lt;- dist(dataset_all_scaled, method = &amp;quot;euclidean&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We will use all the clustering methods we have discussed above and compare the results.&lt;/p&gt;
+&lt;h2 id="agglomerative-nesting-agnes"&gt;Agglomerative Nesting (AGNES)&lt;/h2&gt;
+&lt;p&gt;Agglomerative nesting can be undertaken using hclust(), flashClust or agnes()&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## hierarchical clustering wtih complete linkage
+hcl_complete&amp;lt;-  hclust(dataset_dissimilarity, method = &amp;quot;complete&amp;quot;)
+ 
+plot(hcl_complete, cex = 0.6, hang = -1) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/hcl-complete-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;Using agnes() function gives us the agglomerative co-efficient (ac) which measures the strength of clustering. The higher the ac, the stronger the clustering structure.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## agnes clustering
+agnes_complete &amp;lt;- agnes(dataset_dissimilarity, method = &amp;quot;complete&amp;quot;)
+
+plot(agnes_complete)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-comp-1.png" width="672" /&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-comp-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;Now, let’s look at other methods we have discussed for AGNES.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## compute agnes clustering with various methods
+agnes_single &amp;lt;- agnes(dataset_dissimilarity, method = &amp;quot;single&amp;quot;)
+agnes_average &amp;lt;- agnes(dataset_dissimilarity, method = &amp;quot;average&amp;quot;)
+agnes_ward &amp;lt;- agnes(dataset_dissimilarity, method = &amp;quot;ward&amp;quot;)
+
+#Plot results
+plot(agnes_single)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-1.png" width="672" /&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot(agnes_average)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-3.png" width="672" /&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-4.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot(agnes_ward)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-5.png" width="672" /&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/agnes-method-6.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;From the various methods, agnes with the ward method produces an ac of 0.9 which is the highest compared to others hence depicts the strongest structure.&lt;/p&gt;
+&lt;p&gt;Before we draw the curtains down on agnes, let’s also note that hcluster() function also accepts other methods&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;hclust_mcquitty &amp;lt;- hclust(dataset_dissimilarity, method = &amp;quot;mcquitty&amp;quot;)
+hclust_median &amp;lt;- hclust(dataset_dissimilarity, method = &amp;quot;median&amp;quot;)
+hclust_centriod &amp;lt;- hclust(dataset_dissimilarity, method = &amp;quot;centroid&amp;quot;)
+
+plot(hclust_mcquitty, cex = 0.6, hang = -1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/hcl-methods-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot(hclust_median, cex = 0.6, hang = -1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/hcl-methods-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot(hclust_centriod, cex = 0.6, hang = -1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/hcl-methods-3.png" width="672" /&gt;&lt;/p&gt;
+&lt;h2 id="divisive-clustering"&gt;Divisive clustering&lt;/h2&gt;
+&lt;p&gt;Divisive clustering does not require a method argument to be specified. let’s analyze the data using diana() function.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;#### divisive clustering
+# computes divisive hierarchical clustering
+divisive_cluster &amp;lt;- cluster::diana(dataset_dissimilarity)
+
+# divisive coefficient -- amount of clustering structure found
+divisive_cluster$dc&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 0.8510366&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="r"&gt;&lt;code&gt;#plot dendrogram for divisive clustering
+pltree(divisive_cluster, cex = 0.6, hang = .2, main = &amp;quot;Dendrogram of diana&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/divisive-hcl-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;divisive_cluster$dc&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[1] 0.8510366&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The divisive co-efficient (dc) is computed to be 0.85 which indicates strong clustering structure. The ac and dc are measured on a scale of 0 to 1 with lower values close to 0 indicating weak clustering and higher values close to 1 indicating strong cluster structure.&lt;/p&gt;
+&lt;h4 id="identifying-clusters-of-subgroups"&gt;Identifying clusters of subgroups&lt;/h4&gt;
+&lt;p&gt;We can identify observations that falls into similar groups or otherwise by stating the number of groups we want to cut into. let’s cut our observations into 5 clusters with the code below. This can be done for both agnes and divise&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# CUT TREE INTO 5 GROUPS
+hcl_complete_group &amp;lt;- cutree(hcl_complete, k = 5)
+
+### Number of members in each cluster
+table(hcl_complete_group)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;hcl_complete_group
+ 1  2  3  4  5 
+ 8 20  5  2  1 &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="r"&gt;&lt;code&gt;##add cluster groupings to data
+dataset_all_cluster &amp;lt;- dataset_all%&amp;gt;%
+  mutate(cluster = hcl_complete_group) %&amp;gt;%
+  head()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can visualize how the various states are grouped when we cut into 5 clusters using the code below&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;## visualize with fviz_cluster
+fviz_cluster(list(data = dataset_all_scaled, cluster = hcl_complete_group))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/viz-clust-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h4 id="comparing-dendrograms"&gt;Comparing dendrograms&lt;/h4&gt;
+&lt;p&gt;We can compare clustering based on different methods by creating dendrogram objects for them and plotting.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;### create dendrogram object
+agnes_complete_dendrogram &amp;lt;- as.dendrogram(agnes_complete)
+agnes_ward_dendrogram &amp;lt;- as.dendrogram(agnes_ward)
+
+### plot the dendrograms to compare and match
+tanglegram(agnes_complete_dendrogram, agnes_ward_dendrogram)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/tangle-plot-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;The dashed lines show cluster combinations different from others.&lt;/p&gt;
+&lt;h4 id="customizing-the-dendrogram"&gt;Customizing the dendrogram&lt;/h4&gt;
+&lt;p&gt;Visualizing results has never been less important for cluster analysis where observations are grouped and there is the need for more colourful differentiation of groups to better understand the results presented. There are options for this. First, we can chain multiple dendrograms together to customize them easily.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# create a dendlist
+dend_list_agnes_complete_ward &amp;lt;- dendlist(agnes_complete_dendrogram, agnes_ward_dendrogram)
+
+tanglegram(dend1 = agnes_complete_dendrogram, dend2 = agnes_ward_dendrogram,
+           highlight_distinct_edges = TRUE, # Turn off dashed lines
+           common_subtrees_color_lines = TRUE, # turn-off line colors
+           common_subtrees_color_branches = TRUE, # color common branches
+           highlight_branches_col = TRUE,
+           main_left = &amp;quot;Agglomerative Nesting (complete method)&amp;quot;,
+           main_right = &amp;quot;Agglomerative Nesting (ward method)&amp;quot;,
+           sub = &amp;quot;Expenditure on Petrol, Kerosene and Health -States in Nigeria&amp;quot;,
+           cex_main_left = 1.1,
+           cex_main = 0.8,
+            cex_sub = .6,
+           lab.cex = 1,
+            margin_inner = 5,
+           main = paste(&amp;quot;Entanglement = &amp;quot;, round(entanglement(dend_list_agnes_complete_ward), 2)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/customize-dendro-1.png" width="768" data-distill-preview=1 /&gt;&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;agnes_complete_dendrogram&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#39;dendrogram&amp;#39; with 2 branches and 36 members total, at height 6.648864 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We have added entanglement co-efficient to the graph. It measures how well-align the trees are on a scale of 0 to 1. The low co-oefficient of 0.17 indicates low entanglement with good alignment.&lt;/p&gt;
+&lt;h2 id="determining-optimal-number-of-clusters"&gt;Determining optimal number of clusters&lt;/h2&gt;
+&lt;p&gt;A number of methods can be used to determine the optimal number of clusters for grouping&lt;/p&gt;
+&lt;h4 id="elbow-method-of-determing-optimal-number-of-clusters"&gt;Elbow method of determing optimal number of clusters&lt;/h4&gt;
+&lt;p&gt;To determine optimal number of clusters with elbow method, we need to look at where the bend is located which can be gauged to be 3 from our analysis below&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;fviz_nbclust(dataset_all_scaled, FUN = hcut, method = &amp;quot;wss&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/elbow-method-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h4 id="average-silhouette-method"&gt;Average silhouette method&lt;/h4&gt;
+&lt;p&gt;Average silhouette method indicates how well the clusters form with within cluster difference minimized at the optimal cluster number. Thus, the highest average silhouette width corresponds to the optimal number of clusters.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;fviz_nbclust(dataset_all_scaled, FUN = hcut, method = &amp;quot;silhouette&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/silhoutte-method-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;From the plot above, the optimal number of clusters is 3.&lt;/p&gt;
+&lt;h4 id="gap-statistics-method"&gt;Gap statistics method&lt;/h4&gt;
+&lt;pre class="r"&gt;&lt;code&gt;dataset_gapstat &amp;lt;- clusGap(dataset_all_scaled, FUN = hcut, K.max = 10)
+
+fviz_gap_stat(dataset_gapstat)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/gap-stat-method-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;The gaps method identified 1 to be the optimal number of clusters within a range of 1 to 10 clusters. Well, as we can deduce, different methods can identify different number of optimal clusters. With 2 of the methods suggesting 3 to be the optimal number of clusters, we can go by that.&lt;/p&gt;
+&lt;p&gt;Now that we know the optimal number of clusters, let’s use that to visualize the data but in a way different from the previous.&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# Cut the dendrogram into 4 clusters
+colors = c(&amp;quot;brown&amp;quot;, &amp;quot;orange&amp;quot;, &amp;quot;#1DEfbb&amp;quot;, &amp;quot;yellow&amp;quot;)
+
+ward_cut &amp;lt;- cutree(hcl_complete, k = 3)
+plot(as.phylo(hcl_complete), type = &amp;quot;fan&amp;quot;, tip.color = colors[ward_cut], label.offset = .5, cex = 0.7, no.margin = TRUE, use.edge.length = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="file5dfa9c4d5b7_files/figure-html/fan-dendrogram-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;With this simple exercise, we learnt how to undertake hierarchical clustering analysis using a project that is typical of the real world. We went through process of data wrangling and transformation, clustering and determining the optimal number of clusters.&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>ec2458ebc6dbcd5edece58f4b7dded24</distill:md5>
       <category>Unsupervised learning</category>
       <guid>https://addurl/posts/2022-07-20-hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile</guid>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
       <media:content url="https://addurl/posts/2022-07-20-hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile/hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile_files/figure-html5/customize-dendro-1.png" medium="image" type="image/png" width="1536" height="1152"/>
+    </item>
+    <item>
+      <title>Timeseries benchmark models</title>
+      <dc:creator>Linus Agbleze</dc:creator>
+      <link>https://addurl/posts/2022-07-18-timeseries-benchmark-models</link>
+      <description>
+
+
+&lt;h3 id="timeseries-analysis"&gt;Timeseries analysis&lt;/h3&gt;
+&lt;p&gt;This post is on timeseries analysis, mainly the basics.&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>cd2e8ab1e54214679593762f345c8707</distill:md5>
+      <category>Timeseries analysis</category>
+      <guid>https://addurl/posts/2022-07-18-timeseries-benchmark-models</guid>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Data visualization</title>

@@ -17,7 +17,7 @@ categories: Unsupervised learning
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Introduction to clustering analysis
@@ -130,10 +130,6 @@ library(skimr)  ## for quick descriptive view of the dataset
 library(ape)  ## to visualize dendrograms
 ```
 
-
-```{r}
-#getwd()
-```
 
 
 #### Reading the dataset
