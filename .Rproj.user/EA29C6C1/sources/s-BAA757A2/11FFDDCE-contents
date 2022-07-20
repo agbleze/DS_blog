@@ -1,15 +1,14 @@
 library(distill)
 
-distill::create_blog('firt_blog')
+#distill::create_blog('firt_blog')
 
-create_article('article.Rmd')
+#create_article('article.Rmd')
 
-create_post("Data visualization", draft = TRUE)
+#create_post("Data visualization", draft = TRUE)
 
-create_post('Timeseries benchmark models', draft = TRUE)
+#create_post('Timeseries benchmark models', draft = TRUE)
 
 library(rmarkdown)
-render_site()
 
 file.create(".nojekyll")
 

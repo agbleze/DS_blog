@@ -1,25 +1,22 @@
 library(distill)
 
-distill::create_blog('firt_blog')
+#distill::create_blog('firt_blog')
 
-create_article('article.Rmd')
+#create_article('article.Rmd')
 
-create_post("Data visualization", draft = TRUE)
+#create_post("Data visualization", draft = TRUE)
 
-create_post('Timeseries benchmark models', draft = TRUE)
+#create_post('Timeseries benchmark models', draft = TRUE)
 
 library(rmarkdown)
-render_site()
 
 file.create(".nojekyll")
 
 
-import_post(url='https://agbleze.github.io/Portfolio/hierarchical-clustering-tutorial.html?fbclid=IwAR0m_Kv3ZTerw28IRUxNDa24DyJsGE79H2iCjJQnaZxI2O1ydtf8i_-CP4Q#dataset',
-            check_license = F, overwrite = T)
+#import_post("https://github.com/agbleze/Portfolio/blob/master/hierarchical-clustering-tutorial.html")
 
 
-import_post("https://github.com/agbleze/Portfolio/blob/master/hierarchical-clustering-tutorial.html")
+#create_post("Hierarchical clustering -- Which states in Nigeria have similar expenditureprofile?")
 
 
-create_post("Hierarchical clustering -- Which states in Nigeria have similar expenditure
-  profile?")
+render_site()
