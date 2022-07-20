@@ -21,3 +21,5 @@ import_post(url='https://agbleze.github.io/Portfolio/hierarchical-clustering-tut
 import_post("https://github.com/agbleze/Portfolio/blob/master/hierarchical-clustering-tutorial.html")
 
 
+create_post("Hierarchical clustering -- Which states in Nigeria have similar expenditure
+  profile?")

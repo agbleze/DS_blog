@@ -616,5 +616,84 @@ reading what we have to say!</description>
       <guid>https://addurl/posts/welcome</guid>
       <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
     </item>
+    <item>
+      <title>Hierarchical clustering -- Which states in Nigeria have similar expenditure profile?</title>
+      <dc:creator>Linus Agbleze</dc:creator>
+      <link>https://addurl/posts/2022-07-18-hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile</link>
+      <description>
+
+
+&lt;h2 id="introduction-to-clustering-analysis"&gt;Introduction to clustering analysis&lt;/h2&gt;
+&lt;p&gt;Clustering analysis is one of the important exploratory data analysis you will consider undertaking in order to identify groupings in your dataset. It belongs to the segment of unsupervised classification which draws the data into clusters of similarity. Infact, many classification schemes have this underpinning of classifying a large set of individual elements or observations into a small number of classes. Talk of species classification, the periodic table, development index among others. Remember, it is groups of similarity. This notion also runs in business or rather dominates business decisions. Differential pricing, product and market segmentation among others require identifying the different groups present and tailoring policies that best serve each of them. So clustering analysis is important there!&lt;/p&gt;
+&lt;p&gt;That being said, there are typically two set of clustering techniques that are use to identify groups of similarity. Namely;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hierarchical clustering&lt;/li&gt;
+&lt;li&gt;K-means clustering&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In order to do a little deep dive, we will take them in turns. This tutorial will focus on hierarchical clustering where a tree structure is produce for the clusters – dendrograms.&lt;/p&gt;
+&lt;h2 id="hierarchical-clustering-analysis"&gt;Hierarchical clustering analysis&lt;/h2&gt;
+&lt;p&gt;Hierarchical clustering is of two types; agglomerative nesting and divisive analysis. The two are oppose in terms of where formation of clusters begin from.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Agglomerative Nesting (AGNES) merges similar clusters beginning from the bottom-most, into nodes and in a sequential manner continue merging them until all clusters form a single root at the top of the tree.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Divisive clustering also known as DIANA (Divise Analysis) runs in opposite direction to AGNES. The algorithm starts by disaggregating the root cluster, which is the single cluster containing all other clusters, into dissimilar clusters at each step (with each cluster being internally similar) until all the dissimilarity between clusters are completely exhausted. Thus, it ends with the leafs, which are clusters at the bottom, entirely dissimilar to each other.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;So AGNES adds up similar cluster leafs to form a cluster node and then a root while DIANA divides a single cluster root into dissimilar cluster nodes and then finally cluster leafs. Thus, AGNES is favoured for finding small clusters while DIANA works well for large clusters.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id="workflow-for-hierarchical-clustering-analysis"&gt;Workflow for hierarchical clustering analysis&lt;/h4&gt;
+&lt;p&gt;In order to undertake hierarchical clustering, the data has to be cleaned and prepared for that purpose such that variables are comparable. This involve the following;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Data wraggling and transformation that results in a tidy data such that;
+&lt;ul&gt;
+&lt;li&gt;Each column is a variable&lt;/li&gt;
+&lt;li&gt;Each row is a recording or observation&lt;/li&gt;
+&lt;li&gt;Each cell is a data&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Standardizing / scaling the data&lt;/li&gt;
+&lt;li&gt;Calculating dissimilarity measure between clusters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In measuring dissimilarity between clusters, different methods can be use and are required to be specified when using AGNES. The methods are identified as follows;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Maximum / complete linkage: uses the highest dissimilarity found between clusters after pairwise calculation of dissimilarities of elements in different clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Minimum / single linkage: uses the least dissimilarity between clusters following similar method as complete linkage in calculating dissimilarity&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Mean / average linkage: as the name suggests, uses average dissimilarity as distance between clusters after computing pairwise dissimilarity between observations in different clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Centroid linkage: based on the dissimilarity between the centroid of clusters.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ward’s minimum variance: focuses on minimizing inward cluster difference by merging groups with least between-cluster distance.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The best way to understand the workflow and methods identified for computing hierarchical clustering is by practicing with a project. We are going to define a simple research that clustering analysis can be used for and go through the complete pipeline required to execute it.&lt;/p&gt;
+&lt;p&gt;So let’s take a break from the long discussion and start with practicals.&lt;/p&gt;
+&lt;h2 id="research-objective"&gt;Research objective&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;To identify states in Nigeria with similar expenditure profile on petrol, kerosene and health (excluding insurance)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="dataset"&gt;Dataset&lt;/h2&gt;
+&lt;p&gt;The dataset to be used for this tutorial is Living Standard Measurement Study (LSMS) for Nigeria. Specifically, we will use the General Household Survey, 2015-2016 Panel data which is the Wave 3. The dataset can be accessed from (&lt;a href="https://microdata.worldbank.org/index.php/catalog/2734/related-materials" class="uri"&gt;https://microdata.worldbank.org/index.php/catalog/2734/related-materials&lt;/a&gt;).&lt;/p&gt;
+&lt;h4 id="know-the-metadata-of-your-data"&gt;Know the Metadata of your data&lt;/h4&gt;
+&lt;p&gt;As part of most data science projects in the real world, background checks has to be done even before data exploration and analysis. We have covered our first step which is accessing the data. The data can even be provided to us by our client or project partner or whoever we are working for. But one thing that we will have to do ourselves is to familiarize ourselves with variable names used, questionnaire administered and its design, how data was collected, units of measurement for the various variables among several others. Understanding these elements will influence how we explore the data, organize it in terms of merging datasets and variables, and analyze it.&lt;/p&gt;
+&lt;p&gt;To do this for our dataset, we need to look at the documentation of the dataset which is also available on the site (&lt;a href="https://microdata.worldbank.org/index.php/catalog/2734/data-dictionary" class="uri"&gt;https://microdata.worldbank.org/index.php/catalog/2734/data-dictionary&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;After familiarizing ourselves with the metadata files, it is clear that the variables we want to analyze are in two different files namely sect8b_plantingw3.csv (contains expenditure on various fuels including kerosene and petrol among others) and sect8c_plantingw3.csv (contains expenditure on health). The dataset create opportunity for us to learn key skills of data wrangling and transformation before the actual clustering analysis. This is typical of many projects.&lt;/p&gt;
+&lt;h4 id="project-tasks"&gt;Project Tasks&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Data wrangling and transformation
+&lt;ul&gt;
+&lt;li&gt;Subseting dataset&lt;/li&gt;
+&lt;li&gt;filtering dataset&lt;/li&gt;
+&lt;li&gt;grouping dataset&lt;/li&gt;
+&lt;li&gt;summarizing&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Scaling dataset&lt;/li&gt;
+&lt;li&gt;Hierarchical clustering
+&lt;ul&gt;
+&lt;li&gt;AGNES clustering&lt;/li&gt;
+&lt;li&gt;DIANA clustering&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Determining optimal clusters&lt;/li&gt;
+&lt;li&gt;Customizing visualization of clusters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="packages-and-libraries"&gt;Packages and libraries&lt;/h4&gt;
+&lt;p&gt;Now that we know the tasks we will be undertaking, we have to install (if not already installed) and load the libraries needed&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>5f496db8092379c958a150a10b3d1ad3</distill:md5>
+      <guid>https://addurl/posts/2022-07-18-hierarchical-clustering-which-states-in-nigeria-have-similar-expenditure-profile</guid>
+      <pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate>
+    </item>
   </channel>
 </rss>
