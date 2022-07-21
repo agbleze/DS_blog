@@ -1,9 +1,15 @@
 ---
-title: "About this blog"
+title: "About"
 description: |
-  Some additional details about the blog
+  The main aim of this blog is to present the practice of 
+  Data science with only as much theory as required to 
+  complete a task. The tutorials are project-base; exhibiting 
+  the complete pipeline that may be required to complete a given
+  Data Science project.
+  Given that different tasks are geared toward varied objectives and outcomes,
+  one can expect the scope of the tutorials to differ accordingly.
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
