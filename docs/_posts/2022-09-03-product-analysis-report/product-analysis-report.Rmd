@@ -18,8 +18,40 @@ library(reticulate)
 
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+### Background
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+ The company is a startup offering an innovative product that is transforming commercial real estate monitoring and management. Its target market is the commercial real estate industry. In order to stay in business, it is not enough to access the market by landing demo request but more essentially turn those requests into conversions and increase conversion rate. Thus, the main goal of the product team is started as follows;
+
+
+### Product team goal for analysis
+To increase conversion from demo request to contract signing
+
+
+### Business Problem statement
+
+#### Problem statement 1: Assessing the relationship between sales script type and conversion
+The product team aims at undertaking a data-based decision making to achieve its goal. To achieve that, data has been collected to be analyzed to gain insights. The challenge is to investigate how various variables influence our goal by asking the right business questions.
+
+We have been using different scripts during the demo sessions and as expected not all demo sessions result in conversion. We will want to understand if there is any trend and factor contributing to conversion that needs to be maximized and manage any other factor detrimental to conversion. This is one of our business problems to be analyzed. Given the fact that sales script was one of the tools used during the demo session, we are tempted to hypothesize it is associated with conversion. This understanding have been translated into the following analytical framework for further assessment.
+
+
+#### Null Hypothesis (H0): There is no relationship between type of sales script and conversion
+#### Alternative Hypothesis (H1): There is a relationship between type of sales script and conversion
+
+
+
+
+#### Problem statement 2: Assessing difference in total conversions made by different sales scripts
+Each of the sales script used during the demo session has produce some conversion. While the total conversion for each script can be easily assessed, we need to go beyond that and assess if there is any difference and more importantly if the difference in conversion is significant to suggest a preference for one of them to increase the chances of achieving higher conversion. This need not be a guesswork but data driven hence have been translated into the following hypothesis for analysis;
+
+#### Null hypothesis (H0): Difference in mean conversion among all sales scripts is equal
+#### Alternative hypothesis (H1): There is difference in mean conversion for at least one of sales scripts
+
+
+
+
+#### Problem statement 3: To sales scripts that produces significantly higher conversions 
+The result for the hypothesis stated above will determine whether or not there is the need for further enquiry in the form of post-hoc test. If the analysis results in rejection of the null hypothesis, then there will be the need to assess how the different sales scripts compare to each other in order to identify which of the sales scripts produce significantly higher mean conversion.
+
 
 
