@@ -10,7 +10,7 @@ library(distill)
 
 library(rmarkdown)
 
-file.create(".nojekyll")
+#file.create(".nojekyll")
 
 
 #import_post("https://github.com/agbleze/Portfolio/blob/master/hierarchical-clustering-tutorial.html")
@@ -19,4 +19,6 @@ file.create(".nojekyll")
 #create_post("Hierarchical clustering -- Which states in Nigeria have similar expenditureprofile?")
 
 
-render_site()
+#render_site()
+
+distill::create_post('Product Analysis report')
