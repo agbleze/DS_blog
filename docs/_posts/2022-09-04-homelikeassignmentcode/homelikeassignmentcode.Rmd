@@ -386,7 +386,7 @@ bounce_rate_rcsp_show$n  ## 13.59 % bounce rate for rcsp_show
 Given that the difference in bounce rate between the two groups is a very small margin, further inquiry will be to analyze the user journey and display the result using a funnel chart. This will enable visualizing pages where users leave Homelike website and get a sense of which group makes is closer to final conversion. 
 
 The code for user journey for A/B testing is provided below.
-```{r, message=FALSE, layout="l-body-outset", preview=TRUE}
+```{r, message=FALSE}
 ####### User journey for A/B testing
 ##### user journey for user_ref
 rcsp_ref_user_jour <- rcsp_ref%>%
@@ -412,6 +412,10 @@ rcsp_funl <- plot_ly(
   x = as.vector(rcsp_ref_user_jour.desc$n),
   textinfo = "value+percent initial") 
 
+```
+
+
+```{r, layout="l-body-outset", preview=TRUE}
 rcsp_funl <- rcsp_funl %>%
   add_trace(
     type = "funnel",
@@ -426,9 +430,7 @@ rcsp_funl <- rcsp_funl %>%
   layout(hovermode = 'compare')
 
 rcsp_funl
-
 ```
-
 
 
 ####   ●Cluster our users in logical groups based on the data you have in hand.
