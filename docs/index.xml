@@ -8,7 +8,7 @@
 practical way.
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 02 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 03 Sep 2022 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Product Analysis report</title>
       <dc:creator>Linus Agbleze</dc:creator>
@@ -203,7 +203,7 @@ function (...)
 &lt;pre class="python"&gt;&lt;code&gt;(ggplot(conversion_total, aes(x=&amp;#39;conversion&amp;#39;, y=&amp;#39;total_conversion&amp;#39;))
  + geom_col(stat = &amp;#39;identity&amp;#39;) + ggtitle(&amp;#39;Bar chart of Total Conversion and non-conversion&amp;#39;) + theme_light()
 )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="https://addurl//posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-1.png" width="614" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file2c2871dc8769_files/figure-html/unnamed-chunk-1-1.png" width="614" /&gt;&lt;/p&gt;
 function (...) 
 {
     dots &lt;- py_resolve_dots(list(...))
@@ -307,7 +307,7 @@ function (...)
 }
 &lt;pre class="python"&gt;&lt;code&gt;(ggplot(company_conversion, aes(x=&amp;#39;company_group&amp;#39;, y=&amp;#39;total_count&amp;#39;, fill=&amp;#39;conversion&amp;#39;))
  + geom_col(stat=&amp;#39;identity&amp;#39;, position=&amp;#39;dodge&amp;#39;)) + theme_dark() + ggtitle(&amp;#39;Conversion based on type of company&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="https://addurl//posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-3.png" width="614" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file2c2871dc8769_files/figure-html/unnamed-chunk-1-3.png" width="614" /&gt;&lt;/p&gt;
 function (...) 
 {
     dots &lt;- py_resolve_dots(list(...))
@@ -351,7 +351,7 @@ function (...)
 
 (ggplot(script_conversion, aes(x=&amp;#39;sales_script_type&amp;#39;, y=&amp;#39;total_conversion&amp;#39;, fill=&amp;#39;conversion&amp;#39;))
  + geom_col(stat=&amp;#39;identity&amp;#39;, position=&amp;#39;dodge&amp;#39;)) + theme_dark() + ggtitle(&amp;#39;Conversion based on type of sales script&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="https://addurl//posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-5.png" width="614" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file2c2871dc8769_files/figure-html/unnamed-chunk-1-5.png" width="614" /&gt;&lt;/p&gt;
 function (...) 
 {
     dots &lt;- py_resolve_dots(list(...))
@@ -495,7 +495,7 @@ function (...)
 &lt;pre class="python"&gt;&lt;code&gt;
 (ggplot(data = df_grp_sum, mapping = aes(x = &amp;#39;sales_script_type&amp;#39;, y = &amp;#39;total_conversion&amp;#39;))+ geom_boxplot() + 
  ggtitle(&amp;#39;Total conversion by script type (based on conversion counts of demo day)&amp;#39;)) &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="https://addurl//posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-7.png" width="614" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file2c2871dc8769_files/figure-html/unnamed-chunk-1-7.png" width="614" /&gt;&lt;/p&gt;
 function (...) 
 {
     dots &lt;- py_resolve_dots(list(...))
@@ -553,7 +553,7 @@ function (...)
     else result
 }
 &lt;pre class="python"&gt;&lt;code&gt;plt.show()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="https://addurl//posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-9.png" width="624" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file2c2871dc8769_files/figure-html/unnamed-chunk-1-9.png" width="672" /&gt;&lt;/p&gt;
 function (...) 
 {
     dots &lt;- py_resolve_dots(list(...))
@@ -762,8 +762,38 @@ function (...)
 &lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
       <distill:md5>1d32d394ae9e319cb57d5cfadb066d34</distill:md5>
       <guid>https://addurl/posts/2022-09-03-product-analysis-report</guid>
-      <pubDate>Fri, 02 Sep 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
       <media:content url="https://addurl/posts/2022-09-03-product-analysis-report/product-analysis-report_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1228" height="921"/>
+    </item>
+    <item>
+      <title>logistics regression</title>
+      <dc:creator>Linus Agbleze</dc:creator>
+      <link>https://addurl/posts/2022-09-04-logistics-regression</link>
+      <description>
+
+
+&lt;h2 id="objective-4-assessing-factors-that-influence-the-likelihood-of-a-client-to-convert"&gt;Objective 4: Assessing factors that influence the likelihood of a client to convert&lt;/h2&gt;
+&lt;p&gt;The fourth objective of the product analysis is to move a step further and assess our data with focus on predicting how various factors influence the probability of a client signing up for our product. In order to achieve the goal of higher amount of conversion, as assessment is undertaken to model whether or not a client will sign-up. Knowing how these factors influence client’s decision to purchase our service will enable us better target clients by managing such predictors well. For this, a review of the various variables available has been undertaken to identify potential predictors.&lt;/p&gt;
+&lt;p&gt;The business problem at hand can be translated into an analytical one that requires a classification solution. In this case, the aim is to classify clients into two groups of convert and non-convert. This is the outcome we seek to predict hence the response or dependent variable. The response variable has two categories or classes as indicated, conversion and non-conversion, hence a regression analysis that caters for such characteristics is chosen.&lt;/p&gt;
+&lt;h3 id="method-logistic-regression"&gt;Method: Logistic regression&lt;/h3&gt;
+&lt;p&gt;Logistic regression will be used for assessing how various factors influence the probability of a client deciding to convert.&lt;/p&gt;
+&lt;p&gt;Based on the available limited data guided with domain knowledge of the business operations, the potential predictors identified for the analysis are the following&lt;/p&gt;
+&lt;ol style="list-style-type: decimal"&gt;
+&lt;li&gt;Type of sales script&lt;/li&gt;
+&lt;li&gt;Company type&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="description-of-predictors-and-rational-for-their-selection"&gt;Description of predictors and rational for their selection&lt;/h3&gt;
+&lt;ol style="list-style-type: decimal"&gt;
+&lt;li&gt;&lt;p&gt;The relationship between the type of sales script and conversion has been our main focus for earilier analysis and yet it is still important to understand how they influence the actual decision to convert and not the total number of conversion this time round. It can be presume, as it is the case to hypothesize, that there is a logical understanding of type of sales script being a potential influential determinant.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Company type as a potential predictor is based on the assumption that the characteristics of the company will determine its decision to finally purchase our product. Given that, these features are not adequately disclosed, the difference in labelling of company type is taken to be directly related to difference in company characteristics.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="data-treatment-preprocessing"&gt;Data treatment / preprocessing&lt;/h3&gt;
+&lt;p&gt;Some predictors have receive a special focus different from earlier, in order to prepare the variables into an acceptable format for modeling. It is worthing highlight such instances for transparency and reproducability of the analysis.&lt;/p&gt;
+&lt;p&gt;First of all, the company type variable had two categories being 0 and 1, and several missing data in the original dataset. In this case, it is possible that the missiing data was just an instance of unavailable data that was not provided due to some privacy concerns. Moreover, as much as 4,916 missing data is identified in the original dataset which constitutes a sizeable part of the dataset to eliminte from the analysis and very likely to reduce the possibility of capturing as much variations as the reality is on the ground. Supported by this, is the fact that, such a large amount of missing data is enough to constitute a category in its own right for analysis and insight. Based on these available information and context, the decision was made to replace all instances of missing data for company type with ‘Others’ as another company type. This led to reclassification of company type into company group A, B and Others corresponding to 0, 1 and missing data respectively;&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>640cb3d1125f0e3f4cdd361c65ff821c</distill:md5>
+      <guid>https://addurl/posts/2022-09-04-logistics-regression</guid>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Timeseries benchmark models</title>

@@ -21,4 +21,6 @@ library(rmarkdown)
 
 #render_site()
 
-distill::create_post('Product Analysis report')
+#distill::create_post('Product Analysis report')
+
+distill::create_post('logistics regression')
