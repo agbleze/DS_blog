@@ -1,5 +1,5 @@
 ---
-title: "Homelike_Assignment_code"
+title: "Product Data Analyst"
 description: |
   A short description of the post.
 author:
@@ -9,6 +9,35 @@ date: 2022-09-04
 output:
   distill::distill_article:
     self_contained: false
+    
+    
+
+#output:
+  html_document:
+    highlight: espresso
+    fig_width: 8
+    fig_height: 6
+    fig_caption: yes
+    keep_md: yes
+    df_print: default
+    theme:
+      color-contrast-warnings: no
+      bg: '#202123'
+      fg: '#B8BCC2'
+      primary: '#EA80FC'
+      secondary: '#00DAC6'
+      base_font:
+        google: Prompt
+      heading_font:
+        google: Proza Libre
+  html_notebook: default
+  word_document: default
+ #   df_print: paged
+  pdf_document: default
+  
+  
+draft: false
+categories: product analysis
 ---
 
 
@@ -107,7 +136,7 @@ I undertook data cleaning and omitted missing vales for the selected variables. 
 ```{r}
 #### Total number of unique visitors
 unique_visitors_count<- data18 %>%
-  select(visitor_id)%>%
+  dplyr::select(visitor_id)%>%
   na.omit()%>%
   count(visitor_id)
 
