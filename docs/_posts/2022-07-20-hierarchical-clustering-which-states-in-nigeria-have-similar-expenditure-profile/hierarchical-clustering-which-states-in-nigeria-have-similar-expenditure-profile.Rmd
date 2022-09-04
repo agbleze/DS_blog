@@ -300,7 +300,7 @@ We will realize that the number of rows are different for fuel_expenditure_trans
 dataset_all <- subset.data.frame(fuel_expenditure_transformed, fuel_expenditure_transformed$state != 17) %>%
   dplyr::left_join(health_expenditure_transformed) %>%  ## join the two datasets
   tibble::column_to_rownames(var = "state_names") %>% ## transform variable state_names to rownames
-  select(-1) ## select all columns except the first one (state) which we don't need again
+  dplyr::select(-1) ## select all columns except the first one (state) which we don't need again
 
 datatable(dataset_all)
 ```

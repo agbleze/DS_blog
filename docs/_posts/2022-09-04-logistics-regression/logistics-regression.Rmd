@@ -1,7 +1,7 @@
 ---
-title: "logistics regression"
+title: "Logistics regression: Assessing factors that inlfuence client conversion"
 description: |
-  A short description of the post.
+  This post uses logistic regression to support sales team to decipher the impact of various factors on their conversion rate.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -9,6 +9,9 @@ date: 2022-09-04
 output:
   distill::distill_article:
     self_contained: false
+    
+draft: false
+categories: logistic regression
 ---
 
 
@@ -156,6 +159,20 @@ summary(train_logit)
 #predict(train_logit, test_data, type = 'response')
 
 ```
+
+
+
+### Insights from multiple logistic regression
+
+The logistic regression for predicting the probability that a client will sign-up produced a non-significant p-value for all cases. Script A was used as reference point for script B and C. Thus, with a co-efficient of -0.049 for script B, it is suggested that using script B results in a decrease in the log odds of signing a client by 0.049 in comparison to script A. This is however statistically insignificant. Script C has a co-efficient of 0.24 which suggests that when a sales manager uses script C, the log odds of signing a client increases by 0.24 compared to script A which is statistically insignificant.
+
+
+With regards to prioritizing companies to reach out to in order to increase conversion, when sales managers take a session with company A or company B, the log odds of landing a conversion increases compared to when they target companies categorized as 'Others' in this analysis. The result is however statistically insignificant.
+
+
+### Recommendation for objective 4
+
+From the analysis undertaken, it is recommended that the sales team consider not prioritizing demo sessions with company type 'Others'. This should however not be treated as a de facto discrimination favouring company A and B to increase conversion given that the results are statistically insignificant.  
 
 
 

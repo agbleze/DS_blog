@@ -9,6 +9,9 @@ date: 2022-09-03
 output:
   distill::distill_article:
     self_contained: false
+    
+draft: false
+categories: product analysis
 ---
 
 
