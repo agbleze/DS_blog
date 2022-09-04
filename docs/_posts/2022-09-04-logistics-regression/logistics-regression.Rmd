@@ -1,0 +1,49 @@
+---
+title: "logistics regression"
+description: |
+  A short description of the post.
+author:
+  - name: Linus Agbleze
+    url: https://agbleze.github.io/Portfolio/
+date: 2022-09-04
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Objective 4: Assessing factors that influence the likelihood of a client to convert
+
+The fourth objective of the product analysis is to move a step further and assess our data with focus on predicting how various factors influence the probability of a client signing up for our product. In order to achieve the goal of higher amount of conversion, as assessment is undertaken to model whether or not a client will sign-up. Knowing how these factors influence client's decision to purchase our service will enable us better target clients by managing such predictors well. For this, a review of the various variables available has been undertaken to identify potential predictors. 
+
+The business problem at hand can be translated into an analytical one that requires a classification solution. In this case, the aim is to classify clients into two groups of convert and non-convert. This is the outcome we seek to predict hence the response or dependent variable. The response variable has two categories or classes as indicated, conversion and non-conversion, hence a regression analysis that caters for such characteristics is chosen. 
+
+
+### Method: Logistic regression
+Logistic regression will be used for assessing how various factors influence the probability of a client deciding to convert.
+
+Based on the available limited data guided with domain knowledge of the business operations, the potential predictors identified for the analysis are the following
+
+1. Type of sales script
+2. Company type
+
+###  Description of predictors and rational for their selection
+
+1. The relationship between the type of sales script and conversion has been our main focus for earilier analysis and yet it is still important to understand how they influence the actual decision to convert and not the total number of conversion this time round. It can be presume, as it is the case to hypothesize, that there is a logical understanding of type of sales script being a potential influential determinant.
+
+2. Company type as a potential predictor is based on the assumption that the characteristics of the company will determine its decision to finally purchase our product. Given that, these features are not adequately disclosed, the difference in labelling of company type is taken to be directly related to difference in company characteristics.
+
+
+
+### Data treatment / preprocessing 
+Some predictors have receive a special focus different from earlier, in order to prepare the variables into an acceptable format for modeling. It is worthing highlight such instances for transparency and reproducability of the analysis.
+
+First of all, the company type variable had two categories being 0 and 1, and several missing data in the original dataset. In this case, it is possible that the missiing data was just an instance of unavailable data that was not provided due to some privacy concerns. Moreover, as much as 4,916 missing data is identified in the original dataset which constitutes a sizeable part of the dataset to eliminte from the analysis and very likely to reduce the possibility of capturing as much variations as the reality is on the ground. Supported by this, is the fact that, such a large amount of missing data is enough to constitute a category in its own right for analysis and insight. Based on these available information and context, the decision was made to replace all instances of missing data for company type with 'Others' as another company type. This led to reclassification of company type into company group A, B and Others corresponding to 0, 1 and missing data respectively;
+
+
+

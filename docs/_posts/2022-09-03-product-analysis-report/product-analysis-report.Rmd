@@ -12,12 +12,6 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(reticulate)
-
-```
-
 ### Background
 
  The company is a startup offering an innovative product that is transforming commercial real estate monitoring and management. Its target market is the commercial real estate industry. In order to stay in business, it is not enough to access the market by landing demo request but more essentially turn those requests into conversions and increase conversion rate. Thus, the main goal of the product team is started as follows;
@@ -52,6 +46,610 @@ Each of the sales script used during the demo session has produce some conversio
 
 #### Problem statement 3: To sales scripts that produces significantly higher conversions 
 The result for the hypothesis stated above will determine whether or not there is the need for further enquiry in the form of post-hoc test. If the analysis results in rejection of the null hypothesis, then there will be the need to assess how the different sales scripts compare to each other in order to identify which of the sales scripts produce significantly higher mean conversion.
+
+
+#### Problem statement 4: Assessing factors that influence the decision of a client to convert
+For our success, the higher the amount of conversions, the better. The business problem at hand is to understand the drivers of conversion. The decision by a client to purchase our product or not during or after a demo session is one that needs to be better understood so we can do more of what makes them convert and less of what deter them from buying our products. This problem requires a deep dive into our data to carefully assess how the various factors for which data is available are playing a role.
+
+
+
+
+
+### Business questions to answer
+Based on the the business problem statements conceptualized, this analysis is undertaken to provide answers to the following business questions as a guide.
+
+
+1. Is there a significant relationship between type of sales script and conversion?
+
+2. Are all sales scripts achieving a similar amount of conversions? 
+
+3. How do sales scripts compare in terms of conversions and which sales scripts can be used to achiever higher conversions? 
+
+4. How do various factors influence the probability of a client to sign-up for our product?
+
+
+
+### Business objectives
+To define the data analysis tasks, the business questions are translated into objectives as follows 
+
+1. To test the hypothesis that there is a statistically significant relationship between type of sales script and conversion
+
+2. To test the hypothesis that difference in mean conversion among sales script are equal
+
+3. To assess and identify which sales script produces higher total conversions on the average if any
+
+4. To assess various potential drivers of conversion and understand their influence
+
+
+
+
+### Data analysis task
+This section details the procedure used to analyzed the data to derive insights and draw recommendations. First of all it is important to highlight some of the formula used.
+
+#### Formula used
+Conversion rate (С1) = [N of contracts signed] / [N of Demo requests] * 100
+
+Conversion rate for script = (Total conversions where script was used) / (Total number of demo sessions where script was used)
+
+
+
+#### Assumptions
+In order to make results reproducible and understandable for contextualized interpretation, much effort is made to lay bare assumptions that may influence how proper insights is drawn. Some of these assumptions are required for the statistical analysis undertaken to hold true. These are highlighted in this section as follows.
+
+1. Scripts were used independently, that is a single script was applied for a client.
+
+
+2. All scripts were used for approximately the same time period. It is however realized from the data that the first demo appointment session for which script C was used was on 2020-01-08 16:50:35 and the last date of use was 2021-03-01 19:40:01. For script A, it was first used for a demo session on 2019-12-28 03:57:38 and its last usage was on 2021-03-29 12:44:07. Script B was first used for a demo session on 2019-12-28 11:38:55 and last used was on 2021-03-06 16:57:21. Thus, data exploration shows some differences in date of first usage and last usage of script but this difference is assummed to be negligible in order to compare the mean conversions among them.
+
+### Data exploration
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+#use_python('/Users/lin/Documents/DS_blog/docs/_posts/2022-09-03-p#roduct-analysis-report/product_analysis_venv/bin/python')
+
+use_virtualenv('/Users/lin/Documents/DS_blog/docs/_posts/2022-09-03-product-analysis-report/product_analysis_venv/', required = TRUE)
+
+
+```
+
+```{python message=FALSE, warning=FALSE, message=FALSE, engine.path="~/Documents/DS_blog/docs/_posts/2022-09-03-product-analysis-report/product_analysis_venv/bin/python"}
+
+
+```
+
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+
+```{python include=FALSE, warnings=FALSE, message=FALSE}
+## Import packages
+import pandas as pd
+from pandas_ply import install_ply, X, sym_call
+from dplython import (DplyFrame, X, diamonds, select, sift, sample_n,
+    sample_frac, head, arrange, mutate, group_by, summarize, DelayFunction) 
+
+from ggpy import *
+from plotnine import *
+import sklearn as sk
+import numpy as np
+import matplotlib.pyplot as plt
+import datetime
+import seaborn as sns
+from dplython import *
+from dscitools import *
+from plotly import *
+#from ggplot import *
+from siuba import *
+import siuba.experimental.completer
+import scipy.stats as stats 
+from bioinfokit.analys import stat
+import statsmodels.api as sm
+import pingouin as pg
+import scikit_posthocs as sp
+from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
+from sklearn.model_selection import train_test_split
+#from mord import LogisticIT
+#from dmba import classificationSummary, gainsChart, liftChart
+#from dmba.metric import AIC_score
+
+```
+
+
+
+```{python, echo=FALSE, warning=FALSE, message=FALSE}
+## import data and read top 5
+
+df = pd.read_csv('/Users/lin/Documents/Envio GmbH/data_transform.csv')
+
+## View first 3 rows of the data
+print(df.head(3))
+
+```
+
+
+
+```{python, message=FALSE}
+## Identify the categories of sales scripts
+df.sales_script_variant.unique()
+
+```
+
+
+```{python, message=FALSE}
+## get description of the variables in the data
+
+df.info()
+```
+
+
+```{python, message=FALSE}
+## shows the shape of the data -- number of rows and columns
+df.shape
+
+```
+
+
+
+```{python message=FALSE}
+## Cast the data into DplyFrame in order to use dplython functions on it.
+
+df_dataframe = DplyFrame(df)
+
+```
+
+
+
+### Estimating total number of conversions for the whole period covered
+##### Keywords
+##### Non-conersion are cases where the client did not sign up during and after the demo session
+
+Given that our goal is to increase conversion, the analysis will centered around that. First, the total number of conversion is estimated and compared to non-conversion
+
+From the analysis below, total number of conversion was 5,018 which is slightly higher than non-conversion of 4,982.
+The sum of both conversion and non-conversion equates to the total number of requests made.
+
+
+
+```{python, warning=FALSE, error=FALSE}
+## select some columns needed to estimating conversion
+#(df_dplyselect = df_dataframe >> siuba.select(_.is_signed, _.conversion, _.sales_script_type, #_.request_to_1streach_timelength_minutes_, _.company_group))
+ 
+df_dplyselect = df_dataframe[['is_signed', 'conversion', 'sales_script_type', 'request_to_1streach_timelength_minutes_', 'company_group']]    
+## Group data based on conversion column and count number of conversion
+#conversion_total = df_dplyselect >> group_by(X.conversion) >> summarize(total_conversion = #X.conversion.count())
+
+df_dplyselect = df_dplyselect.groupby('conversion')[['conversion']].count()#.reset_index()
+df_dplyselect
+conversion_total = df_dplyselect.copy().rename(columns={'conversion': 'total_conversion'}).reset_index()
+conversion_total
+#df_dplyselect
+```
+
+
+```{python}
+(ggplot(conversion_total, aes(x='conversion', y='total_conversion'))
+ + geom_col(stat = 'identity') + ggtitle('Bar chart of Total Conversion and non-conversion') + theme_light()
+)
+```
+
+
+
+### Estimating C1
+After estimating conversion and non-conversion, C1 needs to be estimated. This can be considered as one of the major KPI for the period. 
+
+#### C1 formula
+С1 = [N of contracts signed] / [N of Demo requests]
+
+
+
+```{python}
+## The [N of Demo requests] is estimated below
+
+request_total = conversion_total['total_conversion'].sum()
+request_total
+```
+
+
+```{python}
+## C1 
+C1 = conversion_total.iloc[[0],[1]] / request_total
+C1
+C1.rename(index=str, columns={"total_conversion": "C1"})
+
+```
+
+
+#### Thus, C1 is estimated to be 0.5018.
+
+It is concluded that conversion rate in percentage terms if 50.2%
+
+
+#### Disaagregating conversion for indepth analysis
+In order to better understand conversion, there is the need to explore the data based on certain dimensions. 
+
+
+
+```{python}
+### group data based on company type and count total conversion for #eash 
+company_conversion = df_dataframe >> siuba.group_by(_.company_group, _.conversion) >> siuba.summarize(total_count = _.conversion.count())
+
+#df_dplyselect.groupby(['company_group', #'conversion'])['conversion'].count()
+company_conversion
+
+```
+
+
+
+
+```{python}
+(ggplot(company_conversion, aes(x='company_group', y='total_count', fill='conversion'))
+ + geom_col(stat='identity', position='dodge')) + theme_dark() + ggtitle('Conversion based on type of company')
+```
+
+
+
+#### From our research questions and hypothesis, conversion based on sales script type is will offer valuable insight hence the data is grouped and conversion is estimated and visualized for the different sales group before testing their hypothesis further.
+
+
+
+```{python}
+## group data based on type of sales script and count total conversion 
+script_conversion = (df_dataframe
+ >> siuba.group_by(_.sales_script_type, _.conversion)
+>> siuba.summarize(total_conversion = _.conversion.count())
+)
+
+script_conversion
+```
+
+
+#####
+The result of the table can be visualize below
+
+
+```{python}
+### Plot the total conversion based on script type
+
+(ggplot(script_conversion, aes(x='sales_script_type', y='total_conversion', fill='conversion'))
+ + geom_col(stat='identity', position='dodge')) + theme_dark() + ggtitle('Conversion based on type of sales script')
+
+```
+
+
+
+##### Insights from the visuals
+Illustrating conversion based on script type shows that both script A and script C made a higher conversion compared to non-conversion. Script A made 83 more conversions than non-conversion while script C made 7 more conversion than non-conversion. On the contrary, script B made 54 less conversions compared to non-conversion.
+
+While this difference gives a clue about performance of the various script, it does not enables us to make decisive conclusion but guesses of what the difference could result in. Foreinstance, the total conversion is summation and hence the difference could be the result of number of demo sessions that a script has been used for. Clarity needs to brought to such guessetimates by considering their mean through further analysis
+
+In order to make a data driven decision, hypothesis need to be tested to derive better understanding base on statistical significance.
+
+
+
+
+### Objective 1
+
+To test the hypothesis that there is statistically significant relationship between type of sales script and conversion.
+
+Proceeding from the insights gained, this section tests the hypothesis for the first objective
+
+H0 Conversion is independent of type of sales script used
+
+H1 Conversion is dependent on type of sales script used
+
+#### Method of analysis
+Chi squared test of independence is appropriate for assessing whether there is a relationship between two categorical variable hence used. The procedure involves producing a contigency table and using that for the analysis. This is demonstrated below.
+
+
+
+##### Contigency table
+
+
+
+```{python}
+
+## contigency table between sales script type and conversion
+
+conversion_script_type_contengency = pd.crosstab(df_dataframe['sales_script_type'], df_dataframe['conversion'])
+
+conversion_script_type_contengency
+
+```
+
+
+
+```{python}
+### chi-square test of independence
+chi_square_result = stat()
+
+chi_square_result.chisq(df=conversion_script_type_contengency)
+
+print(chi_square_result.summary)
+
+
+```
+
+
+
+### Results for objective one
+
+With a p-value of 0.3279 being greater than 0.05 (5% significance level), it is
+suggested that there is no statistically significant relationship between type of sales script and
+conversion. Thus, we fail to reject the null hypothesis of independence based on available evidence.
+
+This result has an added twist to it, which is that, there is the possibility of a change in result when more and better data is acquired.
+
+
+A major research gap that remains is whether the differences in conversion between scripts as deduced from the bar plots is significant. This requires the need to test another hypothesis hence research objective 2.
+
+
+
+### Research objective 2: To test the hypothesis that difference in mean conversion among sales script are equal
+
+In order to test this hypothesis, there is the need to have continuous varaible. For this, the total number of conversions on daily basis can analyzed and used as a continuous variable. The rational for estimating daily total conversions instead of monthly or yearly is to ensure that there are enough data points to make statistical inference.
+
+The available data covers only a year and a couple of days, hence daily conversions is a logical timeframe for estimating total conversion. 
+
+By this, the dataset needs to be grouped based on days and the sum of conversions estimated for each sales script type. The question that arise is how are the conversions to be counted? For this, 'is_signed' variable is used; where its boolean data type (true or false) are treated as intergers with 1 counted as a single conversion and 0 as no conversion for each demo session. This allows for the total daily conversion to be estimated.
+
+Another question is, which of the dates should be used as a basis for counting the total daily conversion? For this, the demo_appointment_datetime variable was used. This is based on the context that 'during and after the demo session, the sales manager tries to convert the potential client into a contract signing' hence the assumption that the impact of the script used on conversion came into effect on the demo appointment day.
+
+
+It is assummed that the date used will be of less relevance for testing the hypothesis despite there could changes in the total number of daily conversion for scripts when the date is change. But the impact is assummed to be negligible and again, less relevant to some extent. 
+
+### Key assumption
+1. The assumption was made that all sales scripts had equal chance of being used during a demo session. 
+
+2. There were no cases of repeated sessions where scripts were used again.
+
+
+
+```{python}
+### select various columns and split the demo appointment column into date and time
+df_grp = (df >> siuba.select(_.demo_appointment_datetime, _.request_to_1streach_timelength_minutes_, 
+                  _.conversion, _.company_group, _.sales_script_type, _.is_signed)>>
+siuba.separate(col = _.demo_appointment_datetime, sep = ' ', into = ('demo_appointment_yyyymmdd', 
+                                                                     'demo_appointment_hhmmss')) >>
+ siuba.group_by(_.demo_appointment_yyyymmdd, _.sales_script_type)
+)
+
+## sum the total conversion for each script on each day
+df_grp_sum = df_grp >> siuba.summarize(total_conversion = _.is_signed.sum())
+df_grp_sum.head(5)
+```
+
+
+
+#### Visualizing the total conversion on demo day for the various scripts
+
+First, the distribution of total conversion based on sales script is visualized using boxplot which shows the mean conversion for sales scripts as well as the minimum, 25th quartile, 75th quartile and maximum. 
+
+
+
+```{python}
+
+(ggplot(data = df_grp_sum, mapping = aes(x = 'sales_script_type', y = 'total_conversion'))+ geom_boxplot() + 
+ ggtitle('Total conversion by script type (based on conversion counts of demo day)')) 
+
+```
+
+
+
+
+#### Insights from boxplot of total conversions based on demo date 
+
+From the boxplot, some points which are outside the normal range of the plot can be regarded as outliers. However, they are not remove for now. Moreover the difference in conversion between scripts is clearer with the boxplot. It is deduced that script C has the lowest average conversion while script A has the highest.
+
+
+
+
+#### Visual inspection: Testing statistical assumptions for the analysis of hypothesis
+
+Before deciding on the statistical method to use to answer the business questions, there is the need to verify that statistical assumptions hold true for the data. For valid statistical inference to be made about our target market based on our current of clients it is very important that appropriate methods are used. The appropriateness of the method is not a guesswork but one informed from both visual and statistical test. 
+
+
+Generally, there are two family of statistical techniques that can be employed in analyzing the data. Namely, Parametric and non-parametric methods. The parametric methods usually have a greater statistical power but this comes at the cost of requiring the data to meet a number of assumptions for proper insights to be gain. Given that, our aim is to present the possible best solution, the assumptions for using a parametric method are tested first before considering their use or otherwise.
+
+#### Visual inspection of normality 
+
+To use a parametric method, normality of data distribution of is assummed. A simple approach to verifying this is with the aid of histogram
+
+
+
+```{python}
+sns.histplot(df_grp_sum['total_conversion'], bins=20, kde=True, color='g')
+```
+
+
+
+#### Results of the histogram
+
+The histogram plotted above does not necessarily answer the question on normality assumption. Nonetheless, it is one of several visualization techniques that gives clues. 
+
+From visual inspection, the distribution is right-tailed hence a right-skewed or positive-skewed distribution. 
+
+
+
+### Q-Q plot for visualizing normality
+In order to gain a better view on the normality of the distribution, a Q-Q plot is use to compare actual total conversion to an expected value in a normal distribution. The yardstick for detecting normality will be to verify that the actual data distriubtion are linearly along a straignt 45 degrees diagonal line. The result is illustrated below.
+
+
+
+```{python}
+### QQ-PLOT
+sm.qqplot(df_grp_sum['total_conversion'], line = '45')
+
+plt.title('Q-Q plot for total conversion')
+plt.show()
+```
+
+
+
+### Insights from Q-Q plot
+
+From the Q-Q plot, it is deduced that the dataset deviates from the line of expected normal distribution hence heavily skewed. While the visualization so far points to the direction of a non-normal distribution, there is still the opportunity to cross-check these suggestions with some statistically test for normality. 
+
+
+### Statistically test for normality:  Shapiro-Wilk test of normality
+
+The visual inspections are supported with Shapiro-Wilk test to test the hypothesis that the distribution of data is not different from an expected normal distribution. 
+
+
+```{python}
+#### Shapiro-Wilk test
+
+w, pvalue = stats.shapiro(df_grp_sum['total_conversion'])
+print(w, pvalue)
+
+
+#w, pvalue = stats.shapiro(script_anova.anova_model_out.resid)
+#print(w, pvalue)
+```
+
+
+#### Calculating normality
+
+This another approach is to assessing normality using the pingouin module.
+
+
+```{python}
+pg.normality(df_grp_sum, group='sales_script_type', dv='total_conversion')
+```
+
+
+#### Insight from Shapiro-Wilk test of normality
+
+The p-value of the test is less than 0.05 (5% significance level) which suggests a statistically significant difference from a normal distribution. Thus, the null hypothesis is rejected. This is not one of the relevant hypothesis to be tested for our products but its gives us an important clue as to the right statistical method to adopt for assessing our business relevant hypothesis.
+
+With the data failing to meet the assumption of normal distribution required for the adoption of a parametric method, the compass of the analysis is gearing towards a non-parametric method. But before ascertaining that, there is the need to test for other assumptions required such as homogeneity which stipulates that variance between categories to analyzed should be equal across the data distribution for methods such ANOVA to be properly use. 
+
+
+
+### Statistical test for homogeneity
+#### Bartlett’s test 
+
+The first approach being used to test for equal variance in the distribution is the Bartlett's test. Given that the distribution is non-normal, Barlett's test is supported with Levene's test which is a much more robust test when the data is not a normal distribution.
+
+
+
+```{python}
+### bartlett's test for homogeneity
+script_bartlett = stat()
+script_bartlett.bartlett(df = df_grp_sum, res_var = 'total_conversion', xfac_var = 'sales_script_type')
+script_bartlett.bartlett_summary
+```
+
+
+
+##### Insight from the Bartlett's test
+The bartlett test result shows a p-value that is statistically significant hence the hypothesis that variation in the distribution is equal is rejected. This points in the direction of a non-parametric approach for the analysis but before then the result needs to be verified with a Levene's test.
+
+
+
+### Levene's statistical test for homogeneity
+
+Levene's test is employed as a final approach in this context to verify whether not the variance in the data is equal.
+
+
+```{python}
+## levene test
+script_lev = stat()
+script_lev.levene(df = df_grp_sum, res_var='total_conversion', xfac_var = 'sales_script_type')
+script_lev.levene_summary
+
+```
+
+
+```{python}
+### Usingthe pingouin module for the analysis
+
+pg.homoscedasticity(df_grp_sum, group='sales_script_type', dv='total_conversion')
+```
+
+
+
+### Insight from Levene's test
+The levene's test depict an unequal variance with a statistical significant p-value < 0.05 (at 5% significant level) hence confirming Bartlett's test.
+
+
+
+## Conclusion drawn from testing of statistical assumptions
+
+With visual inspections and all statistically tests indicating the data has a non-normal distribution and variance of values are unequal, the statistical approach adopted for testing the various relevant hypothesis devised is a non-parametric one. 
+
+
+
+## Kruskal-Wallis test
+
+After finally deciding on the type of statiscal approach to adopt, a selection is made among several non-parametric methods. For this, consideration is given to the number of categories or groupings in the independent variable. Three types of sales scripts were identified in the datset hence the decision to use 
+Kruskal-Wallis test for the analysis of the second objective.
+
+
+```{python}
+pg.kruskal(data=df_grp_sum, dv='total_conversion', between='sales_script_type')
+```
+
+
+
+### Results
+The p-value from the Kruskal-Wallis test is statistically significant at 5% significant level which suggests the null hypothesis that conversion among the differenct scripts is rejected.
+
+
+
+### Conclusion on objective 2
+The objective 2 seeks to test the hypothesis that all sales scripts produce equal conversions without statistically significant difference. The conclusion drawn is to reject this hypothesis. This can be seen as a breakthrough from the exploratory data analysis yet this results equally raise another enquiry. Though, it is now clear that at least one sales script seems to do better than another for conversion, the analysis does not indicate which sales scripts has a higher conversion and how they differ. This calls for further analysis in the form of post-hoc test.
+
+
+
+### Recommendation on objective 2
+
+With the suggestion that sales script donot produce equal conversions, it is recommended that, a deliberate effort is made to choose the script with higher rate of conversion. While this recommendation indicates there is opportunity to prioritize sales scripts for higher conversion, it has not specifically suggested which sales script in particular should be used. To provide such a data driven recommendation, further analysis is required to determine which script should be used to maximize conversion.
+
+
+### Objective 3: To identify which sales script produces higher total conversions on the average
+
+Post-hoc test is used to satisfy this objective. It provides a better insight through a pairwise comparison of the significant level of differences in conversion between scripts and further identify which scripts are assosiated with higher conversion.
+
+
+
+```{python}
+### Post-hoc test with Dunn
+
+sp.posthoc_dunn(a = df_grp_sum, val_col = 'total_conversion', group_col = 'sales_script_type', p_adjust='bonferroni')
+```
+
+
+### Result of post-hoc test of difference in conversion
+
+The post-hoc test based on Dunn test indicates that there are significant differences in conversion between all the sales scripts and not just at least one. The p-value for the pairwise difference between all the scripts are statistically significant. The result shown above only captures the p-values and in order discern the difference better, another module is used for the estimation.
+
+
+```{python}
+## Post-hoc test with means of script among other feature output
+pg.pairwise_ttests(dv='total_conversion', between='sales_script_type', data=df_grp_sum, parametric = 'false',
+                  alpha = 0.05, padjust = 'bonf', return_desc = 'true').round(3)
+```
+
+
+#### Interpretation of post-hoc rest results
+
+From the post-hoc test results, the mean of script B is 4.333, mean of script A is 8.342 and the mean of script c is 0.638. The results suggests sales script A has a significantly higher conversion than sales script B and C. In a similar manner, sales script B has a significantly higher conversion than script C in statistical terms.
+
+### Conclusion drawn for objective 3
+
+The third objective seeks to assess whether difference in conversion is statistically significant and identify which sales script has a significantly higher conversion. The results based on available data suggests that on a given demo day, the number of conversion that sales script A will produce is on the average, significantly higher than the other script types hence should be prioritize in our efforts to increase conversion
+
+
+### Recommendation for objective 3
+
+The sales team should consider prioritizing script A as the best bet to attain a higher conversion rate. 
+
+
+
 
 
 
