@@ -47,3 +47,181 @@ First of all, the company type variable had two categories being 0 and 1, and se
 
 
 
+```{r, warning=FALSE, message=FALSE}
+library(readr)
+library(ggplot2)
+library(tidyverse)
+library(lubridate)
+library(forecast)
+library(fpp2)
+library(GGally)
+library(caret)
+library(dplyr)
+library(DT)
+library(formattable)
+#library(fontawesome)
+#library(shiny)
+#library(shinydashboard)
+library(devtools)
+library(ggplot2)
+library(magrittr)
+library(plotly)
+library(purrr)
+#library(shinyWidgets)
+library(tibble)
+library(utils)
+#library(bslib)
+#library(shiny)
+#library(shinydashboard)
+#library(shinycssloaders)
+#library(shinyanimate)
+#library(shinydashboardPlus)
+#library(shinyEffects)
+#library(shinybusy)
+#library(shinyBS)
+library(ggstatsplot)
+library(bfast)
+library(broom)
+library(MASS)
+library(yarrr)
+library(modelr)
+library(ROCR)
+```
+
+
+
+
+```{r, message=FALSE}
+#applicant_task <- read_csv("applicant_task.csv")
+
+applicant_task <-read_csv('/Users/lin/Documents/DS_blog/docs/_posts/2022-09-03-product-analysis-report/Product-analytics-Envio-main/Envio-Product-analytics/applicant_task.csv')
+
+task_data = applicant_task
+
+#### add conversion column
+task_data_convert <- task_data %>%
+  mutate(conversion = case_when(
+    is_signed == 1 ~ 'convert',
+    is_signed == 0 ~ 'not_convert'
+  ),
+  sales_script_type = case_when(
+    sales_script_variant == "a170e8b5b0085420fa52f9f9e1d546f9" ~ 'script_A',
+    sales_script_variant == "e908f62885515872936a2bf07e5960a0" ~ 'script_B',
+    sales_script_variant == "21790c97eeb6336e5f0fdb9ef4de636f" ~ 'script_C'
+  ),
+  company_group = case_when(
+    company_type == 0 ~ 'company_A',
+    company_type == 1 ~ 'company_B',
+    company_type == NA ~ 'company_others'
+  )) %>%
+  mutate(request_created_date = as_datetime(request_created_at),
+         first_call_date = as_datetime(first_call),
+         first_reach_date = as_datetime(first_reach),
+         request_created_year = year(request_created_date),
+         request_created_month = month(request_created_date, label = TRUE, abbr = FALSE),
+         request_to_1stcall_interval = interval(start = request_created_date, end = first_call_date),
+         request_to_1streach_interval = interval(start = request_created_date, end = first_reach_date),
+         first_call_to_1streach_interval = interval(start = first_call_date, end = first_reach_date),
+         #   request_to_1stcall_timediff = as.period(request_to_1stcall_interval),
+         request_to_1stcall_timelength_minutes_ = time_length(request_to_1stcall_interval, unit = 'minute'),
+         request_to_1streach_timelength_minutes_ = time_length(request_to_1streach_interval, unit = 'minute'),
+         first_call_to_1streach_timelength_minutes_ = time_length(first_call_to_1streach_interval,
+                                                                  unit = 'minute'))#%>%
+
+
+```
+
+
+
+```{r, message=FALSE}
+
+train_data <- read_csv("/Users/lin/Documents/DS_blog/docs/_posts/2022-09-03-product-analysis-report/Product-analytics-Envio-main/Envio-Product-analytics/train_data.csv")
+
+test_data <- read_csv("/Users/lin/Documents/DS_blog/docs/_posts/2022-09-03-product-analysis-report/Product-analytics-Envio-main/Envio-Product-analytics/test_data.csv")
+
+table(train_data$conversion)
+table(test_data$conversion)
+
+train_data$company_group  = factor(x = train_data$company_group, levels = c("Others", "company_A", "company_B"))
+levels(train_data$company_group)
+
+
+train_logit = glm(is_signed ~ company_group + sales_script_type, data = train_data, family = 'binomial')
+summary(train_logit)
+#tidy(train_logit)
+#exp(coef(train_logit))
+
+#varImp(train_logit)  ## determine which variable is more influencial in determining conversion
+
+#predict(train_logit, test_data, type = 'response')
+
+```
+
+
+
+```{r, message=FALSE, error=FALSE}
+mcfadden_r2 <- pscl::pR2(train_logit)["McFadden"] ### With McFadden pseudo-r2 value of 0.0005871432, the model has
+## very low predictive power which suggest the need to consider inclusion of serveral other better predictors
+
+model1_data <- augment(train_logit) %>% 
+  mutate(index = 1:n())
+
+# # ggplot(model1_data, aes(index, .std.resid, color = is_signed)) + 
+#   geom_point(alpha = .5) +
+#   geom_ref_line(h = 3)
+
+test.predicted.m1 <- predict(train_logit, newdata = test_data, type = "response")
+
+model1 = table(test_data$is_signed, test.predicted.m1 > 0.5) %>% prop.table() %>% round(3)
+
+```
+
+
+```{r, message=FALSE, error=FALSE}
+prediction_data <- test_data %>%
+  mutate(model_prediction = ifelse(test.predicted.m1 > 0.5, "convert", "not_convert"))%>%
+  mutate(predict_satus = ifelse(conversion == model_prediction, 'Correct prediction', 'Wrong prediction'))
+
+## confusion matrix
+confusion_matrix <- table(test_data$conversion, test.predicted.m1 > 0.5)
+
+## The confusion matrix indicated that the model correctly predicted 858 conversions out of a total of 2017,
+## which a precision rate of 42.5384% (sensitivity). Also, the model correctly predicted 1119 non-conversions
+## out of a total of 1983 non-conversions which is a specificity rate of 56.429%. Given that we are more
+## interested in successfully prediction conversion, the predictors in the model are not optimal hence
+## the need for better predictors to improve the model. The model needs to be tuned to improve
+## sensitivity.
+
+```
+
+
+
+```{r, message=FALSE}
+sensitivity_result = (confusion_matrix[1,2] / (confusion_matrix[1,1] + confusion_matrix[1,2])) *100
+specificity_result = (confusion_matrix[2,1] / (confusion_matrix[2,1] + confusion_matrix[2,2])) * 100
+
+### AUC is measured on a scale of 0.5 to 1.0 with higher value indicate better classifying model
+auc <- prediction(test.predicted.m1, test_data$is_signed) %>%
+  performance(measure = "auc") %>%
+  .@y.values
+auc
+### the model has AUC of 0.5012221 hence a poor classifying model
+
+
+prediction(test.predicted.m1, test_data$is_signed) %>%
+  performance(measure = "tpr", x.measure = "fpr") %>%
+  plot() + title(main = paste0('AUC= ', comma(auc, digits = 2)))
+#ggcoefstats(train_logit, output = 'plot') + theme_grey()
+
+
+
+
+
+
+var_influeunce <- varImp(train_logit)  ## determine which variable is more influencial in determining conversion
+```
+
+
+
+
+
