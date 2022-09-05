@@ -1,7 +1,7 @@
 ---
-title: "linear regression"
+title: "Analyzing the impact of various factors on apartment booking sales"
 description: |
-  A short description of the post.
+  This post uses linear regression to analyze how various factors influence booking sales.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -9,15 +9,121 @@ date: 2022-09-05
 output:
   distill::distill_article:
     self_contained: false
+    
+draft: false
+categories: 
+  - Linear regression
+  - revenue impact assessment
 ---
 
 
 ```{r setup, include=TRUE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
+
+
+### Analyzing the impact of various factors on apartment booking sales 
+A key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this. 
+
+The aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions
+
+1.  What is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?
+2.  To what extent does these variables explain booking sales?
+
+#### Data analysis
+
+For this analysis, the following variables were used
+
+#### Outcome variable 
+
+
+Total booking sales: This variable was extracted from the “params” column in the dataset as indicated by “total”.
+
+
+#### Predictors 
+Test status:  as a binary predictor is deduced from the A/B testing groupings in the data. All visitors identified with “rcsp:show” in the “params” column were classified as test group and all others as control group. For the analysis, the reference group was designated to be users without “rcsp:show”.
+
+User verification is a binary predictor indicating whether a user has been verified or not. This is captured as “user_verified” in the “params” column. The reference group for the regression analysis for this variable was users who are not verified.
+
+Instant booking: is a binary predictor indicating whether or not a customer used the instant booking feature. Customers who used the instant booking feature were designated as the reference group for the analysis
+
+
+
+```{r message=FALSE}
+library(readr)
+library(tidyverse) # data manipulation and visualization
+library(ggplot2)
+library(GGally)
+library(ggstatsplot)
+library(plotly)
+library(highcharter)
+library(DT)
+library(modelr)     # provides easy pipeline modeling functions
+library(broom)      # helps to tidy up model outputs
+library(car)  ## for regression
+library(haven)
+library(caret)
+library(rsample)
+```
+
+
+```{r message=FALSE}
+all_conversions_variables = read_csv("all_conversions_variables.csv")
+```
+
+
+
+```{r}
+##### Spliting dataset into training and testing samples
+set.seed(123)
+sample_all_conversions <- sample(c(TRUE, FALSE), nrow(all_conversions_variables), replace = T, prob = c(0.6,0.4))
+train_all_convern.lmvar <- all_conversions_variables[sample_all_conversions, ]
+test_all_convern.lmvar <- all_conversions_variables[!sample_all_conversions, ]
+
+## regression for qualitative predictors (categorical dataset -- factors) 
+options('contrasts' = c('contr.treatment','contr.treatment') )
+model4_all_convern_factors <- lm(total_paid.EUR ~ test_status + instant_booking +
+                                    user_verified, data = train_all_convern.lmvar)
+
+
+# add model diagnostics to our training data
+model4_results <- augment(model4_all_convern_factors, train_all_convern.lmvar)
+
+```
+
+
+#### Plot of regression analysis
+```{r, preview=TRUE}
+booking_sales.predictioplot <- ggcoefstats(
+  x = stats::lm(formula = total_paid.EUR ~ test_status + instant_booking +
+                  user_verified, data = train_all_convern.lmvar),
+  ggtheme = ggplot2::theme_gray(), # changing the default theme
+  title = "Regression analysis: Predicting the influence of various factors on booking sales",
+) 
+
+booking_sales.predictioplot
+```
+
+
+
+
+```{r}
+
+
+rsquare(model4_all_convern_factors, data = train_all_convern.lmvar)
+rsquare(model4_all_convern_factors, data = test_all_convern.lmvar)
+
+
+```
+
+#### Result interpretation
+The results shows that visitors in the test group(rcsp:show) made bookings worth 452 EUR less than what is ordered by the control group (not rcsp:show). Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Moreover, users who are verified made bookings worth 1,085 EUR more than those who are not verified. This result however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases. 
+
+Moreover, the predictors analyzed explains only 4% of variations in booking sales (rsquare = 0.0416). Thus, there is the need to consider other more important variables if we are too develop good models for forecasting booking sales.
+
 
 

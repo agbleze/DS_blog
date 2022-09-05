@@ -42,6 +42,28 @@
     "preview_height": 768
   },
   {
+    "path": "posts/2022-09-05-linear-regression/",
+    "title": "Analyzing the impact of various factors on apartment booking sales",
+    "description": "This post uses linear regression to analyze how various factors influence booking sales.",
+    "author": [
+      {
+        "name": "Linus Agbleze",
+        "url": "https://agbleze.github.io/Portfolio/"
+      }
+    ],
+    "date": "2022-09-05",
+    "categories": [
+      "Linear regression",
+      "revenue impact assessment"
+    ],
+    "contents": "\n\n\nknitr::opts_chunk$set(echo = TRUE)\n\n\nAnalyzing the impact of various factors on apartment booking sales\nA key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this.\nThe aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions\nWhat is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?\nTo what extent does these variables explain booking sales?\nData analysis\nFor this analysis, the following variables were used\nOutcome variable\nTotal booking sales: This variable was extracted from the “params” column in the dataset as indicated by “total”.\nPredictors\nTest status: as a binary predictor is deduced from the A/B testing groupings in the data. All visitors identified with “rcsp:show” in the “params” column were classified as test group and all others as control group. For the analysis, the reference group was designated to be users without “rcsp:show”.\nUser verification is a binary predictor indicating whether a user has been verified or not. This is captured as “user_verified” in the “params” column. The reference group for the regression analysis for this variable was users who are not verified.\nInstant booking: is a binary predictor indicating whether or not a customer used the instant booking feature. Customers who used the instant booking feature were designated as the reference group for the analysis\n\n\nlibrary(readr)\nlibrary(tidyverse) # data manipulation and visualization\nlibrary(ggplot2)\nlibrary(GGally)\nlibrary(ggstatsplot)\nlibrary(plotly)\nlibrary(highcharter)\nlibrary(DT)\nlibrary(modelr)     # provides easy pipeline modeling functions\nlibrary(broom)      # helps to tidy up model outputs\nlibrary(car)  ## for regression\nlibrary(haven)\nlibrary(caret)\nlibrary(rsample)\n\n\n\n\nall_conversions_variables = read_csv(\"all_conversions_variables.csv\")\n\n\n\n\n##### Spliting dataset into training and testing samples\nset.seed(123)\nsample_all_conversions <- sample(c(TRUE, FALSE), nrow(all_conversions_variables), replace = T, prob = c(0.6,0.4))\ntrain_all_convern.lmvar <- all_conversions_variables[sample_all_conversions, ]\ntest_all_convern.lmvar <- all_conversions_variables[!sample_all_conversions, ]\n\n## regression for qualitative predictors (categorical dataset -- factors) \noptions('contrasts' = c('contr.treatment','contr.treatment') )\nmodel4_all_convern_factors <- lm(total_paid.EUR ~ test_status + instant_booking +\n                                    user_verified, data = train_all_convern.lmvar)\n\n\n# add model diagnostics to our training data\nmodel4_results <- augment(model4_all_convern_factors, train_all_convern.lmvar)\n\n\nPlot of regression analysis\n\n\nbooking_sales.predictioplot <- ggcoefstats(\n  x = stats::lm(formula = total_paid.EUR ~ test_status + instant_booking +\n                  user_verified, data = train_all_convern.lmvar),\n  ggtheme = ggplot2::theme_gray(), # changing the default theme\n  title = \"Regression analysis: Predicting the influence of various factors on booking sales\",\n) \n\nbooking_sales.predictioplot\n\n\n\n\n\nrsquare(model4_all_convern_factors, data = train_all_convern.lmvar)\n\n[1] 0.0416999\n\nrsquare(model4_all_convern_factors, data = test_all_convern.lmvar)\n\n[1] 0.009705932\n\nResult interpretation\nThe results shows that visitors in the test group(rcsp:show) made bookings worth 452 EUR less than what is ordered by the control group (not rcsp:show). Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Moreover, users who are verified made bookings worth 1,085 EUR more than those who are not verified. This result however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases.\nMoreover, the predictors analyzed explains only 4% of variations in booking sales (rsquare = 0.0416). Thus, there is the need to consider other more important variables if we are too develop good models for forecasting booking sales.\n\n\n\n",
+    "preview": "posts/2022-09-05-linear-regression/linear-regression_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2022-09-05T02:49:28+02:00",
+    "input_file": "linear-regression.knit.md",
+    "preview_width": 1248,
+    "preview_height": 768
+  },
+  {
     "path": "posts/2022-07-18-timeseries-benchmark-models/",
     "title": "Timeseries benchmark models",
     "description": "This post entails timeseries prediction with \nvery simple models that serve as benchmark against \nwhich more advance models .",
