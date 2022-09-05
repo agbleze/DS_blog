@@ -415,7 +415,7 @@ rcsp_funl <- plot_ly(
 ```
 
 
-```{r, layout="l-body-outset", preview=TRUE}
+```{r, preview=TRUE}
 rcsp_funl <- rcsp_funl %>%
   add_trace(
     type = "funnel",
