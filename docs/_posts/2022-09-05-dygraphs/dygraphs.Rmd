@@ -113,7 +113,7 @@ The dyShading() function is used to draw attention to a period or several period
 
 The code for demonstrating this is below;
 
-```{r dyg_function }
+```{r dyg_function, preview=TRUE}
 dy_ts_no2 %>%
   dyAnnotation(x = "2019-12-1", text = "C2", tooltip = "COVID-19 emission period start") %>%
   dyAnnotation(x = "2002-7-1", text = "C1", tooltip = "COVID-02 emission start") %>%
