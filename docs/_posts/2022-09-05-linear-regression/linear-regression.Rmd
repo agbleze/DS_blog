@@ -34,6 +34,15 @@ The aim here is not to develop a well optimized model that predict sales conside
 1.  What is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?
 2.  To what extent does these variables explain booking sales?
 
+
+#### Problem Design framework
+
+
+
+
+
+
+
 #### Data analysis
 
 For this analysis, the following variables were used

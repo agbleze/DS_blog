@@ -128,7 +128,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["all_conversions_variables.csv","linear-regression_files/figure-html5/unnamed-chunk-4-1.png"]}
+  {"type":"character","attributes":{},"value":["all_conversions_variables.csv","linear-regression_files/anchor-4.2.2/anchor.min.js","linear-regression_files/bowser-1.9.3/bowser.min.js","linear-regression_files/distill-2.2.21/template.v2.js","linear-regression_files/figure-html5/unnamed-chunk-4-1.png","linear-regression_files/header-attrs-2.14/header-attrs.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.map","linear-regression_files/popper-2.6.0/popper.min.js","linear-regression_files/tippy-6.2.7/tippy-bundle.umd.min.js","linear-regression_files/tippy-6.2.7/tippy-light-border.css","linear-regression_files/tippy-6.2.7/tippy.css","linear-regression_files/tippy-6.2.7/tippy.umd.min.js","linear-regression_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2151,11 +2151,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>knitr</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/knitr/man/opts_chunk.html'>opts_chunk</a></span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>echo <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
 <h3 id="analyzing-the-impact-of-various-factors-on-apartment-booking-sales">Analyzing the impact of various factors on apartment booking sales</h3>
 <p>A key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this.</p>
 <p>The aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions</p>
@@ -2163,6 +2158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>What is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?</li>
 <li>To what extent does these variables explain booking sales?</li>
 </ol>
+<h4 id="problem-design-framework">Problem Design framework</h4>
 <h4 id="data-analysis">Data analysis</h4>
 <p>For this analysis, the following variables were used</p>
 <h4 id="outcome-variable">Outcome variable</h4>
