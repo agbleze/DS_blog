@@ -12,9 +12,7 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+
 
 ## Background
 
@@ -23,3 +21,5 @@ the all factors needed to promote sales.
 
 
 
+```{.r .distill-force-highlighting-css}
+```
