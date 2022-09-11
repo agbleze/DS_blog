@@ -18,4 +18,4 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Background
 
-In most companies where new products need to  
+In most companies where new products need to be lauched, a great concern is whether it will fetch as much revenue as projected hence the need to employ  
