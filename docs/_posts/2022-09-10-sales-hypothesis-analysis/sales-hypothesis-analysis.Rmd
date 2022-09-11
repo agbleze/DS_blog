@@ -16,8 +16,6 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+## Background
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
-
-
+In most companies where new products need to  
