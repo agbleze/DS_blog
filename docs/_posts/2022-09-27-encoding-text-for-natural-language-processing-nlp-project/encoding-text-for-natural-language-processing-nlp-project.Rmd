@@ -32,10 +32,9 @@ Natural Language Processing involves techniques used to transform text data to b
 In order to employ data science tools to gain insights from qualitative data (text), the most intuitive method that comes to mind is to find a way to represent textual data in a numeric form for computers to understand. Thus, encoding text using numeric representation forms an integral part of almost all NLP projects and this post touches on some of the methods used to encode textual data.
 
 
-##Objective
+## Objective
 
-
--- To discuss and demonstrate basic text encoding methods
+**To discuss and demonstrate basic text encoding methods**
 
 
 **One-hot encoding method**
@@ -59,7 +58,7 @@ For   a sentence like "Computers do not understand text". The one-hot representa
 
 Programmatically, scikit-learn library provides the CountVectorizer class for text one-hot encoding. The example below will demonstarte the concept.
 
-```{python, echo=TRUE, warnings=FALSE}
+```{python echo=TRUE, warnings=FALSE,message=FALSE}
 
 # one hot / binary representation
 one_hot_vectorizer = CountVectorizer(binary=True)
@@ -80,9 +79,6 @@ text = [sentence_0, sentence_1,
 text_encode = one_hot_vectorizer.fit_transform(text).toarray()
 
 
-sns.heatmap(text_encode, annot=True, cbar=False)
-
-#%%
 ## create a dataframe showing the result of the one-hot encoding
 df = pd.DataFrame(data=text_encode,
                   index = ['sentence_0', 'sentence_1',
@@ -94,19 +90,15 @@ df = pd.DataFrame(data=text_encode,
 
 print(df)
 
-
-            
-            
-
 ```
 
 
-#Visualize the one hot encoded corpus
+### Visualize the one hot encoded corpus
 A heatmap is used to visualize the one-hot encoded corpus.
 
 
 ```{python}
-print(sns.heatmap(df, annot=True, cbar=False))
+sns.heatmap(df, annot=True, cbar=False)
 
 ```
 
@@ -121,7 +113,7 @@ So for sentence 1 which is "Computers do not understand text", the first two tok
 The one hot encoding method is computationally efficient as it takes a short time to encode the text into features for machine learning algorithm to use for prediction. Nonetheless, it is evident that this could result in exponential growth in dimension and also the challenge os sparse information. Having a long collection of 0 is less likely to offer some predictive power and signal for the modeling task. The method also suffers from its inability to capture context of the text. 
 
 
-In the mist of this, other methods such as Term-Frequecy Inverse-Document-Frequency (TF IDF) are use for representing text in NLP projects and will be discuss next.
+In the mist of this, other methods such as Term-Frequecy Inverse-Document-Frequency (TF-IDF) are use for representing text in NLP projects and will be discuss next.
 
 
 

@@ -1520,8 +1520,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p>Natural Language Processing involves techniques used to transform text data to be understandable to computers. Generally, computers are better at understanding quantitative data than qualitative data and because data science tools and methods mainly produce mathematical models to explain the general relation between inputs and output. Restricting ourselves to only quantitative data would means losing out on the vast majority of text and unstructured data.</p>
 <p>In order to employ data science tools to gain insights from qualitative data (text), the most intuitive method that comes to mind is to find a way to represent textual data in a numeric form for computers to understand. Thus, encoding text using numeric representation forms an integral part of almost all NLP projects and this post touches on some of the methods used to encode textual data.</p>
-<p>##Objective</p>
-<p>– To discuss and demonstrate basic text encoding methods</p>
+<h2 id="objective">Objective</h2>
+<p><strong>To discuss and demonstrate basic text encoding methods</strong></p>
 <p><strong>One-hot encoding method</strong></p>
 <p>One-hot representation is a simple technique to representing text for machine learning algorithms to process by highlighting the presence and absence of words. In NLP, when a sentence is broken down into individual words, each unit word is termed a token. All the words in the sentences are represented as features (for the modeling process) and the prsence of feature is depicted with one(1) and the absence of that feature which is where other features occur are depicted with zero (0). Thus, one-hot encoding is essentially a binary resentation of features with 1 and 0 depicting the occurrence of each feature and otherwise.</p>
 <p>An example will demosntrate it better.</p>
@@ -1556,23 +1556,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>text_encode <span class="op">=</span> one_hot_vectorizer.fit_transform(text).toarray()</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>sns.heatmap(text_encode, annot<span class="op">=</span><span class="va">True</span>, cbar<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#%%</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">## create a dataframe showing the result of the one-hot encoding</span></span></code></pre></div>
-<pre><code>&lt;AxesSubplot: &gt;</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>text_encode,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  index <span class="op">=</span> [<span class="st">&#39;sentence_0&#39;</span>, <span class="st">&#39;sentence_1&#39;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&#39;sentence_2&#39;</span>,<span class="st">&#39;sentence_3&#39;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                           ],</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                  columns <span class="op">=</span> one_hot_vectorizer.get_feature_names()</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                  )</span></code></pre></div>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">## create a dataframe showing the result of the one-hot encoding</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>text_encode,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                  index <span class="op">=</span> [<span class="st">&#39;sentence_0&#39;</span>, <span class="st">&#39;sentence_1&#39;</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&#39;sentence_2&#39;</span>,<span class="st">&#39;sentence_3&#39;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                           ],</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                  columns <span class="op">=</span> one_hot_vectorizer.get_feature_names()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                  )</span></code></pre></div>
 <pre><code>/Users/lin/Documents/python_venvs/pytorch_deepL/lib/python3.9/site-packages/sklearn/utils/deprecation.py:87: FutureWarning: Function get_feature_names is deprecated; get_feature_names is deprecated in 1.0 and will be removed in 1.2. Please use get_feature_names_out instead.
   warnings.warn(msg, category=FutureWarning)</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            </span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code></pre></div>
 <pre><code>            as  be  computers  do  ...  text  this  to  understand
 sentence_0   0   0          1   1  ...     1     0   0           1
 sentence_1   0   0          1   0  ...     0     0   0           1
@@ -1581,16 +1574,17 @@ sentence_3   0   0          0   0  ...     0     1   0           0
 
 [4 rows x 15 columns]</code></pre>
 </div>
-<p>#Visualize the one hot encoded corpus A heatmap is used to visualize the one-hot encoded corpus.</p>
+<h3 id="visualize-the-one-hot-encoded-corpus">Visualize the one hot encoded corpus</h3>
+<p>A heatmap is used to visualize the one-hot encoded corpus.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>AxesSubplot(0.125,0.11;0.775x0.77)</code></pre>
+<p><img src="encoding-text-for-natural-language-processing-nlp-project_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
 <h3 id="how-do-we-explain-the-table-and-graph">How do we explain the table and graph?</h3>
 <p>The CountVectorizer basically, tokenized the corpus, that is all the sentences we supplied, and used each token as a feature. With the collection of all features, it compares tokens in each sentences (observation in the terms of machine learning) to the feature collection and for each token, 0 is given when its corresponding token in the feature collection is different and 1 is gievn when the token corresponds to the same feature in the features.</p>
 <p>So for sentence 1 which is “Computers do not understand text”, the first two token features which are ‘as’ and ‘be’ are given 0 be cause these tokens are found in senetnce 1 and the third token ‘Computers’ is depicted 1 because the token ‘Computers’ is indeed in sentence 1.</p>
 <p>The one hot encoding method is computationally efficient as it takes a short time to encode the text into features for machine learning algorithm to use for prediction. Nonetheless, it is evident that this could result in exponential growth in dimension and also the challenge os sparse information. Having a long collection of 0 is less likely to offer some predictive power and signal for the modeling task. The method also suffers from its inability to capture context of the text.</p>
-<p>In the mist of this, other methods sucha s Term-Frequecy Inverse-Document-Frequency (TF IDF) are use for representing text in NLP projects and will be discuss next.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>In the mist of this, other methods such as Term-Frequecy Inverse-Document-Frequency (TF-IDF) are use for representing text in NLP projects and will be discuss next.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
