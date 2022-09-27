@@ -32,6 +32,12 @@ Natural Language Processing involves techniques used to transform text data to b
 In order to employ data science tools to gain insights from qualitative data (text), the most intuitive method that comes to mind is to find a way to represent textual data in a numeric form for computers to understand. Thus, encoding text using numeric representation forms an integral part of almost all NLP projects and this post touches on some of the methods used to encode textual data.
 
 
+** Objective **
+-- To discuss and demonstrate basic text encoding methods
+
+
+** One-hot encoding method **
+One-hot representation is a simple technique to representing text for machine learning algorithms to process by highlighting the presence and absence of words. In NLP, when a sentence is broken down into individual words, each unit word is termed a token.
 
 
 ```{python, echo=TRUE}
