@@ -1,7 +1,7 @@
 ---
-title: "Encoding text for Natural Language Processing (NLP) project"
+title: "One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I"
 description: |
-  A short description of the post.
+  One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -32,21 +32,96 @@ Natural Language Processing involves techniques used to transform text data to b
 In order to employ data science tools to gain insights from qualitative data (text), the most intuitive method that comes to mind is to find a way to represent textual data in a numeric form for computers to understand. Thus, encoding text using numeric representation forms an integral part of almost all NLP projects and this post touches on some of the methods used to encode textual data.
 
 
-** Objective **
+##Objective
+
+
 -- To discuss and demonstrate basic text encoding methods
 
 
-** One-hot encoding method **
-One-hot representation is a simple technique to representing text for machine learning algorithms to process by highlighting the presence and absence of words. In NLP, when a sentence is broken down into individual words, each unit word is termed a token.
+**One-hot encoding method**
+
+One-hot representation is a simple technique to representing text for machine learning algorithms to process by highlighting the presence and absence of words. In NLP, when a sentence is broken down into individual words, each unit word is termed a token. All the words in the sentences are represented as features (for the modeling process) and the prsence of feature is depicted with one(1) and the absence of that feature which is where other features occur are depicted with zero (0). Thus, one-hot encoding is essentially a binary resentation of features with 1 and 0 depicting the occurrence of each feature and otherwise.
+
+An example will demosntrate it better.
+
+1. Import the required packages for the exercise.
 
 
 ```{python, echo=TRUE}
 from sklearn.feature_extraction.text import CountVectorizer
 import seaborn as sns
-from sklearn.feature_extraction.text import TfidfVectorizer
-
+import pandas as pd
 
 ```
+
+
+For   a sentence like "Computers do not understand text". The one-hot representation will convert the text into n-dimensional with rows being the sentence and columns or features being all the tokens in the senetence.
+
+Programmatically, scikit-learn library provides the CountVectorizer class for text one-hot encoding. The example below will demonstarte the concept.
+
+```{python, echo=TRUE, warnings=FALSE}
+
+# one hot / binary representation
+one_hot_vectorizer = CountVectorizer(binary=True)
+
+# the sentences (texts) to encode        
+sentence_0 = "Computers do not understand text"
+sentence_1 = "Computers understand numbers"
+sentence_2 = "Text needs to be represented as numbers"
+sentence_3 = "This produces sparse information"
+
+## corpus will be the collection of words to encode
+## this is depicted as a list of sentences
+text = [sentence_0, sentence_1, 
+        sentence_2, sentence_3
+        ]
+
+# fit and transform the corpus
+text_encode = one_hot_vectorizer.fit_transform(text).toarray()
+
+
+sns.heatmap(text_encode, annot=True, cbar=False)
+
+#%%
+## create a dataframe showing the result of the one-hot encoding
+df = pd.DataFrame(data=text_encode,
+                  index = ['sentence_0', 'sentence_1',
+                           'sentence_2','sentence_3'
+                           ],
+                  columns = one_hot_vectorizer.get_feature_names()
+                  )
+
+
+print(df)
+
+
+            
+            
+
+```
+
+
+#Visualize the one hot encoded corpus
+A heatmap is used to visualize the one-hot encoded corpus.
+
+
+```{python}
+print(sns.heatmap(df, annot=True, cbar=False))
+
+```
+
+
+### How do we explain the table and graph?
+The CountVectorizer basically, tokenized the corpus, that is all the sentences we supplied, and used each token as a feature. With the collection of all features, it compares tokens in each sentences (observation in the terms of machine learning) to the feature collection and for each token, 0 is given when its corresponding token in the feature collection is different and 1 is gievn when the token corresponds to the same feature in the features. 
+
+
+So for sentence 1 which is "Computers do not understand text", the first two token features which are 'as' and 'be' are given 0 be cause these tokens are found in senetnce 1 and the third token 'Computers' is depicted 1 because the token 'Computers' is indeed in sentence 1.
+
+
+The one hot encoding method is computationally efficient as it takes a short time to encode the text into features for machine learning algorithm to use for prediction. Nonetheless, it is evident that this could result in exponential growth in dimension and also the challenge os sparse information. Having a long collection of 0 is less likely to offer some predictive power and signal for the modeling task. The method also suffers from its inability to capture context of the text. 
+
+
+In the mist of this, other methods such as Term-Frequecy Inverse-Document-Frequency (TF IDF) are use for representing text in NLP projects and will be discuss next.
 
 
 
