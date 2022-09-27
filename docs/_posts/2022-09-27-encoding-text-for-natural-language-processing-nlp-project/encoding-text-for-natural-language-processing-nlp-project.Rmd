@@ -1,0 +1,46 @@
+---
+title: "Encoding text for Natural Language Processing (NLP) project"
+description: |
+  A short description of the post.
+author:
+  - name: Linus Agbleze
+    url: https://agbleze.github.io/Portfolio/
+date: 2022-09-27
+output:
+  distill::distill_article:
+    self_contained: false
+draft: false
+categories:
+  - NLP 
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+```
+
+
+
+```{r}
+library(reticulate)
+use_virtualenv('/Users/lin/Documents/python_venvs/pytorch_deepL', required=TRUE)
+
+
+```
+
+
+
+```{python, echo=TRUE}
+from sklearn.feature_extraction.text import CountVectorizer
+import seaborn as sns
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+```
+
+Natural Language Processing involves techniques used to transform text data to be understandable to computers. Generally, computers are better at understanding numbers 
+
+
+
+
+
