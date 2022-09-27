@@ -88,9 +88,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Encoding text for Natural Language Processing (NLP) project</title>
+  <title>One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I</title>
 
-  <meta property="description" itemprop="description" content="A short description of the post."/>
+  <meta property="description" itemprop="description" content="One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP"/>
 
 
   <!--  https://schema.org/Article -->
@@ -99,26 +99,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta name="article:author" content="Linus Agbleze"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Encoding text for Natural Language Processing (NLP) project"/>
+  <meta property="og:title" content="One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:description" content="One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP"/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Encoding text for Natural Language Processing (NLP) project"/>
-  <meta property="twitter:description" content="A short description of the post."/>
+  <meta property="twitter:title" content="One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I"/>
+  <meta property="twitter:description" content="One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories"]}},"value":[{"type":"character","attributes":{},"value":["Encoding text for Natural Language Processing (NLP) project"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Linus Agbleze"]},{"type":"character","attributes":{},"value":["https://agbleze.github.io/Portfolio/"]}]}]},{"type":"character","attributes":{},"value":["2022-09-27"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["NLP"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories"]}},"value":[{"type":"character","attributes":{},"value":["One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I"]},{"type":"character","attributes":{},"value":["One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Linus Agbleze"]},{"type":"character","attributes":{},"value":["https://agbleze.github.io/Portfolio/"]}]}]},{"type":"character","attributes":{},"value":["2022-09-27"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["NLP"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["encoding-text-for-natural-language-processing-nlp-project_files/anchor-4.2.2/anchor.min.js","encoding-text-for-natural-language-processing-nlp-project_files/bowser-1.9.3/bowser.min.js","encoding-text-for-natural-language-processing-nlp-project_files/distill-2.2.21/template.v2.js","encoding-text-for-natural-language-processing-nlp-project_files/header-attrs-2.14/header-attrs.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.min.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.min.map","encoding-text-for-natural-language-processing-nlp-project_files/popper-2.6.0/popper.min.js","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy-bundle.umd.min.js","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy-light-border.css","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy.css","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy.umd.min.js","encoding-text-for-natural-language-processing-nlp-project_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["encoding-text-for-natural-language-processing-nlp-project_files/anchor-4.2.2/anchor.min.js","encoding-text-for-natural-language-processing-nlp-project_files/bowser-1.9.3/bowser.min.js","encoding-text-for-natural-language-processing-nlp-project_files/distill-2.2.21/template.v2.js","encoding-text-for-natural-language-processing-nlp-project_files/figure-html5/unnamed-chunk-2-1.png","encoding-text-for-natural-language-processing-nlp-project_files/header-attrs-2.14/header-attrs.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.min.js","encoding-text-for-natural-language-processing-nlp-project_files/jquery-3.6.0/jquery-3.6.0.min.map","encoding-text-for-natural-language-processing-nlp-project_files/popper-2.6.0/popper.min.js","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy-bundle.umd.min.js","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy-light-border.css","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy.css","encoding-text-for-natural-language-processing-nlp-project_files/tippy-6.2.7/tippy.umd.min.js","encoding-text-for-natural-language-processing-nlp-project_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1489,7 +1489,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Encoding text for Natural Language Processing (NLP) project","description":"A short description of the post.","authors":[{"author":"Linus Agbleze","authorURL":"https://agbleze.github.io/Portfolio/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-09-27T00:00:00.000+02:00","citationText":"Agbleze, 2022"}
+{"title":"One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I","description":"One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP","authors":[{"author":"Linus Agbleze","authorURL":"https://agbleze.github.io/Portfolio/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-09-27T00:00:00.000+02:00","citationText":"Agbleze, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1499,13 +1499,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Encoding text for Natural Language Processing (NLP) project</h1>
+<h1>One-Hot representation: Encoding text for Natural Language Processing (NLP) project -Part I</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">NLP</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>A short description of the post.</p></p>
+<p><p>One Hot encoding is one of techniques employed in representing texts to natural language processing task. This post discusses one-hot encoding as part I of discussions on text representation in NLP</p></p>
 </div>
 
 <div class="d-byline">
@@ -1520,13 +1520,77 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p>Natural Language Processing involves techniques used to transform text data to be understandable to computers. Generally, computers are better at understanding quantitative data than qualitative data and because data science tools and methods mainly produce mathematical models to explain the general relation between inputs and output. Restricting ourselves to only quantitative data would means losing out on the vast majority of text and unstructured data.</p>
 <p>In order to employ data science tools to gain insights from qualitative data (text), the most intuitive method that comes to mind is to find a way to represent textual data in a numeric form for computers to understand. Thus, encoding text using numeric representation forms an integral part of almost all NLP projects and this post touches on some of the methods used to encode textual data.</p>
-<p>** Objective ** – To discuss and demonstrate basic text encoding methods</p>
+<p>##Objective</p>
+<p>– To discuss and demonstrate basic text encoding methods</p>
+<p><strong>One-hot encoding method</strong></p>
+<p>One-hot representation is a simple technique to representing text for machine learning algorithms to process by highlighting the presence and absence of words. In NLP, when a sentence is broken down into individual words, each unit word is termed a token. All the words in the sentences are represented as features (for the modeling process) and the prsence of feature is depicted with one(1) and the absence of that feature which is where other features occur are depicted with zero (0). Thus, one-hot encoding is essentially a binary resentation of features with 1 and 0 depicting the occurrence of each feature and otherwise.</p>
+<p>An example will demosntrate it better.</p>
+<ol type="1">
+<li>Import the required packages for the exercise.</li>
+</ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>For a sentence like “Computers do not understand text”. The one-hot representation will convert the text into n-dimensional with rows being the sentence and columns or features being all the tokens in the senetence.</p>
+<p>Programmatically, scikit-learn library provides the CountVectorizer class for text one-hot encoding. The example below will demonstarte the concept.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># one hot / binary representation</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>one_hot_vectorizer <span class="op">=</span> CountVectorizer(binary<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># the sentences (texts) to encode        </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sentence_0 <span class="op">=</span> <span class="st">&quot;Computers do not understand text&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sentence_1 <span class="op">=</span> <span class="st">&quot;Computers understand numbers&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sentence_2 <span class="op">=</span> <span class="st">&quot;Text needs to be represented as numbers&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sentence_3 <span class="op">=</span> <span class="st">&quot;This produces sparse information&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">## corpus will be the collection of words to encode</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">## this is depicted as a list of sentences</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> [sentence_0, sentence_1, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        sentence_2, sentence_3</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># fit and transform the corpus</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>text_encode <span class="op">=</span> one_hot_vectorizer.fit_transform(text).toarray()</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>sns.heatmap(text_encode, annot<span class="op">=</span><span class="va">True</span>, cbar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#%%</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">## create a dataframe showing the result of the one-hot encoding</span></span></code></pre></div>
+<pre><code>&lt;AxesSubplot: &gt;</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>text_encode,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  index <span class="op">=</span> [<span class="st">&#39;sentence_0&#39;</span>, <span class="st">&#39;sentence_1&#39;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&#39;sentence_2&#39;</span>,<span class="st">&#39;sentence_3&#39;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                           ],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                  columns <span class="op">=</span> one_hot_vectorizer.get_feature_names()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                  )</span></code></pre></div>
+<pre><code>/Users/lin/Documents/python_venvs/pytorch_deepL/lib/python3.9/site-packages/sklearn/utils/deprecation.py:87: FutureWarning: Function get_feature_names is deprecated; get_feature_names is deprecated in 1.0 and will be removed in 1.2. Please use get_feature_names_out instead.
+  warnings.warn(msg, category=FutureWarning)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            </span></code></pre></div>
+<pre><code>            as  be  computers  do  ...  text  this  to  understand
+sentence_0   0   0          1   1  ...     1     0   0           1
+sentence_1   0   0          1   0  ...     0     0   0           1
+sentence_2   1   1          0   0  ...     1     0   1           0
+sentence_3   0   0          0   0  ...     0     1   0           0
+
+[4 rows x 15 columns]</code></pre>
+</div>
+<p>#Visualize the one hot encoded corpus A heatmap is used to visualize the one-hot encoded corpus.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>AxesSubplot(0.125,0.11;0.775x0.77)</code></pre>
+</div>
+<h3 id="how-do-we-explain-the-table-and-graph">How do we explain the table and graph?</h3>
+<p>The CountVectorizer basically, tokenized the corpus, that is all the sentences we supplied, and used each token as a feature. With the collection of all features, it compares tokens in each sentences (observation in the terms of machine learning) to the feature collection and for each token, 0 is given when its corresponding token in the feature collection is different and 1 is gievn when the token corresponds to the same feature in the features.</p>
+<p>So for sentence 1 which is “Computers do not understand text”, the first two token features which are ‘as’ and ‘be’ are given 0 be cause these tokens are found in senetnce 1 and the third token ‘Computers’ is depicted 1 because the token ‘Computers’ is indeed in sentence 1.</p>
+<p>The one hot encoding method is computationally efficient as it takes a short time to encode the text into features for machine learning algorithm to use for prediction. Nonetheless, it is evident that this could result in exponential growth in dimension and also the challenge os sparse information. Having a long collection of 0 is less likely to offer some predictive power and signal for the modeling task. The method also suffers from its inability to capture context of the text.</p>
+<p>In the mist of this, other methods sucha s Term-Frequecy Inverse-Document-Frequency (TF IDF) are use for representing text in NLP projects and will be discuss next.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
