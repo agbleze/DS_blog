@@ -1,5 +1,5 @@
 ---
-title: "Tutorials in R"
+title: "Data Science Tutorials"
 site: distill::distill_website
 listing: posts
 ---
