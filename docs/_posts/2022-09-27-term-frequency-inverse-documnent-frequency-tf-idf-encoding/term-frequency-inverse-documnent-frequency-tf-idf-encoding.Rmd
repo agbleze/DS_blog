@@ -24,7 +24,7 @@ use_virtualenv('/Users/lin/Documents/python_venvs/pytorch_deepL', required=TRUE)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
-                      fig.height = 12, fig.width = 12,
+                      fig.height = 7, fig.width = 7,
                       tidy = 'styler', fig.keep = 'all', 
                       fig.show = 'asis', fig.align = 'center'
                       )
@@ -48,7 +48,64 @@ IDF = $log\frac{N}{n_w}$
 IDF indicates the log of the ratio of total number of documents (N) to the number of documents the word has appeared in ($n_w$). The higher the number of documents that a word appears in, the lower the weight it receives. Thus, IDF penalizes higher frequency words or token. TF-IDF is a product of TF AND IDF where a token that frequently appears in a document is highly weighted for TF and when when that token occurs in many documents than it receives lower weight for IDF.
 
 
-# Implenetation of TF-IDF in python
+# Implementation of TF-IDF in python
+
+To understand TF-IDF, we will use the same sentences that were encoded using one-hot encoding. The python scikit-learn provides TfidfVectorizer class for encoding text using TF-IDF. 
+
+First the packages to use are imported as follows;
+
+```{python}
+from sklearn.feature_extraction.text import TfidfVectorizer
+import seaborn as sns
+import pandas as pd
+```
+
+
+Next, let's consider the following sentences below for encoding 
+
+```{python}
+sentence_0 = "Computers do not understand text"
+sentence_1 = "Computers understand numbers"
+sentence_2 = "Text needs to be represented as numbers"
+sentence_3 = "This produces sparse information"
+text = [sentence_0, sentence_1, 
+        sentence_2, sentence_3
+        ]
+```
+
+
+Using the code below, TfidfVectorizer is initialized and used to transform the text.
+
+
+```{python, warning=FALSE, message=FALSE}
+# initialize tf-idf
+tfidf_vectorizer = TfidfVectorizer()
+
+# fit and transform text with tf-idf
+text_encode = tfidf_vectorizer.fit_transform(text).toarray()
+
+## create a dataframe showing the result of the tf-idf encoding
+df = pd.DataFrame(data=text_encode,
+                  index = ['sentence_0', 'sentence_1',
+                           'sentence_2','sentence_3'
+                           ],
+                  columns = tfidf_vectorizer.get_feature_names()
+                  )
+
+
+print(df)
+```
+
+
+The result of the tfidf is visualize in a heatmap below
+
+
+```{python}
+sns.heatmap(df, annot=True, cbar=False)
+```
 
 
 
+## Summary 
+
+In this tutorial, TF-IDF was discussed as one of the techniques for encoding text data for machine learning task. An exampple was implemented in python to demonstrate it. 

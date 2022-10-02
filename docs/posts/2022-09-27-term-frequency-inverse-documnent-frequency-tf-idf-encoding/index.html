@@ -104,14 +104,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="A short description of the post."/>
 <meta property="og:url" content="https://addurl/posts/2022-09-27-term-frequency-inverse-documnent-frequency-tf-idf-encoding/"/>
+<meta property="og:image" content="https://addurl/posts/2022-09-27-term-frequency-inverse-documnent-frequency-tf-idf-encoding/term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="og:image:width" content="1344"/>
+<meta property="og:image:height" content="1344"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Data science tutorials"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
-<meta property="twitter:card" content="summary"/>
+<meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Data science tutorials: Term-Frequency Inverse-Documnent-Frequency (TF IDF): Encoding text for Natural Language Processing (NLP) project -Part II"/>
 <meta property="twitter:description" content="A short description of the post."/>
 <meta property="twitter:url" content="https://addurl/posts/2022-09-27-term-frequency-inverse-documnent-frequency-tf-idf-encoding/"/>
+<meta property="twitter:image" content="https://addurl/posts/2022-09-27-term-frequency-inverse-documnent-frequency-tf-idf-encoding/term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="twitter:image:width" content="1344"/>
+<meta property="twitter:image:height" content="1344"/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
@@ -122,7 +128,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/anchor-4.2.2/anchor.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/bowser-1.9.3/bowser.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/distill-2.2.21/template.v2.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/header-attrs-2.14/header-attrs.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.map","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/popper-2.6.0/popper.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-bundle.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-light-border.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/anchor-4.2.2/anchor.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/bowser-1.9.3/bowser.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/distill-2.2.21/template.v2.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/figure-html5/unnamed-chunk-2-1.png","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/header-attrs-2.14/header-attrs.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.map","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/popper-2.6.0/popper.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-bundle.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-light-border.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2156,7 +2162,35 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>TF = Number of times a word occurs in a document. A token with a higher frequency receives higher weight.</p>
 <p>IDF = <span class="math inline">\(log\frac{N}{n_w}\)</span></p>
 <p>IDF indicates the log of the ratio of total number of documents (N) to the number of documents the word has appeared in (<span class="math inline">\(n_w\)</span>). The higher the number of documents that a word appears in, the lower the weight it receives. Thus, IDF penalizes higher frequency words or token. TF-IDF is a product of TF AND IDF where a token that frequently appears in a document is highly weighted for TF and when when that token occurs in many documents than it receives lower weight for IDF.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h1 id="implementation-of-tf-idf-in-python">Implementation of TF-IDF in python</h1>
+<p>To understand TF-IDF, we will use the same sentences that were encoded using one-hot encoding. The python scikit-learn provides TfidfVectorizer class for encoding text using TF-IDF.</p>
+<p>First the packages to use are imported as follows;</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Next, let’s consider the following sentences below for encoding</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Using the code below, TfidfVectorizer is initialized and used to transform the text.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>/Users/lin/Documents/python_venvs/pytorch_deepL/lib/python3.9/site-packages/sklearn/utils/deprecation.py:87: FutureWarning: Function get_feature_names is deprecated; get_feature_names is deprecated in 1.0 and will be removed in 1.2. Please use get_feature_names_out instead.
+  warnings.warn(msg, category=FutureWarning)</code></pre>
+<pre><code>                  as        be  computers  ...  this        to  understand
+sentence_0  0.000000  0.000000   0.401043  ...   0.0  0.000000    0.401043
+sentence_1  0.000000  0.000000   0.577350  ...   0.0  0.000000    0.577350
+sentence_2  0.400218  0.400218   0.000000  ...   0.0  0.400218    0.000000
+sentence_3  0.000000  0.000000   0.000000  ...   0.5  0.000000    0.000000
+
+[4 rows x 15 columns]</code></pre>
+</div>
+<p>The result of the tfidf is visualize in a heatmap below</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/figure-html5/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<h2 id="summary">Summary</h2>
+<p>In this tutorial, TF-IDF was discussed as one of the techniques for encoding text data for machine learning task. An exampple was implemented in python to demonstrate it.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
