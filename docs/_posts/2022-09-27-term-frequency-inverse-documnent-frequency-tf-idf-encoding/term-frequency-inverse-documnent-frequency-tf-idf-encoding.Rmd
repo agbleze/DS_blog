@@ -15,7 +15,7 @@ categories:
   - Python
 ---
 
-```{r}
+```{r, echo=FALSE}
 library(reticulate)
 use_virtualenv('/Users/lin/Documents/python_venvs/pytorch_deepL', required=TRUE)
 
@@ -31,16 +31,24 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
 ```
 
 # Introduction to TF-IDF
-TF-IDF is the acronym for Term Frequency Inverse Document Frequency and is one of the techniques used to represent text data. In the previous discussion of representing text using 
+TF-IDF is the acronym for Term Frequency Inverse Document Frequency and is one of the techniques used to represent text data. In the previous discussion of representing text using one hot encoding, a major critic is that one hot encoding does not take into account the frequency of words. This is one weakness that TF-IDF reverses. 
+
+TF-IDF takes into consideration the frequency of a word or token as well as the number of documents in which it occurs. Usually, less important words such as helping verbs, prepositions among others have the highest frequency in documents. These words regarded as stop words have less predictive power. 
 
 
+Imagine a corpus like "This is my first lesson. This lesson is interesting. The lesson is on logistic regression."  If our task is to classify or identify the topic that the document or text describe then certainly, words such as "This", "is", "lesson" which had higher frequency will provide less insight for classifying the text while less frequent tokens such as "logistic" and "regression" will provide more predictive insights in classifying the text. This understanding is what underline TF-IDF in representing text. 
 
 
- The TF representation weights words proportionally to their frequency. However, common words such as “claim” do not add anything to our understanding of a specific patent. Conversely, if a rare word (such as “tetrafluoroethylene”) occurs less frequently but is quite likely to be indicative of the nature of the patent document, we would want to give it a larger weight in our representation. The Inverse­ Document­Frequency (IDF) is a heuristic to do exactly that.
+Thus, the formula for TF-IDF is which is a combination of TF and IDF is express as follows;
+
+TF = Number of times a word occurs in a document. A token with a higher frequency receives higher weight.
+
+IDF = $log\frac{N}{n_w}$
+
+IDF indicates the log of the ratio of total number of documents (N) to the number of documents the word has appeared in ($n_w$). The higher the number of documents that a word appears in, the lower the weight it receives. Thus, IDF penalizes higher frequency words or token. TF-IDF is a product of TF AND IDF where a token that frequently appears in a document is highly weighted for TF and when when that token occurs in many documents than it receives lower weight for IDF.
 
 
-
-
+# Implenetation of TF-IDF in python
 
 
 

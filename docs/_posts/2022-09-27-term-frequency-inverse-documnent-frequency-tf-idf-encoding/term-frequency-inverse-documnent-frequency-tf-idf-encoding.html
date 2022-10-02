@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/anchor-4.2.2/anchor.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/bowser-1.9.3/bowser.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/distill-2.2.21/template.v2.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/header-attrs-2.14/header-attrs.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/jquery-3.6.0/jquery-3.6.0.min.map","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/popper-2.6.0/popper.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-bundle.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy-light-border.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.css","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/tippy-6.2.7/tippy.umd.min.js","term-frequency-inverse-documnent-frequency-tf-idf-encoding_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1517,14 +1517,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/reticulate'>reticulate</a></span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/pkg/reticulate/man/use_python.html'>use_virtualenv</a></span><span class='op'>(</span><span class='st'>'/Users/lin/Documents/python_venvs/pytorch_deepL'</span>, required<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span></code></pre>
-</div>
+
 </div>
 <h1 id="introduction-to-tf-idf">Introduction to TF-IDF</h1>
-<p>TF-IDF is the acronym for Term Frequency Inverse Document Frequency and is one of the techniques used to represent text data. In the previous discussion of representing text using</p>
-<p>The TF representation weights words proportionally to their frequency. However, common words such as “claim” do not add anything to our understanding of a specific patent. Conversely, if a rare word (such as “tetrafluoroethylene”) occurs less frequently but is quite likely to be indicative of the nature of the patent document, we would want to give it a larger weight in our representation. The Inverse­ Document­Frequency (IDF) is a heuristic to do exactly that.</p>
+<p>TF-IDF is the acronym for Term Frequency Inverse Document Frequency and is one of the techniques used to represent text data. In the previous discussion of representing text using one hot encoding, a major critic is that one hot encoding does not take into account the frequency of words. This is one weakness that TF-IDF reverses.</p>
+<p>TF-IDF takes into consideration the frequency of a word or token as well as the number of documents in which it occurs. Usually, less important words such as helping verbs, prepositions among others have the highest frequency in documents. These words regarded as stop words have less predictive power.</p>
+<p>Imagine a corpus like “This is my first lesson. This lesson is interesting. The lesson is on logistic regression.” If our task is to classify or identify the topic that the document or text describe then certainly, words such as “This”, “is”, “lesson” which had higher frequency will provide less insight for classifying the text while less frequent tokens such as “logistic” and “regression” will provide more predictive insights in classifying the text. This understanding is what underline TF-IDF in representing text.</p>
+<p>Thus, the formula for TF-IDF is which is a combination of TF and IDF is express as follows;</p>
+<p>TF = Number of times a word occurs in a document. A token with a higher frequency receives higher weight.</p>
+<p>IDF = <span class="math inline">\(log\frac{N}{n_w}\)</span></p>
+<p>IDF indicates the log of the ratio of total number of documents (N) to the number of documents the word has appeared in (<span class="math inline">\(n_w\)</span>). The higher the number of documents that a word appears in, the lower the weight it receives. Thus, IDF penalizes higher frequency words or token. TF-IDF is a product of TF AND IDF where a token that frequently appears in a document is highly weighted for TF and when when that token occurs in many documents than it receives lower weight for IDF.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
@@ -1533,6 +1535,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
