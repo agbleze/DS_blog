@@ -1,0 +1,45 @@
+---
+title: "Classifying review statements using Deep Learning with Pytorch"
+description: |
+  A short description of the post.
+author:
+  - name: Linus Agbleze
+    url: https://agbleze.github.io/Portfolio/
+date: 2022-10-02
+output:
+  distill::distill_article:
+    self_contained: false
+    
+categories:
+  - NLP
+  - Python
+  - Deep Learning
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Background
+
+"The customer is always right" is an adage that has come to stay with businesses that believe in continuous improvement of products through reviews and feedback. There is no better time to fully convert this mantra into business operations than now with the support of data science techniques for processing texts. 
+
+
+Taking note of this, most businesses are beginning to take advantage of vast text data available to them by employing tools and techniques to extracts insights from large text datasets. Among others, understanding what customers think of products or services is a common classification task that data scientist undertake using Natural Language Processing (NLP) in support of businesses. 
+
+
+This tutorial is to demonstrate one of such projects. The focus is to provide the workflow from translating the problem statement into various analytical frameworks and implementing a Deep Learning solution using pytorch. The aim is not exhaust all the intricacies of deep learning and pytorch but how handle a text classification project using them.
+
+
+## Problem statement
+
+
+
+
+
+
+
+
+
+
