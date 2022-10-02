@@ -12,6 +12,7 @@ output:
 draft: false
 categories:
   - NLP 
+  - Python
 ---
 
 
