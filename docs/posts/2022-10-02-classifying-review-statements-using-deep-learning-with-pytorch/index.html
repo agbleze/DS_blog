@@ -2149,8 +2149,39 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1 id="background">Background</h1>
 <p>“The customer is always right” is an adage that has come to stay with businesses that believe in continuous improvement of products through reviews and feedback. There is no better time to fully convert this mantra into business operations than now with the support of data science techniques for processing texts.</p>
 <p>Taking note of this, most businesses are beginning to take advantage of vast text data available to them by employing tools and techniques to extracts insights from large text datasets. Among others, understanding what customers think of products or services is a common classification task that data scientist undertake using Natural Language Processing (NLP) in support of businesses.</p>
-<p>This tutorial is to demonstrate one of such projects. The focus is to provide the workflow from translating the problem statement into various analytical frameworks and implementing a Deep Learning solution using pytorch. The aim is not exhaust all the intricacies of deep learning and pytorch but how handle a text classification project using them.</p>
+<p>This tutorial is to demonstrate one of such projects. The focus is to provide the workflow from translating the problem statement into various analytical frameworks and implement a Deep Learning solution using pytorch. The aim is not to exhaust all the intricacies of deep learning and pytorch but how to undertake a text classification project using them. Taking a practical orientation means using a case study to explain and understand the work flow. For this, Yelp dataset, publicly available, will be used. The dataset contains reviews for businesses and based on this a hypothetical case study is design to develop a model for sentiment analysis.</p>
 <h2 id="problem-statement">Problem statement</h2>
+<p>The product team has identified as one of the tasks for the quarter, the need to gain a general overview of user sentiments for the product in order to make a case for product innovation and improvement. Due to large volume of review provided which is set to grow astronomically in the future, the mundane task of reading each review and deciding the sentiment being express is not attainable nor desirable. Rather, the product team needs a tool that can accurately analyze reviews and determine whether they are negative or positive review. The absence of such a tool remains the main challenge that we as a data scientist have been contacted to develop.</p>
+<p>The understanding from the problem statement needs to be translated into a problem design framework that provides a high level overview for both techincal and non-technical audience. This is the first stage – gain a proper understanding and context of the problem to solve at a business level.</p>
+<figure>
+<img src="/Users/lin/Documents/DS_blog/docs/posts/2022-10-02-classifying-review-statements-using-deep-learning-with-pytorch/classifying-review-statements-using-deep-learning-with-pytorch_files/SQC_YELP.png" alt="Problem design framework for project goal" /><figcaption aria-hidden="true">Problem design framework for project goal</figcaption>
+</figure>
+<p>The problem statement of the project is captured as snapshot using the Situation Question Complication framework. It describes at a glance, the current situation, the basic question that will be answered with the data and the expected outcome after successful execution of the project. This is the overaching goal that needs to noted before going into the technicalities of the project and will serve as a terms of reference upon which the data scientist and the product team (the audience requesting the project – usually non-technical people) will have a discussion and decide of status of project completion.</p>
+<p>One issue that comes to mind and worth noting is that, the problem design framework is kept succinct and devoid of any data science jargon. This is meant to facilitate understanding between the data scientist and the business person or end-user of the work. A deeper dive into managing the project and identifying the technical requirement is better relegated to the stage of project scoping. This is where a discussion of the project approach can be identified as a reference point for the technical team (data science team) or individual handling the project.</p>
+<h3 id="analyzing-the-project-scope-to-decide-on-algorithm-to-use">Analyzing the project scope to decide on algorithm to use</h3>
+<p>Data science is essentially research hence at the forefront of the project pipeline is the research question and objective driving it. Getting the research question right is fundamental to successfully completing the project wit the right results. A hint was provide in the problem design framework as to the research question and objective that should be tackled. While a number of them can be to list and tackled,</p>
+<h4 id="research-question">Research question</h4>
+<p>What is the sentiment of a customer for a product based review?</p>
+<h4 id="research-objective">Research objective</h4>
+<p>To determine the sentiment of a customer for a product based on review</p>
+<p>Based on the research question and objective as well as the type and nature of dataset, a number of insights can be predefine to constitute the scope of the project.</p>
+<ul>
+<li><p>Goal: * To develop a highly accurate model as a tool for predicting the sentiments expressed in product reviews. The task to achieve this project goal is identified as follows</p></li>
+<li><p>Task: * To undertake binary supervise classification of reviews into classes of “positive” and “negative” sentiment. The yelp dataset has labels or the target is correctly labeled for the train and develop the model. A review text will be classified as either “positive” or “negative”.</p></li>
+<li><p>Method: Deep learning based Natural Language Processing (NLP) will used to undertake text classification. Usually, the decision of which method and algorithm to use is based on several factors including exploratory analysis. However, this is predefined to be using a deep learning approach as the focus of demonstrating NLP using deep learning with pytorch. Other approaches such as machine learning are possible.</p></li>
+</ul>
+<h3 id="processing-pipeline-for-binary-text-classification">Processing pipeline for binary text classification</h3>
+<p>Text data requires preprocessing and encoding into feature types that are understandable by algorithms before the actual modelling, evaluation and prediction. Each stage of the pipeline has it own unique processes and varies even by dataset type and format as well as project focus. For this analysis, the process is summarized as follows;</p>
+<ol type="1">
+<li>Cleaning text</li>
+<li>preparing data for text analysis (Tokenizing, lemmitization)</li>
+<li>Vectorizng tokens into features for analysis</li>
+<li>Modeling</li>
+<li>Evaluating on test data</li>
+<li>Using model for prediction after achieving desirable evaluation accuracy</li>
+</ol>
+<h4 id="text-cleaning">Text cleaning</h4>
+<p>The text cleaning process is dataset dependent. For Yelp dataset the reviews are written in english hence basic english sentence syntax can be used to clean the text. For example, space is used to separate the next from the previous one after a punctuation make. Context of the analysis also plays a role in text preprocessing. Example</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
