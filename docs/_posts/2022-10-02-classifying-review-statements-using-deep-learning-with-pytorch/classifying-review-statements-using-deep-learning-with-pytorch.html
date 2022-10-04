@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["classifying-review-statements-using-deep-learning-with-pytorch_files/anchor-4.2.2/anchor.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/bowser-1.9.3/bowser.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/distill-2.2.21/template.v2.js","classifying-review-statements-using-deep-learning-with-pytorch_files/header-attrs-2.14/header-attrs.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.min.map","classifying-review-statements-using-deep-learning-with-pytorch_files/popper-2.6.0/popper.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy-bundle.umd.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy-light-border.css","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy.css","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy.umd.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["classifying-review-statements-using-deep-learning-with-pytorch_files/anchor-4.2.2/anchor.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/bowser-1.9.3/bowser.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/distill-2.2.21/template.v2.js","classifying-review-statements-using-deep-learning-with-pytorch_files/header-attrs-2.14/header-attrs.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/jquery-3.6.0/jquery-3.6.0.min.map","classifying-review-statements-using-deep-learning-with-pytorch_files/popper-2.6.0/popper.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy-bundle.umd.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy-light-border.css","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy.css","classifying-review-statements-using-deep-learning-with-pytorch_files/tippy-6.2.7/tippy.umd.min.js","classifying-review-statements-using-deep-learning-with-pytorch_files/webcomponents-2.0.0/webcomponents.js","data/yelp/raw_test.csv","data/yelp/raw_train.csv","data/yelp/reviews_with_splits_lite.csv","model_storage/ch3/yelp/model.pth","model_storage/ch3/yelp/vectorizer.json"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1517,6 +1517,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <h1 id="background">Background</h1>
 <p>“The customer is always right” is an adage that has come to stay with businesses that believe in continuous improvement of products through reviews and feedback. There is no better time to fully convert this mantra into business operations than now with the support of data science techniques for processing texts.</p>
 <p>Taking note of this, most businesses are beginning to take advantage of vast text data available to them by employing tools and techniques to extracts insights from large text datasets. Among others, understanding what customers think of products or services is a common classification task that data scientist undertake using Natural Language Processing (NLP) in support of businesses.</p>
@@ -1537,8 +1540,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>To determine the sentiment of a customer for a product based on review</p>
 <p>Based on the research question and objective as well as the type and nature of dataset, a number of insights can be predefine to constitute the scope of the project.</p>
 <ul>
-<li><p>Goal: * To develop a highly accurate model as a tool for predicting the sentiments expressed in product reviews. The task to achieve this project goal is identified as follows</p></li>
-<li><p>Task: * To undertake binary supervise classification of reviews into classes of “positive” and “negative” sentiment. The yelp dataset has labels or the target is correctly labeled for the train and develop the model. A review text will be classified as either “positive” or “negative”.</p></li>
+<li><p>Goal: To develop a highly accurate model as a tool for predicting the sentiments expressed in product reviews. The task to achieve this project goal is identified as follows</p></li>
+<li><p>Task: To undertake binary supervise classification of reviews into classes of “positive” and “negative” sentiment. The yelp dataset has labels or the target is correctly labeled for the train and develop the model. A review text will be classified as either “positive” or “negative”.</p></li>
 <li><p>Method: Deep learning based Natural Language Processing (NLP) will used to undertake text classification. Usually, the decision of which method and algorithm to use is based on several factors including exploratory analysis. However, this is predefined to be using a deep learning approach as the focus of demonstrating NLP using deep learning with pytorch. Other approaches such as machine learning are possible.</p></li>
 </ul>
 <h3 id="processing-pipeline-for-binary-text-classification">Processing pipeline for binary text classification</h3>
@@ -1546,14 +1549,905 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ol type="1">
 <li>Cleaning text</li>
 <li>preparing data for text analysis (Tokenizing, lemmitization)</li>
-<li>Vectorizng tokens into features for analysis</li>
+<li>Encoding tokens /words into features for analysis</li>
 <li>Modeling</li>
 <li>Evaluating on test data</li>
 <li>Using model for prediction after achieving desirable evaluation accuracy</li>
 </ol>
-<h4 id="text-cleaning">Text cleaning</h4>
-<p>The text cleaning process is dataset dependent. For Yelp dataset the reviews are written in english hence basic english sentence syntax can be used to clean the text. For example, space is used to separate the next from the previous one after a punctuation make. Context of the analysis also plays a role in text preprocessing. Example</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="text-cleaning">Text cleaning</h3>
+<p>The text cleaning process is dataset dependent. For Yelp dataset the reviews are written in english hence basic english sentence syntax can be used to clean the text. For example, space is used to separate the next from the previous one after a punctuation make. Context of the analysis also plays a role in text preprocessing. Example, in classifying text into postive and negative classes, numbers in a text or review are not likely to provide any insight so they can be removed as part of the text preprocessing step.</p>
+<p>This can be implemented as follows;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> argparse <span class="im">import</span> Namespace</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm_notebook</span></code></pre></div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_text(text):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> text.lower()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> re.sub(<span class="vs">r&quot;([.,!?])&quot;</span>, <span class="vs">r&quot; \1 &quot;</span>, text)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> re.sub(<span class="vs">r&quot;[^a-zA-Z.,!?]+&quot;</span>, <span class="vs">r&quot; &quot;</span>, text)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text</span></code></pre></div>
+</div>
+<h3 id="creating-vocabulary-map">Creating vocabulary map</h3>
+<p>In classifying reviews, the set of review words needs to be mapped before hand. The body of reviews currently available is what will be used to train a model hence the words in this review provides the predictive power of the model. It is important the reviews to be predicted in the future using the current model have their words searched and if found retrieved from the map of words used for the training. Thus a vocabulary map is needed. This map will then be used to lookup words when a review is provided. This vocabulary map serves as a ground truth and when a text is provided later for prediction with some words not in the vocabulary map, the those unfound words will be indicated as UNK being unknown and given the corresponding integer of UNK.</p>
+<p>For the token map and a number of actions can be performed on it including the option to add a token when not found in the map of token, add multiple tokens, search to find the index of a token or the token for an index. This makes writhing the vocabulary object as a class with methods for such actions to be undertaken on a token map.</p>
+<p>The implementation for extracting vocabulary for mapping is below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vocabulary(<span class="bu">object</span>):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Class to process text and extract vocabulary for mapping&quot;&quot;&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, token_to_idx<span class="op">=</span><span class="va">None</span>, add_unk<span class="op">=</span><span class="va">True</span>, unk_token<span class="op">=</span><span class="st">&quot;&lt;UNK&gt;&quot;</span>):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">            token_to_idx (dict): a pre-existing map of tokens to indices</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">            add_unk (bool): a flag that indicates whether to add the UNK token</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">            unk_token (str): the UNK token to add into the Vocabulary</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token_to_idx <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            token_to_idx <span class="op">=</span> {}</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._token_to_idx <span class="op">=</span> token_to_idx</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._idx_to_token <span class="op">=</span> {idx: token </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">for</span> token, idx <span class="kw">in</span> <span class="va">self</span>._token_to_idx.items()}</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._add_unk <span class="op">=</span> add_unk</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._unk_token <span class="op">=</span> unk_token</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.unk_index <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> add_unk:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.unk_index <span class="op">=</span> <span class="va">self</span>.add_token(unk_token) </span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_serializable(<span class="va">self</span>):</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot; returns a dictionary that can be serialized &quot;&quot;&quot;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">&#39;token_to_idx&#39;</span>: <span class="va">self</span>._token_to_idx, </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;add_unk&#39;</span>: <span class="va">self</span>._add_unk, </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;unk_token&#39;</span>: <span class="va">self</span>._unk_token}</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_serializable(cls, contents):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot; instantiates the Vocabulary from a serialized dictionary &quot;&quot;&quot;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(<span class="op">**</span>contents)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_token(<span class="va">self</span>, token):</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Update mapping dicts based on the token.</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">            token (str): the item to add into the Vocabulary</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">            index (int): the integer corresponding to the token</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token <span class="kw">in</span> <span class="va">self</span>._token_to_idx:</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>            index <span class="op">=</span> <span class="va">self</span>._token_to_idx[token]</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>            index <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>._token_to_idx)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._token_to_idx[token] <span class="op">=</span> index</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._idx_to_token[index] <span class="op">=</span> token</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> index</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_many(<span class="va">self</span>, tokens):</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Add a list of tokens into the Vocabulary</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="co">            tokens (list): a list of string tokens</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co">            indices (list): a list of indices corresponding to the tokens</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [<span class="va">self</span>.add_token(token) <span class="cf">for</span> token <span class="kw">in</span> tokens]</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> lookup_token(<span class="va">self</span>, token):</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Retrieve the index associated with the token </span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co">          or the UNK index if token isn&#39;t present.</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="co">            token (str): the token to look up </span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="co">            index (int): the index corresponding to the token</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="co">        Notes:</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">            `unk_index` needs to be &gt;=0 (having been added into the Vocabulary) </span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="co">              for the UNK functionality </span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.unk_index <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>._token_to_idx.get(token, <span class="va">self</span>.unk_index)</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>._token_to_idx[token]</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> lookup_index(<span class="va">self</span>, index):</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Return the token associated with the index</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="co">        Args: </span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="co">            index (int): the index to look up</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="co">            token (str): the token corresponding to the index</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co">        Raises:</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="co">            KeyError: if the index is not in the Vocabulary</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> index <span class="kw">not</span> <span class="kw">in</span> <span class="va">self</span>._idx_to_token:</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">KeyError</span>(<span class="st">&quot;the index (</span><span class="sc">%d</span><span class="st">) is not in the Vocabulary&quot;</span> <span class="op">%</span> index)</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._idx_to_token[index]</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;&lt;Vocabulary(size=</span><span class="sc">%d</span><span class="st">)&gt;&quot;</span> <span class="op">%</span> <span class="bu">len</span>(<span class="va">self</span>)</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>._token_to_idx)</span></code></pre></div>
+</div>
+<h2 id="encoding-the-data">Encoding the data</h2>
+<p>A critical aspect of text analysis is to represent the text as integers for the algorithm to process In this analysis, one-hot encoding method is used. When a review data is provided, the tokens are looked up from the vocabulary table discussed earlier and when not found the token is added to the vocabulary.For this, the review data has two dimensions, the review and the outcome or rating indicating whether is positive or negative. Because the ratings are definate as in only two classes are expected, unknown tokens, that is anything other “positive” and “negative” are not added to the vocabulary map. In the case of review text, they are expected to vary just as customers expresssion are hence unknown token are added. This also means that there could be as many tokens as could be hence demanding large memory for processing. To handle this only tokens occuring more than 25 times are considered</p>
+<p>The implementation for the vectorizing reviews for modelling is below</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ReviewVectorizer(<span class="bu">object</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot; The Vectorizer which coordinates the Vocabularies and puts them to use&quot;&quot;&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, review_vocab, rating_vocab):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">            review_vocab (Vocabulary): maps words to integers</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">            rating_vocab (Vocabulary): maps class labels to integers</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.review_vocab <span class="op">=</span> review_vocab</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rating_vocab <span class="op">=</span> rating_vocab</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> vectorize(<span class="va">self</span>, review):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Create a collapsed one-hit vector for the review</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">            review (str): the review </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">            one_hot (np.ndarray): the collapsed one-hot encoding </span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        one_hot <span class="op">=</span> np.zeros(<span class="bu">len</span>(<span class="va">self</span>.review_vocab), dtype<span class="op">=</span>np.float32)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> token <span class="kw">in</span> review.split(<span class="st">&quot; &quot;</span>):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> token <span class="kw">not</span> <span class="kw">in</span> string.punctuation:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                one_hot[<span class="va">self</span>.review_vocab.lookup_token(token)] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> one_hot</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_dataframe(cls, review_df, cutoff<span class="op">=</span><span class="dv">25</span>):</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Instantiate the vectorizer from the dataset dataframe</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">            review_df (pandas.DataFrame): the review dataset</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">            cutoff (int): the parameter for frequency-based filtering</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">            an instance of the ReviewVectorizer</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        review_vocab <span class="op">=</span> Vocabulary(add_unk<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        rating_vocab <span class="op">=</span> Vocabulary(add_unk<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add ratings</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> rating <span class="kw">in</span> <span class="bu">sorted</span>(<span class="bu">set</span>(review_df.rating)):</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            rating_vocab.add_token(rating)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add top words if count &gt; provided count</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        word_counts <span class="op">=</span> Counter()</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> review <span class="kw">in</span> review_df.review:</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> word <span class="kw">in</span> review.split(<span class="st">&quot; &quot;</span>):</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> string.punctuation:</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                    word_counts[word] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>               </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> word, count <span class="kw">in</span> word_counts.items():</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> count <span class="op">&gt;</span> cutoff:</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                review_vocab.add_token(word)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(review_vocab, rating_vocab)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_serializable(cls, contents):</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Instantiate a ReviewVectorizer from a serializable dictionary</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">            contents (dict): the serializable dictionary</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">            an instance of the ReviewVectorizer class</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        review_vocab <span class="op">=</span> Vocabulary.from_serializable(contents[<span class="st">&#39;review_vocab&#39;</span>])</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        rating_vocab <span class="op">=</span>  Vocabulary.from_serializable(contents[<span class="st">&#39;rating_vocab&#39;</span>])</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(review_vocab<span class="op">=</span>review_vocab, rating_vocab<span class="op">=</span>rating_vocab)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> to_serializable(<span class="va">self</span>):</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Create the serializable dictionary for caching</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="co">            contents (dict): the serializable dictionary</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">&#39;review_vocab&#39;</span>: <span class="va">self</span>.review_vocab.to_serializable(),</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;rating_vocab&#39;</span>: <span class="va">self</span>.rating_vocab.to_serializable()}</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>                </span></code></pre></div>
+</div>
+<h2 id="handling-dataset-splitting-datasets-and-generating-dataset-batches">Handling dataset: Splitting datasets and generating dataset batches</h2>
+<p>In order to develop a generazible model, it is required that part of the dataset is used for training, another for evaluating the model to decide how the parameters are to optimized for gradient descent (validation dataset) and yet another separate dataset for testing the performance of the model (test dataset). The evaluation of the model on validation dataset provides the signals to be backpropagated to update the model parameters. Both the training and validation datasets are operated on in batches which means training and evaluating the model on slices of the dataset until all the dataset have been used during a training section.</p>
+<p>Thus, a dataset object will require a number of actions to be performed on it making it ideal for writing a class for it implementation. Methods for splitting the dataset into various types and slicing the dataset into batches are required. For simplity, the dataset has already been split. into train, test, and validation and providied as a single dataframe with a column indicating the split type.</p>
+<p>The implementation for the handling the dataset is as below;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ReviewDataset(Dataset):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, review_df, vectorizer):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">            review_df (pandas.DataFrame): the dataset</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">            vectorizer (ReviewVectorizer): vectorizer instantiated from dataset</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.review_df <span class="op">=</span> review_df</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._vectorizer <span class="op">=</span> vectorizer</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_df <span class="op">=</span> <span class="va">self</span>.review_df[<span class="va">self</span>.review_df.split<span class="op">==</span><span class="st">&#39;train&#39;</span>]</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train_size <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.train_df)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.val_df <span class="op">=</span> <span class="va">self</span>.review_df[<span class="va">self</span>.review_df.split<span class="op">==</span><span class="st">&#39;val&#39;</span>]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.validation_size <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.val_df)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_df <span class="op">=</span> <span class="va">self</span>.review_df[<span class="va">self</span>.review_df.split<span class="op">==</span><span class="st">&#39;test&#39;</span>]</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.test_size <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.test_df)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._lookup_dict <span class="op">=</span> {<span class="st">&#39;train&#39;</span>: (<span class="va">self</span>.train_df, <span class="va">self</span>.train_size),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&#39;val&#39;</span>: (<span class="va">self</span>.val_df, <span class="va">self</span>.validation_size),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&#39;test&#39;</span>: (<span class="va">self</span>.test_df, <span class="va">self</span>.test_size)}</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.set_split(<span class="st">&#39;train&#39;</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_dataset_and_make_vectorizer(cls, review_csv):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Load dataset and make a new vectorizer from scratch</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">            review_csv (str): location of the dataset</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">            an instance of ReviewDataset</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        review_df <span class="op">=</span> pd.read_csv(review_csv)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        train_review_df <span class="op">=</span> review_df[review_df.split<span class="op">==</span><span class="st">&#39;train&#39;</span>]</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(review_df, ReviewVectorizer.from_dataframe(train_review_df))</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">########## REMOVE #############</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_dataset_and_load_vectorizer(cls, review_csv, vectorizer_filepath):</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Load dataset and the corresponding vectorizer. </span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co">        Used in the case in the vectorizer has been cached for re-use</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="co">            review_csv (str): location of the dataset</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co">            vectorizer_filepath (str): location of the saved vectorizer</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="co">            an instance of ReviewDataset</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        review_df <span class="op">=</span> pd.read_csv(review_csv)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        vectorizer <span class="op">=</span> cls.load_vectorizer_only(vectorizer_filepath)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(review_df, vectorizer)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>      <span class="co">######## REMOVE #############</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> load_vectorizer_only(vectorizer_filepath):</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;a static method for loading the vectorizer from file</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">            vectorizer_filepath (str): the location of the serialized vectorizer</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">            an instance of ReviewVectorizer</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(vectorizer_filepath) <span class="im">as</span> fp:</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> ReviewVectorizer.from_serializable(json.load(fp))</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> save_vectorizer(<span class="va">self</span>, vectorizer_filepath):</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;saves the vectorizer to disk using json</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">            vectorizer_filepath (str): the location to save the vectorizer</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(vectorizer_filepath, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fp:</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>            json.dump(<span class="va">self</span>._vectorizer.to_serializable(), fp)</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_vectorizer(<span class="va">self</span>):</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot; returns the vectorizer &quot;&quot;&quot;</span></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._vectorizer</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_split(<span class="va">self</span>, split<span class="op">=</span><span class="st">&quot;train&quot;</span>):</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot; selects the splits in the dataset using a column in the dataframe </span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="co">            split (str): one of &quot;train&quot;, &quot;val&quot;, or &quot;test&quot;</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._target_split <span class="op">=</span> split</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._target_df, <span class="va">self</span>._target_size <span class="op">=</span> <span class="va">self</span>._lookup_dict[split]</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>._target_size</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, index):</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;the primary entry point method for PyTorch datasets</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">            index (int): the index to the data point </span></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">            a dictionary holding the data point&#39;s features (x_data) and label (y_target)</span></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>        row <span class="op">=</span> <span class="va">self</span>._target_df.iloc[index]</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>        review_vector <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._vectorizer.vectorize(row.review)</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>        rating_index <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._vectorizer.rating_vocab.lookup_token(row.rating)</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">&#39;x_data&#39;</span>: review_vector,</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;y_target&#39;</span>: rating_index}</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_num_batches(<span class="va">self</span>, batch_size):</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Given a batch size, return the number of batches in the dataset</span></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a><span class="co">            batch_size (int)</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a><span class="co">            number of batches in the dataset</span></span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>) <span class="op">//</span> batch_size  </span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_batches(dataset, batch_size, shuffle<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>                     drop_last<span class="op">=</span><span class="va">True</span>, device<span class="op">=</span><span class="st">&quot;cpu&quot;</span>):</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="co">    A generator function which wraps the PyTorch DataLoader. It will </span></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co">      ensure each tensor is on the write device location.</span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    dataloader <span class="op">=</span> DataLoader(dataset<span class="op">=</span>dataset, batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>                            shuffle<span class="op">=</span>shuffle, drop_last<span class="op">=</span>drop_last)</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> data_dict <span class="kw">in</span> dataloader:</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>        out_data_dict <span class="op">=</span> {}</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> name, tensor <span class="kw">in</span> data_dict.items():</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>            out_data_dict[name] <span class="op">=</span> data_dict[name].to(device)</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> out_data_dict</span></code></pre></div>
+</div>
+<h2 id="classifier-model">Classifier Model</h2>
+<p>As indicated earlier, we are interested in developing a deep learning model. A simple perceptron is used to demonstrate the modeling process here. A simple pereptron is a deep learning model architectutre with an input layer and an output layer without hidden layers.</p>
+<p>An implementation of the simple classifier model is depicted below;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ReviewClassifier(nn.Module):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot; a simple perceptron based classifier &quot;&quot;&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, num_features):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">            num_features (int): the size of the input feature vector</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(ReviewClassifier, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.fc1 <span class="op">=</span> nn.Linear(in_features<span class="op">=</span>num_features, </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                             out_features<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x_in, apply_sigmoid<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;The forward pass of the classifier</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">            x_in (torch.Tensor): an input data tensor. </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">                x_in.shape should be (batch, num_features)</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">            apply_sigmoid (bool): a flag for the sigmoid activation</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">                should be false if used with the Cross Entropy losses</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">            the resulting tensor. tensor.shape should be (batch,)</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        y_out <span class="op">=</span> <span class="va">self</span>.fc1(x_in).squeeze()</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> apply_sigmoid:</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>            y_out <span class="op">=</span> torch.sigmoid(y_out)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_out</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        </span></code></pre></div>
+</div>
+<h2 id="creating-model-parameter-states">Creating model parameter states</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_train_state(args):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">&#39;stop_early&#39;</span>: <span class="va">False</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;early_stopping_step&#39;</span>: <span class="dv">0</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;early_stopping_best_val&#39;</span>: <span class="fl">1e8</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;learning_rate&#39;</span>: args.learning_rate,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;epoch_index&#39;</span>: <span class="dv">0</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;train_loss&#39;</span>: [],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;train_acc&#39;</span>: [],</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;val_loss&#39;</span>: [],</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;val_acc&#39;</span>: [],</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;test_loss&#39;</span>: <span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;test_acc&#39;</span>: <span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;model_filename&#39;</span>: args.model_state_file}</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_train_state(args, model, train_state):</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Handle the training state updates.</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Components:</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">     - Early Stopping: Prevent overfitting.</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">     - Model Checkpoint: Model is saved if the model is better</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">    :param args: main arguments</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">    :param model: model to train</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">    :param train_state: a dictionary representing the training state values</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">    :returns:</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">        a new train_state</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save one model at least</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> train_state[<span class="st">&#39;epoch_index&#39;</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        torch.save(model.state_dict(), train_state[<span class="st">&#39;model_filename&#39;</span>])</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;stop_early&#39;</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save model if performance improved</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> train_state[<span class="st">&#39;epoch_index&#39;</span>] <span class="op">&gt;=</span> <span class="dv">1</span>:</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        loss_tm1, loss_t <span class="op">=</span> train_state[<span class="st">&#39;val_loss&#39;</span>][<span class="op">-</span><span class="dv">2</span>:]</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If loss worsened</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> loss_t <span class="op">&gt;=</span> train_state[<span class="st">&#39;early_stopping_best_val&#39;</span>]:</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update step</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>            train_state[<span class="st">&#39;early_stopping_step&#39;</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Loss decreased</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Save the best model</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> loss_t <span class="op">&lt;</span> train_state[<span class="st">&#39;early_stopping_best_val&#39;</span>]:</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>                torch.save(model.state_dict(), train_state[<span class="st">&#39;model_filename&#39;</span>])</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Reset early stopping step</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>            train_state[<span class="st">&#39;early_stopping_step&#39;</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Stop early ?</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;stop_early&#39;</span>] <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>            train_state[<span class="st">&#39;early_stopping_step&#39;</span>] <span class="op">&gt;=</span> args.early_stopping_criteria</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_state</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_accuracy(y_pred, y_target):</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    y_target <span class="op">=</span> y_target.cpu()</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    y_pred_indices <span class="op">=</span> (torch.sigmoid(y_pred)<span class="op">&gt;</span><span class="fl">0.5</span>).cpu().<span class="bu">long</span>()<span class="co">#.max(dim=1)[1]</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    n_correct <span class="op">=</span> torch.eq(y_pred_indices, y_target).<span class="bu">sum</span>().item()</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n_correct <span class="op">/</span> <span class="bu">len</span>(y_pred_indices) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    </span></code></pre></div>
+</div>
+<h3 id="setting-seed">setting seed</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_seed_everywhere(seed, cuda):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    np.random.seed(seed)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    torch.manual_seed(seed)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cuda:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        torch.cuda.manual_seed_all(seed)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> handle_dirs(dirpath):</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(dirpath):</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        os.makedirs(dirpath)</span></code></pre></div>
+</div>
+<h3 id="setting-namespace">setting namespace</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>args <span class="op">=</span> Namespace(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data and Path information</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    frequency_cutoff<span class="op">=</span><span class="dv">25</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    model_state_file<span class="op">=</span><span class="st">&#39;model.pth&#39;</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    review_csv<span class="op">=</span><span class="st">&#39;data/yelp/reviews_with_splits_lite.csv&#39;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># review_csv=&#39;data/yelp/reviews_with_splits_full.csv&#39;,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    save_dir<span class="op">=</span><span class="st">&#39;model_storage/ch3/yelp/&#39;</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    vectorizer_file<span class="op">=</span><span class="st">&#39;vectorizer.json&#39;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No Model hyper parameters</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Training hyper parameters</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    early_stopping_criteria<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.001</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    num_epochs<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">=</span><span class="dv">1337</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Runtime options</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    catch_keyboard_interrupt<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    cuda<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    expand_filepaths_to_save_dir<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    reload_from_files<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> args.expand_filepaths_to_save_dir:</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    args.vectorizer_file <span class="op">=</span> os.path.join(args.save_dir,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>                                        args.vectorizer_file)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    args.model_state_file <span class="op">=</span> os.path.join(args.save_dir,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>                                         args.model_state_file)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Expanded filepaths: &quot;</span>)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(args.vectorizer_file))</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\t</span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(args.model_state_file))</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Check CUDA</span></span></code></pre></div>
+<pre><code>Expanded filepaths: 
+    model_storage/ch3/yelp/vectorizer.json
+    model_storage/ch3/yelp/model.pth</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> torch.cuda.is_available():</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    args.cuda <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Using CUDA: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(args.cuda))</span></code></pre></div>
+<pre><code>Using CUDA: False</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>args.device <span class="op">=</span> torch.device(<span class="st">&quot;cuda&quot;</span> <span class="cf">if</span> args.cuda <span class="cf">else</span> <span class="st">&quot;cpu&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>set_seed_everywhere(args.seed, args.cuda)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># handle dirs</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>handle_dirs(args.save_dir)</span></code></pre></div>
+</div>
+<h2 id="initialiazation">Initialiazation</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> args.reload_from_files:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># training from a checkpoint</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Loading dataset and vectorizer&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    dataset <span class="op">=</span> ReviewDataset.load_dataset_and_load_vectorizer(args.review_csv,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                                                            args.vectorizer_file)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Loading dataset and creating vectorizer&quot;</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create dataset and vectorizer</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    dataset <span class="op">=</span> ReviewDataset.load_dataset_and_make_vectorizer(args.review_csv)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    dataset.save_vectorizer(args.vectorizer_file)    </span></code></pre></div>
+<pre><code>Loading dataset and creating vectorizer</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> dataset.get_vectorizer()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>classifier <span class="op">=</span> ReviewClassifier(num_features<span class="op">=</span><span class="bu">len</span>(vectorizer.review_vocab))</span></code></pre></div>
+</div>
+<h2 id="training-the-model">Training the model</h2>
+<p>The various components for training a model for review classifications have been developed. These components will be used to train the model and the implementation is below;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>classifier <span class="op">=</span> classifier.to(args.device)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>loss_func <span class="op">=</span> nn.BCEWithLogitsLoss()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> optim.Adam(classifier.parameters(), lr<span class="op">=</span>args.learning_rate)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>scheduler <span class="op">=</span> optim.lr_scheduler.ReduceLROnPlateau(optimizer<span class="op">=</span>optimizer,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                                                 mode<span class="op">=</span><span class="st">&#39;min&#39;</span>, factor<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                                 patience<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#################### REMOVE ############################</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>train_state <span class="op">=</span> make_train_state(args)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>epoch_bar <span class="op">=</span> tqdm_notebook(desc<span class="op">=</span><span class="st">&#39;training routine&#39;</span>, </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>                          total<span class="op">=</span>args.num_epochs,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>                          position<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>training routine:   0%|          | 0/5 [00:00&lt;?, ?it/s]
+
+&lt;string&gt;:1: TqdmDeprecationWarning: This function will be removed in tqdm==5.0.0
+Please use `tqdm.notebook.tqdm` instead of `tqdm.tqdm_notebook`</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dataset.set_split(<span class="st">&#39;train&#39;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>train_bar <span class="op">=</span> tqdm_notebook(desc<span class="op">=</span><span class="st">&#39;split=train&#39;</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                          total<span class="op">=</span>dataset.get_num_batches(args.batch_size), </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                          position<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                          leave<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<pre><code>split=train:   0%|          | 0/306 [00:00&lt;?, ?it/s]</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dataset.set_split(<span class="st">&#39;val&#39;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>val_bar <span class="op">=</span> tqdm_notebook(desc<span class="op">=</span><span class="st">&#39;split=val&#39;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                        total<span class="op">=</span>dataset.get_num_batches(args.batch_size), </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                        position<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                        leave<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">###################################################################################</span></span></code></pre></div>
+<pre><code>split=val:   0%|          | 0/65 [00:00&lt;?, ?it/s]</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch_index <span class="kw">in</span> <span class="bu">range</span>(args.num_epochs):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;epoch_index&#39;</span>] <span class="op">=</span> epoch_index</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Iterate over training dataset</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># setup: batch generator, set loss and acc to 0, set train mode on</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        dataset.set_split(<span class="st">&#39;train&#39;</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        batch_generator <span class="op">=</span> generate_batches(dataset, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                                           batch_size<span class="op">=</span>args.batch_size, </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                                           device<span class="op">=</span>args.device)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        running_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        running_acc <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        classifier.train()</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch_index, batch_dict <span class="kw">in</span> <span class="bu">enumerate</span>(batch_generator):</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># the training routine is these 5 steps:</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>            <span class="co"># --------------------------------------</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 1. zero the gradients</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 2. compute the output</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>            y_pred <span class="op">=</span> classifier(x_in<span class="op">=</span>batch_dict[<span class="st">&#39;x_data&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 3. compute the loss</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> loss_func(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>            loss_t <span class="op">=</span> loss.item()</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>            running_loss <span class="op">+=</span> (loss_t <span class="op">-</span> running_loss) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 4. use loss to produce gradients</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 5. use optimizer to take gradient step</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># -----------------------------------------</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>            <span class="co"># compute the accuracy</span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>            acc_t <span class="op">=</span> compute_accuracy(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>])</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>            running_acc <span class="op">+=</span> (acc_t <span class="op">-</span> running_acc) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>            <span class="co"># update bar</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>            train_bar.set_postfix(loss<span class="op">=</span>running_loss, </span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>                                  acc<span class="op">=</span>running_acc, </span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>                                  epoch<span class="op">=</span>epoch_index)</span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>            train_bar.update()</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;train_loss&#39;</span>].append(running_loss)</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;train_acc&#39;</span>].append(running_acc)</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Iterate over val dataset</span></span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># setup: batch generator, set loss and acc to 0; set eval mode on</span></span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>        dataset.set_split(<span class="st">&#39;val&#39;</span>)</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>        batch_generator <span class="op">=</span> generate_batches(dataset, </span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>                                           batch_size<span class="op">=</span>args.batch_size, </span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>                                           device<span class="op">=</span>args.device)</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>        running_loss <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a>        running_acc <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>        classifier.<span class="bu">eval</span>()</span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch_index, batch_dict <span class="kw">in</span> <span class="bu">enumerate</span>(batch_generator):</span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>            <span class="co"># compute the output</span></span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>            y_pred <span class="op">=</span> classifier(x_in<span class="op">=</span>batch_dict[<span class="st">&#39;x_data&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>            <span class="co"># step 3. compute the loss</span></span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> loss_func(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>            loss_t <span class="op">=</span> loss.item()</span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>            running_loss <span class="op">+=</span> (loss_t <span class="op">-</span> running_loss) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a>            <span class="co"># compute the accuracy</span></span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a>            acc_t <span class="op">=</span> compute_accuracy(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>])</span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a>            running_acc <span class="op">+=</span> (acc_t <span class="op">-</span> running_acc) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a>            val_bar.set_postfix(loss<span class="op">=</span>running_loss, </span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a>                                acc<span class="op">=</span>running_acc, </span>
+<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a>                                epoch<span class="op">=</span>epoch_index)</span>
+<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a>            val_bar.update()</span>
+<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;val_loss&#39;</span>].append(running_loss)</span>
+<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a>        train_state[<span class="st">&#39;val_acc&#39;</span>].append(running_acc)</span>
+<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a>        train_state <span class="op">=</span> update_train_state(args<span class="op">=</span>args, model<span class="op">=</span>classifier,</span>
+<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a>                                         train_state<span class="op">=</span>train_state)</span>
+<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a>        scheduler.step(train_state[<span class="st">&#39;val_loss&#39;</span>][<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb23-87"><a href="#cb23-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a>        train_bar.n <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-89"><a href="#cb23-89" aria-hidden="true" tabindex="-1"></a>        val_bar.n <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-90"><a href="#cb23-90" aria-hidden="true" tabindex="-1"></a>        epoch_bar.update()</span>
+<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> train_state[<span class="st">&#39;stop_early&#39;</span>]:</span>
+<span id="cb23-93"><a href="#cb23-93" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb23-94"><a href="#cb23-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-95"><a href="#cb23-95" aria-hidden="true" tabindex="-1"></a>        train_bar.n <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-96"><a href="#cb23-96" aria-hidden="true" tabindex="-1"></a>        val_bar.n <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-97"><a href="#cb23-97" aria-hidden="true" tabindex="-1"></a>        epoch_bar.update()</span>
+<span id="cb23-98"><a href="#cb23-98" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
+<span id="cb23-99"><a href="#cb23-99" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Exiting loop&quot;</span>)</span></code></pre></div>
+<pre><code>ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)
+True</code></pre>
+</div>
+<h2 id="evaluting-model-on-test-data">Evaluting model on test data</h2>
+<p>In order to determine the true performance of the model, it is evaluated on the test data. Based on the performance on the test data, the generalizability of model on unseen data is determine. The aim is to achieve a high accuracy rate and low loss on the test data as much as was seen on the training data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the loss &amp; accuracy on the test set using the best available model</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>classifier.load_state_dict(torch.load(train_state[<span class="st">&#39;model_filename&#39;</span>]))</span></code></pre></div>
+<pre><code>&lt;All keys matched successfully&gt;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>classifier <span class="op">=</span> classifier.to(args.device)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dataset.set_split(<span class="st">&#39;test&#39;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>batch_generator <span class="op">=</span> generate_batches(dataset, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                                   batch_size<span class="op">=</span>args.batch_size, </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                                   device<span class="op">=</span>args.device)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>running_loss <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>running_acc <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>classifier.<span class="bu">eval</span>()</span></code></pre></div>
+<pre><code>ReviewClassifier(
+  (fc1): Linear(in_features=7356, out_features=1, bias=True)
+)</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> batch_index, batch_dict <span class="kw">in</span> <span class="bu">enumerate</span>(batch_generator):</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute the output</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> classifier(x_in<span class="op">=</span>batch_dict[<span class="st">&#39;x_data&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute the loss</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> loss_func(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>].<span class="bu">float</span>())</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    loss_t <span class="op">=</span> loss.item()</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    running_loss <span class="op">+=</span> (loss_t <span class="op">-</span> running_loss) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># compute the accuracy</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    acc_t <span class="op">=</span> compute_accuracy(y_pred, batch_dict[<span class="st">&#39;y_target&#39;</span>])</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    running_acc <span class="op">+=</span> (acc_t <span class="op">-</span> running_acc) <span class="op">/</span> (batch_index <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>train_state[<span class="st">&#39;test_loss&#39;</span>] <span class="op">=</span> running_loss</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>train_state[<span class="st">&#39;test_acc&#39;</span>] <span class="op">=</span> running_acc</span></code></pre></div>
+</div>
+<h2 id="test-accuracy">Test accuracy</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Test loss: </span><span class="sc">{:.3f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(train_state[<span class="st">&#39;test_loss&#39;</span>]))</span></code></pre></div>
+<pre><code>Test loss: 0.249</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Test Accuracy: </span><span class="sc">{:.2f}</span><span class="st">&quot;</span>.<span class="bu">format</span>(train_state[<span class="st">&#39;test_acc&#39;</span>]))</span></code></pre></div>
+<pre><code>Test Accuracy: 90.93</code></pre>
+</div>
+<p>The goal of the project has been achieved quite well, that is to develop a model for predicting reviews. A better job will be to organized this properly by writing function that does prediction with the model. The additional component to achieve this is to decide a threshold for classifying the predicted probabilities. The result of the model is a probability that review is negative or positive and a threshold is required for which when probability is less than or greater than a decision is made on the predicted sentiment. In this case 0.5 is used but this not fixed and infact this threshold is a hyperparamter that can be tuned to improve model accuracy.</p>
+<p>This is implemented below;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_rating(review, classifier, vectorizer, decision_threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Predict the rating of a review</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">        review (str): the text of the review</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">        classifier (ReviewClassifier): the trained model</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">        vectorizer (ReviewVectorizer): the corresponding vectorizer</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">        decision_threshold (float): The numerical boundary which separates the rating classes</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    review <span class="op">=</span> preprocess_text(review)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    vectorized_review <span class="op">=</span> torch.tensor(vectorizer.vectorize(review))</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> classifier(vectorized_review.view(<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    probability_value <span class="op">=</span> torch.sigmoid(result).item()</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    index <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> probability_value <span class="op">&lt;</span> decision_threshold:</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>        index <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vectorizer.rating_vocab.lookup_index(index)</span></code></pre></div>
+</div>
+<p>** Predicting the sentiment</p>
+<p>Now the end-product of the project with for predicting sentiments needs to be tested. To do this, an eaxmple review text is passed to the function to get a sentiment prediction. The implementation is as follows;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>try_text <span class="op">=</span> <span class="st">&#39;Well, it could be better&#39;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>predict_rating(review<span class="op">=</span>try_text, classifier<span class="op">=</span>classifier, vectorizer<span class="op">=</span>vectorizer, decision_threshold<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<pre><code>&#39;negative&#39;</code></pre>
+</div>
+<h2 id="summary">Summary</h2>
+<p>In this blog post, an end-to-end sentiment prediction with NLP and deep learning was undertaken. The process of capturing the problem with a problem design framework, scoping the project to define technical requirements and actually implementing a deep learning model for text classification was undertaken. The model developed achieved an accuracy of 90% on test data which quite good without hyperparameter optimization. A much user-friendlier way of handling the work to the product team will be to build an applications that they can upload the document and have the model developed at the back-end process and make prediction. A web application with these functionality will enable the product team to predict sentiments with just a matter of clicks.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
