@@ -2314,11 +2314,6 @@ True
 True
 True
 True
-True
-True
-True
-True
-True
 ReviewClassifier(
   (fc1): Linear(in_features=7356, out_features=1, bias=True)
 )
@@ -2350,10 +2345,10 @@ True
 ReviewClassifier(
   (fc1): Linear(in_features=7356, out_features=1, bias=True)
 )
-True
 ReviewClassifier(
   (fc1): Linear(in_features=7356, out_features=1, bias=True)
 )
+True
 True
 ReviewClassifier(
   (fc1): Linear(in_features=7356, out_features=1, bias=True)
@@ -2442,8 +2437,10 @@ True</code></pre>
 <p>Now the end-product of the project with for predicting sentiments needs to be tested. To do this, an eaxmple review text is passed to the function to get a sentiment prediction. The implementation is as follows;</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>try_text <span class="op">=</span> <span class="st">&#39;Well, it could be better&#39;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>predict_rating(review<span class="op">=</span>try_text, classifier<span class="op">=</span>classifier, vectorizer<span class="op">=</span>vectorizer, decision_threshold<span class="op">=</span><span class="fl">0.5</span>)</span></code></pre></div>
-<pre><code>&#39;negative&#39;</code></pre>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> predict_rating(review<span class="op">=</span>try_text, classifier<span class="op">=</span>classifier, vectorizer<span class="op">=</span>vectorizer, decision_threshold<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prediction)</span></code></pre></div>
+<pre><code>negative</code></pre>
 </div>
 <h2 id="summary">Summary</h2>
 <p>In this blog post, an end-to-end sentiment prediction with NLP and deep learning was undertaken. The process of capturing the problem with a problem design framework, scoping the project to define technical requirements and actually implementing a deep learning model for text classification was undertaken. The model developed achieved an accuracy of 90% on test data which quite good without hyperparameter optimization. A much user-friendlier way of handling the work to the product team will be to build an applications that they can upload the document and have the model developed at the back-end process and make prediction. A web application with these functionality will enable the product team to predict sentiments with just a matter of clicks.</p>
