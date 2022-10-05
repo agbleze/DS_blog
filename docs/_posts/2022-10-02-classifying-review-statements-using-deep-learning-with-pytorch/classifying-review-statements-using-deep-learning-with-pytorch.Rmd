@@ -142,6 +142,15 @@ def preprocess_text(text):
 ```
 
 
+## Components for preparing text data for sentiments prediction
+
+A distinction can be made between components that are specific to NLP task and those related to Deep Learning. For this sentiment analysis, NLP specific components to be implemented are identifed as follows
+
+* Vocabulary map
+* Vectorizer or encoding technique
+
+The above component needs to be implemented on the text dataset as part of preprocessing before building a perceptron. 
+
 ### Creating vocabulary map
 
 In classifying reviews, the set of review words needs to be mapped before hand. The body of reviews currently available is what will be used to train a model hence the words in this review provides the predictive power of the model. It is important the reviews to be predicted in the future using the current model have their words searched and if found retrieved from the map of words used for the training. Thus a vocabulary map is needed. This map will then be used to lookup words when a review is provided. This vocabulary map serves as a ground truth and when a text is provided later for prediction with some words not in the vocabulary map, the those unfound words will be indicated as UNK being unknown and given the corresponding integer of UNK.
