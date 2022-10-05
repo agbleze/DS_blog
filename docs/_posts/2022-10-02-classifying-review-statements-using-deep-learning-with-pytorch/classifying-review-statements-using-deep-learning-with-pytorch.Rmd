@@ -149,7 +149,13 @@ A distinction can be made between components that are specific to NLP task and t
 * Vocabulary map
 * Vectorizer or encoding technique
 
-The above component needs to be implemented on the text dataset as part of preprocessing before building a perceptron. 
+The above component needs to be implemented on the text dataset as part of preprocessing before building a classifier model. Before then, let read the dataset and describe it.
+
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
+
+
+
+```
 
 ### Creating vocabulary map
 
