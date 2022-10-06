@@ -1,7 +1,7 @@
 ---
-title: "Classifying review statements using Deep Learning with Pytorch"
+title: "Predicting review sentiments using NLP and Deep Learning with Pytorch"
 description: |
-  A short description of the post.
+  This post describes an end to end project on predicting review sentiments by customers using Natural Language Processing and Deep Learning with Pytorch.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -35,6 +35,18 @@ use_virtualenv('/Users/lin/Documents/python_venvs/pytorch_deepL', required=TRUE)
 ```
 
 
+```{python, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+import os
+
+pwd = os.getcwd()
+datafolder = '/data/yelp/'
+dataname = 'reviews_with_splits_lite.csv'
+datapath = pwd + datafolder + dataname
+img_path = pwd + '/SQC_YELP.png'
+```
+
+
+
 # Background
 
 "The customer is always right" is an adage that has come to stay with businesses that believe in continuous improvement of products through reviews and feedback. There is no better time to fully convert this mantra into business operations than now with the support of data science techniques for processing texts. 
@@ -54,8 +66,16 @@ Hypothetically, the product team has identified as one of the tasks for the quar
 The understanding from the problem statement needs to be translated into a problem design framework that provides a high level overview for both technical and non-technical audience. This is the first stage -- gain a proper understanding and context of the problem to solve at a business level.
 
 
-![Problem design framework for project goal](/Users/lin/Documents/DS_blog/docs/posts/2022-10-02-classifying-review-statements-using-deep-learning-with-pytorch/classifying-review-statements-using-deep-learning-with-pytorch_files/SQC_YELP.png)
+<!-- ![Problem design framework for project goal](/Users/lin/Documents/DS_blog/docs/posts/2022-10-02-classifying-review-statements-using-deep-learning-with-pytorch/classifying-review-statements-using-deep-learning-with-pytorch_files/SQC_YELP.png) -->
 
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE}
+library(magick)
+
+scq <- magick::image_read(path = py$img_path)
+print(scq)
+
+
+```
 
 The problem statement of the project is captured as snapshot using the Situation Question Complication framework. It describes at a glance, the current situation, the basic question that will be answered with the data and the expected outcome after successful execution of the project. This is the overaching goal that needs to be noted before going into the technicalities of the project and will serve as a terms of reference upon which the data scientist and the product team (the audience requesting the project -- usually non-technical people) will have a discussion and decide on status of project completion. 
 
@@ -111,7 +131,6 @@ To implement this, the require packages are imported as follows;
 # import packages
 
 from collections import Counter
-import os
 import re
 import string
 import numpy as np
@@ -120,7 +139,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-import os
 import pandas as pd
 
 ```
@@ -149,10 +167,7 @@ A distinction can be made between components that are specific to NLP task and t
 The above component needs to be implemented on the text dataset as part of preprocessing before building a classifier model. Before then, let read the dataset and describe it.
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-pwd = os.getcwd()
-datafolder = '/data/yelp/'
-dataname = 'reviews_with_splits_lite.csv'
-datapath = pwd + datafolder + dataname
+
 review_df = pd.read_csv(datapath)
 
 print(f"Number of observations: {review_df.shape[0]}")
@@ -181,8 +196,6 @@ np.random.seed(123)
 torch.manual_seed(123)
 
 class Vocabulary(object):
-    """Class to process text and extract vocabulary for mapping"""
-
     def __init__(self, token_to_idx=None, add_unk=True, unk_token="<UNK>"):
         if token_to_idx is None:
             token_to_idx = {}
@@ -388,10 +401,10 @@ class ClassifierModel(nn.Module):
 As part of the training of model and evaluation the accuracy of the model has to estimated. The indicates the degree of correctness in the models fitting and prediction. The accuracy calculation is implementted below
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-def calculate_accuracy(y_pred, y_target):
-    y_target = y_target.cpu()
-    y_pred_indices = (torch.sigmoid(y_pred)>0.5).cpu().long()#.max(dim=1)[1]
-    n_correct = torch.eq(y_pred_indices, y_target).sum().item()
+def calculate_accuracy(y_pred, y_actual):
+    y_actual = y_actual.cpu()
+    y_pred_indices = (torch.sigmoid(y_pred)>0.5).cpu().long()
+    n_correct = torch.eq(y_pred_indices, y_actual).sum().item()
     return n_correct / len(y_pred_indices) * 100
 ```
 
@@ -438,12 +451,11 @@ val_acc = []
 The various components are put initialized or prepared to be used for the training of the model as follows;
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-# create dataset and vectorizer
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+# create dataset, vectorizer, classifier instance
 
 dataset = DataPrep.load_dataset_and_make_vectorizer(review_data=review_df)
-
-#dataset.save_vectorizer(args.vectorizer_file)    
+   
 vectorizer = dataset.get_vectorizer()
 
 classifier = ClassifierModel(num_features=len(vectorizer.review_vocab))
@@ -455,7 +467,7 @@ classifier = ClassifierModel(num_features=len(vectorizer.review_vocab))
 The various components for training a model for review classifications have been developed. These components will be  used to train the model and the implementation is below;
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 
 classifier = classifier.to(device=device)
 
@@ -549,50 +561,44 @@ In order to determine the true performance of the model, it is evaluated on the 
 
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 
-# compute the loss & accuracy on the test set using the best available model
-
-classifier.load_state_dict(torch.load(train_state['model_filename']))
-classifier = classifier.to(args.device)
+# compute the loss & accuracy on the test set for model
 
 dataset.set_split('test')
-batch_generator = generate_batches(dataset, 
-                                   batch_size=args.batch_size, 
-                                   device=args.device)
+batch_generator = create_batches(dataset, 
+                                   batch_size=batch_size, 
+                                   device=device)
 running_loss = 0.
 running_acc = 0.
 classifier.eval()
 
 for batch_index, batch_dict in enumerate(batch_generator):
     # compute the output
-    y_pred = classifier(x_in=batch_dict['x_data'].float())
+    y_pred = classifier(x_in=batch_dict['features'].float())
 
     # compute the loss
-    loss = loss_func(y_pred, batch_dict['y_target'].float())
+    loss = loss_func(y_pred, batch_dict['outcome'].float())
     loss_t = loss.item()
     running_loss += (loss_t - running_loss) / (batch_index + 1)
 
     # compute the accuracy
-    acc_t = compute_accuracy(y_pred, batch_dict['y_target'])
+    acc_t = calculate_accuracy(y_pred, batch_dict['outcome'])
     running_acc += (acc_t - running_acc) / (batch_index + 1)
 
-train_state['test_loss'] = running_loss
-train_state['test_acc'] = running_acc
+test_loss = running_loss
+test_acc = running_acc
 
 ```
 
 
-
-## Test accuracy
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-print("Test loss: {:.3f}".format(train_state['test_loss']))
-print("Test Accuracy: {:.2f}".format(train_state['test_acc']))
+print(f"Test loss: {test_loss}")
+print(f"Test Accuracy: {test_acc}")
 
 ```
-
 
 The goal of the project has been achieved quite well, that is to develop a model for predicting reviews. A better job will be to organized this properly by writing function that does prediction with the model. The additional component to achieve this is to decide a threshold for classifying the predicted probabilities. The result of the model is a probability that review is negative or positive and a threshold is required for which when probability is less than or greater than a decision is made on the predicted sentiment. In this case 0.5 is used but this not fixed and infact this threshold is a hyperparamter that can be tuned to improve model accuracy.
 
@@ -600,38 +606,38 @@ This is implemented below;
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
-def predict_rating(review, classifier, vectorizer, decision_threshold=0.5):
-    """Predict the rating of a review
+def predict_sentiment(review: str, classifier, vectorizer, decision_threshold=0.5):
     
-    Args:
-        review (str): the text of the review
-        classifier (ReviewClassifier): the trained model
-        vectorizer (ReviewVectorizer): the corresponding vectorizer
-        decision_threshold (float): The numerical boundary which separates the rating classes
-    """
     review = preprocess_text(review)
     
     vectorized_review = torch.tensor(vectorizer.vectorize(review))
     result = classifier(vectorized_review.view(1, -1))
     
-    probability_value = torch.sigmoid(result).item()
+    probability = torch.sigmoid(result).item()
     index = 1
-    if probability_value < decision_threshold:
+    if probability < decision_threshold:
         index = 0
 
-    return vectorizer.rating_vocab.lookup_index(index)
+    return vectorizer.rating_vocab.check_tokenindex(index)
 ```
 
 
-** Predicting the sentiment 
+** Predicting the sentiment of reviews
 
-Now the end-product of the project with for predicting sentiments needs to be tested. To do this, an eaxmple review text is passed to the function to get a sentiment prediction. The implementation is as follows;
+The end-product of the project needs to be tested. To do this, an examples of reviews are passed to the function to get a sentiment prediction. The implementation is as follows;
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-try_text = 'Well, it could be better'
-prediction = predict_rating(review=try_text, classifier=classifier, vectorizer=vectorizer, decision_threshold=0.5)
+review_dict = {"review_1": 'Well, it could be better',
+                "review_2": "i'm very impress by the quality",
+                "review_3": "This is not what I am looking for",
+                "review_4": "I can't ask for anything better"
+                }
 
-print(prediction)
+
+for review in review_dict:
+  sentiment = predict_sentiment(review=review_dict[review], classifier=classifier,
+  vectorizer=vectorizer,decision_threshold=0.5)
+  print(f"{review} is predicted to be {sentiment} sentiment")
 
 ```
 
