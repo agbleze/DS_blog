@@ -1550,6 +1550,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Task: To undertake binary supervise classification of reviews into classes of “positive” and “negative” sentiment. The yelp dataset has labels or the target is correctly labeled. A review text will be classified as either “positive” or “negative”.</p></li>
 <li><p>Method: Deep learning based Natural Language Processing (NLP) will used to undertake text classification. Usually, the decision of which method and algorithm to use is based on several factors including exploratory analysis. However, this is predefined to be using a deep learning approach as the focus of demonstrating NLP using deep learning with pytorch. Other approaches such as machine learning are possible.</p></li>
 </ul>
+<h2 id="implementation-of-project">Implementation of project</h2>
 <h3 id="processing-pipeline-for-binary-text-classification">Processing pipeline for binary text classification</h3>
 <p>Text data requires preprocessing and encoding into feature types that are understandable by algorithms before the actual modeling, evaluation and prediction. Each stage of the pipeline has it own unique processes and varies even by dataset type and format as well as project focus. For this analysis, the process is summarized as follows;</p>
 <ol type="1">
@@ -1567,17 +1568,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import packages</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> string</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div>
 </div>
 <p>A simple function for text preprocessing is depicted below;</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1616,7 +1615,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">## set seed to make work reproducible</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">123</span>)</span></code></pre></div>
-<pre><code>&lt;torch._C.Generator object at 0x7fcf3e02b5d0&gt;</code></pre>
+<pre><code>&lt;torch._C.Generator object at 0x7f840cab75d0&gt;</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Vocabulary(<span class="bu">object</span>):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, token_to_idx<span class="op">=</span><span class="va">None</span>, add_unk<span class="op">=</span><span class="va">True</span>, unk_token<span class="op">=</span><span class="st">&quot;&lt;UNK&gt;&quot;</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> token_to_idx <span class="kw">is</span> <span class="va">None</span>:</span>
@@ -1661,7 +1660,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>._token_to_idx)</span>
 <span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>      </span></code></pre></div>
 </div>
-<h2 id="encoding-the-data">Encoding the data</h2>
+<h3 id="encoding-the-data">Encoding the data</h3>
 <p>A critical aspect of text analysis is to represent the text as integers for the algorithm to process In this analysis, one-hot encoding method is used. When a review data is provided, the tokens are looked up from the vocabulary table discussed earlier and when not found the token is added to the vocabulary.For this, the review data has two dimensions, the review and the outcome or rating indicating whether is positive or negative. Because the ratings are definate as in only two classes are expected, unknown tokens, that is anything other “positive” and “negative” are not added to the vocabulary map. In the case of review text, they are expected to vary just as customers expresssion are hence unknown token are added. This also means that there could be as many tokens as could be hence demanding large memory for processing. To handle this only tokens occuring more than 25 times are considered</p>
 <p>The implementation for the vectorizing reviews for modelling is below</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1702,7 +1701,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> cls(review_vocab, rating_vocab)</span>
 <span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>             </span></code></pre></div>
 </div>
-<h2 id="handling-dataset-splitting-datasets-and-generating-dataset-batches">Handling dataset: Splitting datasets and generating dataset batches</h2>
+<h3 id="handling-dataset-splitting-datasets-and-generating-dataset-batches">Handling dataset: Splitting datasets and generating dataset batches</h3>
 <p>In order to develop a generazible model, it is required that part of the dataset is used for training, another for evaluating the model to decide how the parameters are to optimized for gradient descent (validation dataset) and yet another separate dataset for testing the performance of the model (test dataset). The evaluation of the model on validation dataset provides the signals to be backpropagated to update the model parameters. Both the training and validation datasets are operated on in batches which means training and evaluating the model on slices of the dataset until all the dataset have been used during a training section.</p>
 <p>Thus, a dataset object will require a number of actions to be performed on it making it ideal for writing a class for it implementation. Methods for splitting the dataset into various types and slicing the dataset into batches are required. For simplity, the dataset has already been split. into train, test, and validation and providied as a single dataframe with a column indicating the split type.</p>
 <p>The implementation for the handling the dataset is as below;</p>
@@ -1774,7 +1773,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Classifier model</li>
 <li>Training and evaluation of model</li>
 </ul>
-<h2 id="classifier-model">Classifier Model</h2>
+<h3 id="classifier-model">Classifier Model</h3>
 <p>As indicated earlier, we are interested in developing a deep learning model. A simple perceptron is used to demonstrate the modeling process here. A simple pereptron is a deep learning model architecture with an input layer and an output layer without hidden layers.</p>
 <p>An implementation of the simple classifier model is depicted below;</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1792,7 +1791,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y_out</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        </span></code></pre></div>
 </div>
-<h2 id="calculating-model-accuracy">Calculating model accuracy</h2>
+<h3 id="calculating-model-accuracy">Calculating model accuracy</h3>
 <p>As part of the training of model and evaluation the accuracy of the model has to estimated. The indicates the degree of correctness in the models fitting and prediction. The accuracy calculation is implementted below</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_accuracy(y_pred, y_actual):</span>
@@ -1801,7 +1800,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    n_correct <span class="op">=</span> torch.eq(y_pred_indices, y_actual).<span class="bu">sum</span>().item()</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n_correct <span class="op">/</span> <span class="bu">len</span>(y_pred_indices) <span class="op">*</span> <span class="dv">100</span></span></code></pre></div>
 </div>
-<h2 id="creating-model-parameter-states">Creating model parameter states</h2>
+<h3 id="model-parameters">Model parameters</h3>
 <p>Deep learning models have some parameters unique to them and differentiates them machine learning. A few of them are used in training the model and are identified as follows;</p>
 <ul>
 <li><p>number of epochs (num_epochs): This identifies the total number of complete training sessions for training the model. All operations involving training of various batches of data such as creating batches, estimating loss objective, propogating signals, and updating model weights for all batches that makes up the complete dataset are trained.</p></li>
@@ -1832,7 +1831,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>classifier <span class="op">=</span> ClassifierModel(num_features<span class="op">=</span><span class="bu">len</span>(vectorizer.review_vocab))</span></code></pre></div>
 </div>
-<h2 id="training-the-model">Training the model</h2>
+<h3 id="training-the-model">Training the model</h3>
 <p>The various components for training a model for review classifications have been developed. These components will be used to train the model and the implementation is below;</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
@@ -1919,7 +1918,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>    scheduler.step(val_loss[<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
 </div>
-<h2 id="evaluting-model-on-test-data">Evaluting model on test data</h2>
+<h3 id="evaluting-model-on-test-data">Evaluting model on test data</h3>
 <p>In order to determine the true performance of the model, it is evaluated on the test data. Based on the performance on the test data, the generalizability of model on unseen data is determine. The aim is to achieve a high accuracy rate and low loss on the test data as much as was seen on the training data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>

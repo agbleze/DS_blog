@@ -108,6 +108,9 @@ Based on the research question and objective as well as the type and nature of d
 * Method: Deep learning based Natural Language Processing (NLP) will used to undertake text classification. Usually, the decision of which method and algorithm to use is based on several factors including exploratory analysis. However, this is predefined to be using a deep learning approach as the focus of demonstrating NLP using deep learning with pytorch. Other approaches such as machine learning are possible. 
 
 
+## Implementation of project
+
+
 ### Processing pipeline for binary text classification
 
 Text data requires preprocessing and encoding into feature types that are understandable by algorithms before the actual modeling, evaluation and prediction. Each stage of the pipeline has it own unique processes and varies even by dataset type and format as well as project focus.
@@ -242,7 +245,7 @@ class Vocabulary(object):
 
 
 
-## Encoding the data
+### Encoding the data
 A critical aspect of text analysis is to represent the text as integers for the algorithm to process In this analysis, one-hot encoding method is used. When a review data is provided, the tokens are looked up from the vocabulary table discussed earlier and when not found the token is added to the vocabulary.For this, the review data has two dimensions, the review and the outcome or rating indicating whether is positive or negative. Because the ratings are definate as in only two classes are expected, unknown tokens, that is anything other "positive" and "negative" are not added to the vocabulary map. In the case of review text, they are expected to vary just as customers expresssion are hence unknown token are added. This also means that there could be as many tokens as could be hence demanding large memory for processing. To handle this only tokens occuring more than 25 times are considered
 
 
@@ -289,7 +292,7 @@ class Encoder(object):
 
 
 
-## Handling dataset: Splitting datasets and generating dataset batches
+### Handling dataset: Splitting datasets and generating dataset batches
 
 In order to develop a generazible model, it is required that part of the dataset is used for training, another for evaluating the model to decide how the parameters are to optimized for gradient descent (validation dataset) and yet another separate dataset for testing the performance of the model (test dataset). The evaluation of the model on validation dataset provides the signals to be backpropagated to update the model parameters. Both the training and validation datasets are operated on in batches which means training and evaluating the model on slices of the dataset until all the dataset have been used during a training section. 
 
@@ -371,7 +374,7 @@ The main components taht are specific to deep learning are the classifier model,
 * Training and evaluation of model
 
 
-## Classifier Model
+### Classifier Model
 
 As indicated earlier, we are interested in developing a deep learning model. A simple perceptron is used to demonstrate the modeling process here. A simple pereptron is a deep learning model architecture with an input layer and an output layer without hidden layers.
 
@@ -396,7 +399,7 @@ class ClassifierModel(nn.Module):
 ```
 
 
-## Calculating model accuracy
+### Calculating model accuracy
 
 As part of the training of model and evaluation the accuracy of the model has to estimated. The indicates the degree of correctness in the models fitting and prediction. The accuracy calculation is implementted below
 
@@ -410,7 +413,7 @@ def calculate_accuracy(y_pred, y_actual):
 
 
 
-## Creating model parameter states
+### Model parameters
 
 Deep learning models have some parameters unique to them and differentiates them machine learning. A few of them are used in training the model and are identified as follows;
 
@@ -462,7 +465,7 @@ classifier = ClassifierModel(num_features=len(vectorizer.review_vocab))
 ```
 
 
-## Training the model
+### Training the model
 
 The various components for training a model for review classifications have been developed. These components will be  used to train the model and the implementation is below;
 
@@ -555,7 +558,7 @@ for epoch in range(num_epochs):
 ```
 
 
-## Evaluting model on test data
+### Evaluting model on test data
 
 In order to determine the true performance of the model, it is evaluated on the test data. Based on the performance on the test data, the generalizability of model on unseen data is determine. The aim is to achieve a high accuracy rate and low loss on the test data as much as was seen on the training data.
 
