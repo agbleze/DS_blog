@@ -109,22 +109,19 @@ To implement this, the require packages are imported as follows;
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # import packages
-from argparse import Namespace
+
 from collections import Counter
-import json
 import os
 import re
 import string
-
 import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-from tqdm import tqdm_notebook
-
+import os
+import pandas as pd
 
 ```
 
@@ -152,10 +149,21 @@ A distinction can be made between components that are specific to NLP task and t
 The above component needs to be implemented on the text dataset as part of preprocessing before building a classifier model. Before then, let read the dataset and describe it.
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
+pwd = os.getcwd()
+datafolder = '/data/yelp/'
+dataname = 'reviews_with_splits_lite.csv'
+datapath = pwd + datafolder + dataname
+review_df = pd.read_csv(datapath)
+
+print(f"Number of observations: {review_df.shape[0]}")
+review_df.head()
 
 
 
 ```
+
+
+
 
 ### Creating vocabulary map
 
@@ -168,18 +176,14 @@ The implementation for extracting vocabulary for mapping is below.
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
+## set seed to make work reproducible
+np.random.seed(123)
+torch.manual_seed(123)
 
 class Vocabulary(object):
     """Class to process text and extract vocabulary for mapping"""
 
     def __init__(self, token_to_idx=None, add_unk=True, unk_token="<UNK>"):
-        """
-        Args:
-            token_to_idx (dict): a pre-existing map of tokens to indices
-            add_unk (bool): a flag that indicates whether to add the UNK token
-            unk_token (str): the UNK token to add into the Vocabulary
-        """
-
         if token_to_idx is None:
             token_to_idx = {}
         self._token_to_idx = token_to_idx
@@ -193,27 +197,8 @@ class Vocabulary(object):
         self.unk_index = -1
         if add_unk:
             self.unk_index = self.add_token(unk_token) 
-        
-        
-    def to_serializable(self):
-        """ returns a dictionary that can be serialized """
-        return {'token_to_idx': self._token_to_idx, 
-                'add_unk': self._add_unk, 
-                'unk_token': self._unk_token}
-
-    @classmethod
-    def from_serializable(cls, contents):
-        """ instantiates the Vocabulary from a serialized dictionary """
-        return cls(**contents)
 
     def add_token(self, token):
-        """Update mapping dicts based on the token.
-
-        Args:
-            token (str): the item to add into the Vocabulary
-        Returns:
-            index (int): the integer corresponding to the token
-        """
         if token in self._token_to_idx:
             index = self._token_to_idx[token]
         else:
@@ -222,45 +207,16 @@ class Vocabulary(object):
             self._idx_to_token[index] = token
         return index
     
-    def add_many(self, tokens):
-        """Add a list of tokens into the Vocabulary
-        
-        Args:
-            tokens (list): a list of string tokens
-        Returns:
-            indices (list): a list of indices corresponding to the tokens
-        """
-        return [self.add_token(token) for token in tokens]
 
-    def lookup_token(self, token):
-        """Retrieve the index associated with the token 
-          or the UNK index if token isn't present.
-        
-        Args:
-            token (str): the token to look up 
-        Returns:
-            index (int): the index corresponding to the token
-        Notes:
-            `unk_index` needs to be >=0 (having been added into the Vocabulary) 
-              for the UNK functionality 
-        """
+    def check_token(self, token):
         if self.unk_index >= 0:
             return self._token_to_idx.get(token, self.unk_index)
         else:
             return self._token_to_idx[token]
 
-    def lookup_index(self, index):
-        """Return the token associated with the index
-        
-        Args: 
-            index (int): the index to look up
-        Returns:
-            token (str): the token corresponding to the index
-        Raises:
-            KeyError: if the index is not in the Vocabulary
-        """
+    def check_tokenindex(self, index):
         if index not in self._idx_to_token:
-            raise KeyError("the index (%d) is not in the Vocabulary" % index)
+            raise KeyError(f"Index {index} is not found in the Vocabulary")
         return self._idx_to_token[index]
 
     def __str__(self):
@@ -268,6 +224,7 @@ class Vocabulary(object):
 
     def __len__(self):
         return len(self._token_to_idx)
+      
 ```
 
 
@@ -279,43 +236,22 @@ A critical aspect of text analysis is to represent the text as integers for the 
 The implementation for the vectorizing reviews for modelling is below 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-class ReviewVectorizer(object):
-    """ The Vectorizer which coordinates the Vocabularies and puts them to use"""
+class Encoder(object):
     def __init__(self, review_vocab, rating_vocab):
-        """
-        Args:
-            review_vocab (Vocabulary): maps words to integers
-            rating_vocab (Vocabulary): maps class labels to integers
-        """
         self.review_vocab = review_vocab
         self.rating_vocab = rating_vocab
 
-    def vectorize(self, review):
-        """Create a collapsed one-hit vector for the review
-        
-        Args:
-            review (str): the review 
-        Returns:
-            one_hot (np.ndarray): the collapsed one-hot encoding 
-        """
+    def vectorize(self, review: str):
         one_hot = np.zeros(len(self.review_vocab), dtype=np.float32)
         
         for token in review.split(" "):
             if token not in string.punctuation:
-                one_hot[self.review_vocab.lookup_token(token)] = 1
+                one_hot[self.review_vocab.check_token(token)] = 1
 
         return one_hot
 
     @classmethod
-    def from_dataframe(cls, review_df, cutoff=25):
-        """Instantiate the vectorizer from the dataset dataframe
-        
-        Args:
-            review_df (pandas.DataFrame): the review dataset
-            cutoff (int): the parameter for frequency-based filtering
-        Returns:
-            an instance of the ReviewVectorizer
-        """
+    def from_dataframe(cls, review_df, word_frequency=25):
         review_vocab = Vocabulary(add_unk=True)
         rating_vocab = Vocabulary(add_unk=False)
         
@@ -329,36 +265,13 @@ class ReviewVectorizer(object):
             for word in review.split(" "):
                 if word not in string.punctuation:
                     word_counts[word] += 1
-               
+                    
         for word, count in word_counts.items():
-            if count > cutoff:
+            if count > word_frequency:
                 review_vocab.add_token(word)
 
         return cls(review_vocab, rating_vocab)
-
-    @classmethod
-    def from_serializable(cls, contents):
-        """Instantiate a ReviewVectorizer from a serializable dictionary
-        
-        Args:
-            contents (dict): the serializable dictionary
-        Returns:
-            an instance of the ReviewVectorizer class
-        """
-        review_vocab = Vocabulary.from_serializable(contents['review_vocab'])
-        rating_vocab =  Vocabulary.from_serializable(contents['rating_vocab'])
-
-        return cls(review_vocab=review_vocab, rating_vocab=rating_vocab)
-
-    def to_serializable(self):
-        """Create the serializable dictionary for caching
-        
-        Returns:
-            contents (dict): the serializable dictionary
-        """
-        return {'review_vocab': self.review_vocab.to_serializable(),
-                'rating_vocab': self.rating_vocab.to_serializable()}
-                
+             
 ```
 
 
@@ -374,13 +287,8 @@ The implementation for the handling the dataset is as below;
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
-class ReviewDataset(Dataset):
-    def __init__(self, review_df, vectorizer):
-        """
-        Args:
-            review_df (pandas.DataFrame): the dataset
-            vectorizer (ReviewVectorizer): vectorizer instantiated from dataset
-        """
+class DataPrep(Dataset):
+    def __init__(self, review_df: pd.DataFrame, vectorizer):
         self.review_df = review_df
         self._vectorizer = vectorizer
 
@@ -400,67 +308,15 @@ class ReviewDataset(Dataset):
         self.set_split('train')
 
     @classmethod
-    def load_dataset_and_make_vectorizer(cls, review_csv):
-        """Load dataset and make a new vectorizer from scratch
-        
-        Args:
-            review_csv (str): location of the dataset
-        Returns:
-            an instance of ReviewDataset
-        """
-        review_df = pd.read_csv(review_csv)
+    def load_dataset_and_make_vectorizer(cls, review_data: pd.DataFrame = review_df):
         train_review_df = review_df[review_df.split=='train']
-        return cls(review_df, ReviewVectorizer.from_dataframe(train_review_df))
+        return cls(review_df, Encoder.from_dataframe(train_review_df))
     
-    ########## REMOVE #############
-    @classmethod
-    def load_dataset_and_load_vectorizer(cls, review_csv, vectorizer_filepath):
-        """Load dataset and the corresponding vectorizer. 
-        Used in the case in the vectorizer has been cached for re-use
-        
-        Args:
-            review_csv (str): location of the dataset
-            vectorizer_filepath (str): location of the saved vectorizer
-        Returns:
-            an instance of ReviewDataset
-        """
-        review_df = pd.read_csv(review_csv)
-        vectorizer = cls.load_vectorizer_only(vectorizer_filepath)
-        return cls(review_df, vectorizer)
-      
-      ######## REMOVE #############
-
-    @staticmethod
-    def load_vectorizer_only(vectorizer_filepath):
-        """a static method for loading the vectorizer from file
-        
-        Args:
-            vectorizer_filepath (str): the location of the serialized vectorizer
-        Returns:
-            an instance of ReviewVectorizer
-        """
-        with open(vectorizer_filepath) as fp:
-            return ReviewVectorizer.from_serializable(json.load(fp))
-
-    def save_vectorizer(self, vectorizer_filepath):
-        """saves the vectorizer to disk using json
-        
-        Args:
-            vectorizer_filepath (str): the location to save the vectorizer
-        """
-        with open(vectorizer_filepath, "w") as fp:
-            json.dump(self._vectorizer.to_serializable(), fp)
 
     def get_vectorizer(self):
-        """ returns the vectorizer """
         return self._vectorizer
 
-    def set_split(self, split="train"):
-        """ selects the splits in the dataset using a column in the dataframe 
-        
-        Args:
-            split (str): one of "train", "val", or "test"
-        """
+    def set_split(self, split: str ="train"):
         self._target_split = split
         self._target_df, self._target_size = self._lookup_dict[split]
 
@@ -468,40 +324,20 @@ class ReviewDataset(Dataset):
         return self._target_size
 
     def __getitem__(self, index):
-        """the primary entry point method for PyTorch datasets
-        
-        Args:
-            index (int): the index to the data point 
-        Returns:
-            a dictionary holding the data point's features (x_data) and label (y_target)
-        """
         row = self._target_df.iloc[index]
 
         review_vector = \
             self._vectorizer.vectorize(row.review)
 
         rating_index = \
-            self._vectorizer.rating_vocab.lookup_token(row.rating)
+            self._vectorizer.rating_vocab.check_token(row.rating)
 
-        return {'x_data': review_vector,
-                'y_target': rating_index}
+        return {'features': review_vector,
+                'outcome': rating_index}
 
-    def get_num_batches(self, batch_size):
-        """Given a batch size, return the number of batches in the dataset
-        
-        Args:
-            batch_size (int)
-        Returns:
-            number of batches in the dataset
-        """
-        return len(self) // batch_size  
     
-def generate_batches(dataset, batch_size, shuffle=True,
+def create_batches(dataset, batch_size, shuffle=True,
                      drop_last=True, device="cpu"):
-    """
-    A generator function which wraps the PyTorch DataLoader. It will 
-      ensure each tensor is on the write device location.
-    """
     dataloader = DataLoader(dataset=dataset, batch_size=batch_size,
                             shuffle=shuffle, drop_last=drop_last)
 
@@ -514,10 +350,17 @@ def generate_batches(dataset, batch_size, shuffle=True,
 ```
 
 
+## Components for deep learning model
+
+The main components taht are specific to deep learning are the classifier model, training and evaluations operations. Hyperparameter  optimization is an important step but not undertaken in this post to keep things as simple and short as possible
+
+* Classifier model
+* Training and evaluation of model
+
 
 ## Classifier Model
 
-As indicated earlier, we are interested in developing a deep learning model. A simple perceptron is used to demonstrate the modeling process here. A simple pereptron is a deep learning model architectutre with an input layer and an output layer without hidden layers.
+As indicated earlier, we are interested in developing a deep learning model. A simple perceptron is used to demonstrate the modeling process here. A simple pereptron is a deep learning model architecture with an input layer and an output layer without hidden layers.
 
 
 An implementation of the simple classifier model is depicted below;
@@ -525,28 +368,13 @@ An implementation of the simple classifier model is depicted below;
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
-class ReviewClassifier(nn.Module):
-    """ a simple perceptron based classifier """
+class ClassifierModel(nn.Module):
     def __init__(self, num_features):
-        """
-        Args:
-            num_features (int): the size of the input feature vector
-        """
-        super(ReviewClassifier, self).__init__()
+        super(ClassifierModel, self).__init__()
         self.fc1 = nn.Linear(in_features=num_features, 
                              out_features=1)
 
     def forward(self, x_in, apply_sigmoid=False):
-        """The forward pass of the classifier
-        
-        Args:
-            x_in (torch.Tensor): an input data tensor. 
-                x_in.shape should be (batch, num_features)
-            apply_sigmoid (bool): a flag for the sigmoid activation
-                should be false if used with the Cross Entropy losses
-        Returns:
-            the resulting tensor. tensor.shape should be (batch,)
-        """
         y_out = self.fc1(x_in).squeeze()
         if apply_sigmoid:
             y_out = torch.sigmoid(y_out)
@@ -555,161 +383,70 @@ class ReviewClassifier(nn.Module):
 ```
 
 
+## Calculating model accuracy
 
-## Creating model parameter states
-
+As part of the training of model and evaluation the accuracy of the model has to estimated. The indicates the degree of correctness in the models fitting and prediction. The accuracy calculation is implementted below
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-
-def make_train_state(args):
-    return {'stop_early': False,
-            'early_stopping_step': 0,
-            'early_stopping_best_val': 1e8,
-            'learning_rate': args.learning_rate,
-            'epoch_index': 0,
-            'train_loss': [],
-            'train_acc': [],
-            'val_loss': [],
-            'val_acc': [],
-            'test_loss': -1,
-            'test_acc': -1,
-            'model_filename': args.model_state_file}
-
-def update_train_state(args, model, train_state):
-    """Handle the training state updates.
-
-    Components:
-     - Early Stopping: Prevent overfitting.
-     - Model Checkpoint: Model is saved if the model is better
-
-    :param args: main arguments
-    :param model: model to train
-    :param train_state: a dictionary representing the training state values
-    :returns:
-        a new train_state
-    """
-
-    # Save one model at least
-    if train_state['epoch_index'] == 0:
-        torch.save(model.state_dict(), train_state['model_filename'])
-        train_state['stop_early'] = False
-
-    # Save model if performance improved
-    elif train_state['epoch_index'] >= 1:
-        loss_tm1, loss_t = train_state['val_loss'][-2:]
-
-        # If loss worsened
-        if loss_t >= train_state['early_stopping_best_val']:
-            # Update step
-            train_state['early_stopping_step'] += 1
-        # Loss decreased
-        else:
-            # Save the best model
-            if loss_t < train_state['early_stopping_best_val']:
-                torch.save(model.state_dict(), train_state['model_filename'])
-
-            # Reset early stopping step
-            train_state['early_stopping_step'] = 0
-
-        # Stop early ?
-        train_state['stop_early'] = \
-            train_state['early_stopping_step'] >= args.early_stopping_criteria
-
-    return train_state
-
-def compute_accuracy(y_pred, y_target):
+def calculate_accuracy(y_pred, y_target):
     y_target = y_target.cpu()
     y_pred_indices = (torch.sigmoid(y_pred)>0.5).cpu().long()#.max(dim=1)[1]
     n_correct = torch.eq(y_pred_indices, y_target).sum().item()
     return n_correct / len(y_pred_indices) * 100
-    
 ```
 
 
-### setting seed 
+
+## Creating model parameter states
+
+Deep learning models have some parameters unique to them and differentiates them machine learning. A few of them are used in training the model and are identified as follows;
+
+* number of epochs (num_epochs): This identifies the total number of complete training sessions for training the model. All operations involving training of various batches of data such as creating batches, estimating loss objective, propogating signals, and updating model weights for all batches that makes up the complete dataset are trained.
+
+
+* batch_size: This is simple the subset of the dataset that is trained and evaluated at a time. Example for a dataset of 10,000 data points, if we use a batch size of 100, it means 100 data points will be sampled as a batch for training at a time. Thus, the algorithm will be trained for 100 rounds to complete on data points for a single training epoch. The larger the batch size, the lower the number of rounds that the algorithm is reading during an epoch and vice-versa. In this exercise, a batch size of 128 is used. 
+
+
+* device: The device on which the modeling is done has to be indicated to be either GPU or CPU. The model was trained on CPU in this case.
+
+
+* learning rate: is used to determing how high a step should be taken in updating the model parameters. Generally, 0.01 works well and is used in this exercise but this is an important parameter that can be tuned.
+
+
+* loss function: Loss indicate the how far our prediction is away from the actual value being model. The lower the loss, the better. The loss objective is computed during each batch training for both training and validation. The validation loss is used in evaluating how well the model is performing on unseen data and signals are picked from that for back propagation as part of the gradient descent operation.
+
+
+* Accuracy: The aim is achieve a higher accuracy as much as possible on the test datasets. Accuracy indicate the degree at which the model correctly predicts the correct sentiment for a review.
+
+
+The values used for the parameters highlighted as indicated below
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
+num_epochs = 5
+batch_size = 128
+device = 'cpu'
+lr = 0.001
+train_loss = []
+train_acc = []
+val_loss = []
+val_acc = []
 
-def set_seed_everywhere(seed, cuda):
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if cuda:
-        torch.cuda.manual_seed_all(seed)
-
-def handle_dirs(dirpath):
-    if not os.path.exists(dirpath):
-        os.makedirs(dirpath)
 ```
 
 
-### setting namespace
+The various components are put initialized or prepared to be used for the training of the model as follows;
+
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-args = Namespace(
-    # Data and Path information
-    frequency_cutoff=25,
-    model_state_file='model.pth',
-    review_csv='data/yelp/reviews_with_splits_lite.csv',
-    # review_csv='data/yelp/reviews_with_splits_full.csv',
-    save_dir='model_storage/ch3/yelp/',
-    vectorizer_file='vectorizer.json',
-    # No Model hyper parameters
-    # Training hyper parameters
-    batch_size=128,
-    early_stopping_criteria=5,
-    learning_rate=0.001,
-    num_epochs=5,
-    seed=1337,
-    # Runtime options
-    catch_keyboard_interrupt=True,
-    cuda=True,
-    expand_filepaths_to_save_dir=True,
-    reload_from_files=False,
-)
+# create dataset and vectorizer
 
-if args.expand_filepaths_to_save_dir:
-    args.vectorizer_file = os.path.join(args.save_dir,
-                                        args.vectorizer_file)
+dataset = DataPrep.load_dataset_and_make_vectorizer(review_data=review_df)
 
-    args.model_state_file = os.path.join(args.save_dir,
-                                         args.model_state_file)
-    
-    print("Expanded filepaths: ")
-    print("\t{}".format(args.vectorizer_file))
-    print("\t{}".format(args.model_state_file))
-    
-# Check CUDA
-if not torch.cuda.is_available():
-    args.cuda = False
-
-print("Using CUDA: {}".format(args.cuda))
-
-args.device = torch.device("cuda" if args.cuda else "cpu")
-
-# Set seed for reproducibility
-set_seed_everywhere(args.seed, args.cuda)
-
-# handle dirs
-handle_dirs(args.save_dir)
-```
-
-## Initialiazation
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-if args.reload_from_files:
-    # training from a checkpoint
-    print("Loading dataset and vectorizer")
-    dataset = ReviewDataset.load_dataset_and_load_vectorizer(args.review_csv,
-                                                            args.vectorizer_file)
-else:
-    print("Loading dataset and creating vectorizer")
-    # create dataset and vectorizer
-    dataset = ReviewDataset.load_dataset_and_make_vectorizer(args.review_csv)
-    dataset.save_vectorizer(args.vectorizer_file)    
+#dataset.save_vectorizer(args.vectorizer_file)    
 vectorizer = dataset.get_vectorizer()
 
-classifier = ReviewClassifier(num_features=len(vectorizer.review_vocab))
+classifier = ClassifierModel(num_features=len(vectorizer.review_vocab))
 ```
 
 
@@ -720,132 +457,89 @@ The various components for training a model for review classifications have been
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
-classifier = classifier.to(args.device)
+classifier = classifier.to(device=device)
 
 loss_func = nn.BCEWithLogitsLoss()
-optimizer = optim.Adam(classifier.parameters(), lr=args.learning_rate)
+optimizer = optim.Adam(classifier.parameters(), lr=lr)
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer,
                                                  mode='min', factor=0.5,
                                                  patience=1)
 
-#################### REMOVE ############################
-train_state = make_train_state(args)
 
-epoch_bar = tqdm_notebook(desc='training routine', 
-                          total=args.num_epochs,
-                          position=0)
+for epoch in range(num_epochs):
+    # setup: batch generator, set loss and acc to 0, set train mode on
+    dataset.set_split('train')
+    
+    batch_generator = create_batches(dataset, 
+                                        batch_size=batch_size, 
+                                        device=device)
+    running_loss = 0.0
+    running_acc = 0.0
+    classifier.train()
 
-dataset.set_split('train')
-train_bar = tqdm_notebook(desc='split=train',
-                          total=dataset.get_num_batches(args.batch_size), 
-                          position=1, 
-                          leave=True)
-dataset.set_split('val')
-val_bar = tqdm_notebook(desc='split=val',
-                        total=dataset.get_num_batches(args.batch_size), 
-                        position=1, 
-                        leave=True)
-###################################################################################
+    for batch_index, batch_dict in enumerate(batch_generator):
+      # the training routine 
 
-try:
-    for epoch_index in range(args.num_epochs):
-        train_state['epoch_index'] = epoch_index
+        # step 1. zero the gradients to removed saved or pre-existing weight
+        optimizer.zero_grad()
 
-        # Iterate over training dataset
+        # step 2. compute the output
+        y_pred = classifier(x_in=batch_dict['features'].float())
 
-        # setup: batch generator, set loss and acc to 0, set train mode on
-        dataset.set_split('train')
-        batch_generator = generate_batches(dataset, 
-                                           batch_size=args.batch_size, 
-                                           device=args.device)
-        running_loss = 0.0
-        running_acc = 0.0
-        classifier.train()
+        # step 3. compute the loss
+        loss = loss_func(y_pred, batch_dict['outcome'].float())
+        loss_t = loss.item()
+        running_loss += (loss_t - running_loss) / (batch_index + 1)
 
-        for batch_index, batch_dict in enumerate(batch_generator):
-            # the training routine is these 5 steps:
+        # step 4. use loss to produce gradients
+        loss.backward()
 
-            # --------------------------------------
-            # step 1. zero the gradients
-            optimizer.zero_grad()
+        # step 5. use optimizer to take gradient step
+        optimizer.step()
+        # -----------------------------------------
+        # compute the accuracy
+        acc_t = calculate_accuracy(y_pred, batch_dict['outcome'])
+        running_acc += (acc_t - running_acc) / (batch_index + 1)
 
-            # step 2. compute the output
-            y_pred = classifier(x_in=batch_dict['x_data'].float())
+    train_loss.append(running_loss)
+    train_acc.append(running_acc)
 
-            # step 3. compute the loss
-            loss = loss_func(y_pred, batch_dict['y_target'].float())
-            loss_t = loss.item()
-            running_loss += (loss_t - running_loss) / (batch_index + 1)
+################# Evaluate model on validation dataset  ########################
 
-            # step 4. use loss to produce gradients
-            loss.backward()
+    # create validation dataset
+    dataset.set_split('val')
+    
+    ## create batches from validation dataset
+    batch_generator = create_batches(dataset, 
+                                        batch_size=batch_size, 
+                                        device=device)
+    running_loss = 0.
+    running_acc = 0.
+    
+    ## use eval to evaluate model. Model is immutable and no gradient descent undertaken
+    
+    classifier.eval()
 
-            # step 5. use optimizer to take gradient step
-            optimizer.step()
-            # -----------------------------------------
-            # compute the accuracy
-            acc_t = compute_accuracy(y_pred, batch_dict['y_target'])
-            running_acc += (acc_t - running_acc) / (batch_index + 1)
+    for batch_index, batch_dict in enumerate(batch_generator):
 
-            # update bar
-            train_bar.set_postfix(loss=running_loss, 
-                                  acc=running_acc, 
-                                  epoch=epoch_index)
-            train_bar.update()
+        # compute the output
+        y_pred = classifier(x_in=batch_dict['features'].float())
 
-        train_state['train_loss'].append(running_loss)
-        train_state['train_acc'].append(running_acc)
+        # step 3. compute the loss
+        loss = loss_func(y_pred, batch_dict['outcome'].float())
+        loss_t = loss.item()
+        running_loss += (loss_t - running_loss) / (batch_index + 1)
 
-        # Iterate over val dataset
+        # compute the accuracy
+        acc_t = calculate_accuracy(y_pred, batch_dict['outcome'])
+        running_acc += (acc_t - running_acc) / (batch_index + 1)
+        
 
-        # setup: batch generator, set loss and acc to 0; set eval mode on
-        dataset.set_split('val')
-        batch_generator = generate_batches(dataset, 
-                                           batch_size=args.batch_size, 
-                                           device=args.device)
-        running_loss = 0.
-        running_acc = 0.
-        classifier.eval()
+    val_loss.append(running_loss)
+    val_acc.append(running_acc)
 
-        for batch_index, batch_dict in enumerate(batch_generator):
+    scheduler.step(val_loss[-1])
 
-            # compute the output
-            y_pred = classifier(x_in=batch_dict['x_data'].float())
-
-            # step 3. compute the loss
-            loss = loss_func(y_pred, batch_dict['y_target'].float())
-            loss_t = loss.item()
-            running_loss += (loss_t - running_loss) / (batch_index + 1)
-
-            # compute the accuracy
-            acc_t = compute_accuracy(y_pred, batch_dict['y_target'])
-            running_acc += (acc_t - running_acc) / (batch_index + 1)
-            
-            val_bar.set_postfix(loss=running_loss, 
-                                acc=running_acc, 
-                                epoch=epoch_index)
-            val_bar.update()
-
-        train_state['val_loss'].append(running_loss)
-        train_state['val_acc'].append(running_acc)
-
-        train_state = update_train_state(args=args, model=classifier,
-                                         train_state=train_state)
-
-        scheduler.step(train_state['val_loss'][-1])
-
-        train_bar.n = 0
-        val_bar.n = 0
-        epoch_bar.update()
-
-        if train_state['stop_early']:
-            break
-
-        train_bar.n = 0
-        val_bar.n = 0
-        epoch_bar.update()
-except KeyboardInterrupt:
-    print("Exiting loop")
 ```
 
 
