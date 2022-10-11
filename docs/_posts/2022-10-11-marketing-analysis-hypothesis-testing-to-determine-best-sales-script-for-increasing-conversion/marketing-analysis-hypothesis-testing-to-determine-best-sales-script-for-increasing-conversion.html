@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them</title>
+
+  <meta property="description" itemprop="description" content="This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them"/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2022-10-11"/>
+  <meta property="article:created" itemprop="dateCreated" content="2022-10-11"/>
+  <meta name="article:author" content="Linus Agbleze"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them"/>
+  <meta property="twitter:description" content="This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","category"]}},"value":[{"type":"character","attributes":{},"value":["Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them"]},{"type":"character","attributes":{},"value":["This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Linus Agbleze"]},{"type":"character","attributes":{},"value":["https://agbleze.github.io/Portfolio/"]}]}]},{"type":"character","attributes":{},"value":["2022-10-11"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["Python","Hypothesis testing","Marketing analysis"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["data/applicant_task.csv","data/test_data.csv","data/train_data.csv","Envio.ipynb","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/anchor-4.2.2/anchor.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/bowser-1.9.3/bowser.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/distill-2.2.21/template.v2.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-3.png","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-7.png","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-9.png","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/header-attrs-2.14/header-attrs.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/jquery-3.6.0/jquery-3.6.0.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/jquery-3.6.0/jquery-3.6.0.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/jquery-3.6.0/jquery-3.6.0.min.map","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/popper-2.6.0/popper.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy-bundle.umd.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy-light-border.css","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy.css","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy.umd.min.js","marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/webcomponents-2.0.0/webcomponents.js","Product-analytics-Envio-main/Envio-Product-analytics/init.R","Product-analytics-Envio-main/Envio-Product-analytics/rsconnect/shinyapps.io/agbleze/Envio-Product-analytics.dcf","Product-analytics-Envio-main/Envio-Product-analytics/run.R","Product-analytics-Envio-main/Envio-Product-analytics/server.R","Product-analytics-Envio-main/Envio-Product-analytics/ui.R"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+          var fn = $(this).children()[0]
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/popper-2.6.0/popper.min.js"></script>
+  <link href="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them","description":"This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them","authors":[{"author":"Linus Agbleze","authorURL":"https://agbleze.github.io/Portfolio/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-10-11T00:00:00.000+02:00","citationText":"Agbleze, 2022"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them</p></p>
+</div>
+
+<div class="d-byline">
+  Linus Agbleze <a href="https://agbleze.github.io/Portfolio/" class="uri">https://agbleze.github.io/Portfolio/</a> 
+  
+<br/>2022-10-11
+</div>
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h2 id="background">Background</h2>
+<p>The company is a startup offering an innovative product that is transforming commercial real estate monitoring and management. Its target market is the commercial real estate industry. In order to stay in business, it is not enough to access the market by landing demo request but more essentially turn those requests into conversions and increase conversion rate. Thus, the main goal of the product team is started as follows;</p>
+<ul>
+<li>Product team goal for analysis</li>
+</ul>
+<p>To increase conversion from demo request to contract signing</p>
+<h2 id="business-problem-statement">Business Problem statement</h2>
+<ul>
+<li>Problem statement 1: Assessing the relationship between sales script type and conversion The product team aims at undertaking a data-based decision making to achieve its goal. To achieve that, data has been collected to be analyzed to gain insights. The challenge is to investigate how various variables influence our goal by asking the right business questions.</li>
+</ul>
+<p>We have been using different scripts during the demo sessions and as expected not all demo sessions result in conversion. We will want to understand if there is any trend and factor contributing to conversion that needs to be maximized and manage any other factor detrimental to conversion. This is one of our business problems to be analyzed. Given the fact that sales script was one of the tools used during the demo session, we are tempted to hypothesize it is associated with conversion. This understanding have been translated into the following analytical framework for further assessment.</p>
+<p>Null Hypothesis (H0): There is no relationship between type of sales script and conversion</p>
+<p>Alternative Hypothesis (H1): There is a relationship between type of sales script and conversion</p>
+<ul>
+<li>Problem statement 2: Assessing difference in total conversions made by different sales scripts Each of the sales script used during the demo session has produce some conversion. While the total conversion for each script can be easily assessed, we need to go beyond that and assess if there is any difference and more importantly if the difference in conversion is significant to suggest a preference for one of them to increase the chances of achieving higher conversion. This need not be a guesswork but data driven hence have been translated into the following hypothesis for analysis;</li>
+</ul>
+<p>Null hypothesis (H0): Difference in mean conversion among all sales scripts is equal</p>
+<p>Alternative hypothesis (H1): There is difference in mean conversion for at least one of sales scripts</p>
+<ul>
+<li><p>Problem statement 3: To sales scripts that produces significantly higher conversions The result for the hypothesis stated above will determine whether or not there is the need for further enquiry in the form of post-hoc test. If the analysis results in rejection of the null hypothesis, then there will be the need to assess how the different sales scripts compare to each other in order to identify which of the sales scripts produce significantly higher mean conversion.</p></li>
+<li><p>Problem statement 4: Assessing factors that influence the decision of a client to convert For our success, the higher the amount of conversions, the better. The business problem at hand is to understand the drivers of conversion. The decision by a client to purchase our product or not during or after a demo session is one that needs to be better understood so we can do more of what makes them convert and less of what deter them from buying our products. This problem requires a deep dive into our data to carefully assess how the various factors for which data is available are playing a role.</p></li>
+</ul>
+<h2 id="business-questions-to-answer">Business questions to answer</h2>
+<p>Based on the the business problem statements conceptualized, this analysis is undertaken to provide answers to the following business questions as a guide.</p>
+<ul>
+<li><p>Is there a significant relationship between type of sales script and conversion?</p></li>
+<li><p>Are all sales scripts achieving a similar amount of conversions?</p></li>
+<li><p>How do sales scripts compare in terms of conversions and which sales scripts can be used to achiever higher conversions?</p></li>
+<li><p>How do various factors influence the probability of a client to sign-up for our product?</p></li>
+</ul>
+<h2 id="business-objectives">Business objectives</h2>
+<p>To define the data analysis tasks, the business questions are translated into objectives as follows</p>
+<ul>
+<li><p>To test the hypothesis that there is a statistically significant relationship between type of sales script and conversion</p></li>
+<li><p>To test the hypothesis that difference in mean conversion among sales script are equal</p></li>
+<li><p>To assess and identify which sales script produces higher total conversions on the average if any</p></li>
+<li><p>To assess various potential drivers of conversion and understand their influence</p></li>
+</ul>
+<h2 id="data-analysis-task">Data analysis task</h2>
+<p>This section details the procedure used to analyzed the data to derive insights and draw recommendations. First of all it is important to highlight some of the formula used.</p>
+<ul>
+<li>Formula used</li>
+</ul>
+<p>Conversion rate (С1) = [N of contracts signed] / [N of Demo requests] * 100</p>
+<p>Conversion rate for script = (Total conversions where script was used) / (Total number of demo sessions where script was used)</p>
+<h3 id="assumptions">Assumptions</h3>
+<p>In order to make results reproducible and understandable for contextualized interpretation, much effort is made to lay bare assumptions that may influence how proper insights is drawn. Some of these assumptions are required for the statistical analysis undertaken to hold true. These are highlighted in this section as follows.</p>
+<p>Scripts were used independently, that is a single script was applied for a client. All scripts were used for approximately the same time period. It is however realized from the data that the first demo appointment session for which script C was used was on 2020-01-08 16:50:35 and the last date of use was 2021-03-01 19:40:01. For script A, it was first used for a demo session on 2019-12-28 03:57:38 and its last usage was on 2021-03-29 12:44:07. Script B was first used for a demo session on 2019-12-28 11:38:55 and last used was on 2021-03-06 16:57:21. Thus, data exploration shows some differences in date of first usage and last usage of script but this difference is assummed to be negligible in order to compare the mean conversions among them.</p>
+<h2 id="data-exploration">Data exploration</h2>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="importing-and-inspecting-dataset">Importing and inspecting dataset</h3>
+<p>The data analysis begins with importing the data and inspecting to have a view of the variables. Initial manipulation of the original dataset was done in R. In this section, the data is explored.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#dfdum = df_dataframe[df_dataframe.columns in [&#39;company_type&#39;, &#39;first_call&#39;, &#39;first_reach&#39;, &#39;sales_script_variant&#39;]]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dfdum.columns</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df_dataframe[[<span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, <span class="st">&#39;company_group&#39;</span>]]</span></code></pre></div>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h2 id="estimating-total-number-of-conversions-for-the-whole-period-covered">Estimating total number of conversions for the whole period covered</h2>
+<ul>
+<li>Keywords</li>
+</ul>
+<p>Non-conersion are cases where the client did not sign up during and after the demo session Given that our goal is to increase conversion, the analysis will centered around that. First, the total number of conversion is estimated and compared to non-conversion</p>
+<p>From the analysis below, total number of conversion was 5,018 which is slightly higher than non-conversion of 4,982. The sum of both conversion and non-conversion equates to the total number of requests made.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png" width="614" style="display: block; margin: auto;" /></p>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="estimating-c1">Estimating C1</h3>
+<p>After estimating conversion and non-conversion, C1 needs to be estimated. This can be considered as one of the major KPI for the period.</p>
+<p>C1 formula С1 = [N of contracts signed] / [N of Demo requests]</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<p>Thus, C1 is estimated to be 0.5018. It is concluded that conversion rate in percentage terms if 50.2%</p>
+<h3 id="disaagregating-conversion-for-indepth-analysis">Disaagregating conversion for indepth analysis</h3>
+<p>In order to better understand conversion, there is the need to explore the data based on certain dimensions.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-3.png" width="614" style="display: block; margin: auto;" /></p>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<p>From our research questions and hypothesis, conversion based on sales script type is will offer valuable insight hence the data is grouped and conversion is estimated and visualized for the different sales group before testing their hypothesis further.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h4 id="the-result-of-the-table-can-be-visualize-below">The result of the table can be visualize below</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png" width="614" style="display: block; margin: auto;" /></p>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insights-from-the-visuals">Insights from the visuals</h3>
+<p>Illustrating conversion based on script type shows that both script A and script C made a higher conversion compared to non-conversion. Script A made 83 more conversions than non-conversion while script C made 7 more conversion than non-conversion. On the contrary, script B made 54 less conversions compared to non-conversion.</p>
+<p>While this difference gives a clue about performance of the various script, it does not enables us to make decisive conclusion but guesses of what the difference could result in. Foreinstance, the total conversion is summation and hence the difference could be the result of number of demo sessions that a script has been used for. Clarity needs to brought to such guessetimates by considering their mean through further analysis</p>
+<p>In order to make a data driven decision, hypothesis need to be tested to derive better understanding base on statistical significance.</p>
+<h2 id="objective-1">Objective 1</h2>
+<p>To test the hypothesis that there is statistically significant relationship between type of sales script and conversion.</p>
+<p>Proceeding from the insights gained, this section tests the hypothesis for the first objective</p>
+<p>H0 Conversion is independent of type of sales script used</p>
+<p>H1 Conversion is dependent on type of sales script used</p>
+<h3 id="method-of-analysis">Method of analysis</h3>
+<p>Chi squared test of independence is appropriate for assessing whether there is a relationship between two categorical variable hence used. The procedure involves producing a contigency table and using that for the analysis. This is demonstrated below.</p>
+<p>Contigency table</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="results-for-objective-one">Results for objective one</h3>
+<p>With a p-value of 0.3279 being greater than 0.05 (5% significance level), it is suggested that there is no statistically significant relationship between type of sales script and conversion. Thus, we fail to reject the null hypothesis of independence based on available evidence.</p>
+<p>This result has an added twist to it, which is that, there is the possibility of a change in result when more and better data is acquired.</p>
+<p>A major research gap that remains is whether the differences in conversion between scripts as deduced from the bar plots is significant. This requires the need to test another hypothesis hence research objective 2.</p>
+<ul>
+<li>Research objective 2: To test the hypothesis that difference in mean conversion among sales script are equal</li>
+</ul>
+<p>In order to test this hypothesis, there is the need to have continuous varaible. For this, the total number of conversions on daily basis can analyzed and used as a continuous variable. The rational for estimating daily total conversions instead of monthly or yearly is to ensure that there are enough data points to make statistical inference.</p>
+<p>The available data covers only a year and a couple of days, hence daily conversions is a logical timeframe for estimating total conversion.</p>
+<p>By this, the dataset needs to be grouped based on days and the sum of conversions estimated for each sales script type. The question that arise is how are the conversions to be counted? For this, ‘is_signed’ variable is used; where its boolean data type (true or false) are treated as intergers with 1 counted as a single conversion and 0 as no conversion for each demo session. This allows for the total daily conversion to be estimated.</p>
+<p>Another question is, which of the dates should be used as a basis for counting the total daily conversion? For this, the demo_appointment_datetime variable was used. This is based on the context that ‘during and after the demo session, the sales manager tries to convert the potential client into a contract signing’ hence the assumption that the impact of the script used on conversion came into effect on the demo appointment day.</p>
+<p>It is assummed that the date used will be of less relevance for testing the hypothesis despite there could changes in the total number of daily conversion for scripts when the date is change. But the impact is assummed to be negligible and again, less relevant to some extent.</p>
+<ul>
+<li>Key assumption</li>
+</ul>
+<p>The assumption was made that all sales scripts had equal chance of being used during a demo session.</p>
+<p>There were no cases of repeated sessions where scripts were used again.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="visualizing-the-total-conversion-on-demo-day-for-the-various-scripts">Visualizing the total conversion on demo day for the various scripts</h3>
+<p>First, the distribution of total conversion based on sales script is visualized using boxplot which shows the mean conversion for sales scripts as well as the minimum, 25th quartile, 75th quartile and maximum.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-7.png" width="614" style="display: block; margin: auto;" /></p>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insights-from-boxplot-of-total-conversions-based-on-demo-date">Insights from boxplot of total conversions based on demo date</h3>
+<p>From the boxplot, some points which are outside the normal range of the plot can be regarded as outliers. However, they are not remove for now. Moreover the difference in conversion between scripts is clearer with the boxplot. It is deduced that script C has the lowest average conversion while script A has the highest.</p>
+<h3 id="visual-inspection-testing-statistical-assumptions-for-the-analysis-of-hypothesis">Visual inspection: Testing statistical assumptions for the analysis of hypothesis</h3>
+<p>Before deciding on the statistical method to use to answer the business questions, there is the need to verify that statistical assumptions hold true for the data. For valid statistical inference to be made about our target market based on our current of clients it is very important that appropriate methods are used. The appropriateness of the method is not a guesswork but one informed from both visual and statistical test.</p>
+<p>Generally, there are two family of statistical techniques that can be employed in analyzing the data. Namely, Parametric and non-parametric methods. The parametric methods usually have a greater statistical power but this comes at the cost of requiring the data to meet a number of assumptions for proper insights to be gain. Given that, our aim is to present the possible best solution, the assumptions for using a parametric method are tested first before considering their use or otherwise.</p>
+<h3 id="visual-inspection-of-normality">Visual inspection of normality</h3>
+<p>To use a parametric method, normality of data distribution of is assummed. A simple approach to verifying this is with the aid of histogram</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="results-of-the-histogram">Results of the histogram</h3>
+<p>The histogram plotted above does not necessarily answer the question on normality assumption. Nonetheless, it is one of several visualization techniques that gives clues.</p>
+<p>From visual inspection, the distribution is right-tailed hence a right-skewed or positive-skewed distribution.</p>
+<h3 id="q-q-plot-for-visualizing-normality">Q-Q plot for visualizing normality</h3>
+<p>In order to gain a better view on the normality of the distribution, a Q-Q plot is use to compare actual total conversion to an expected value in a normal distribution. The yardstick for detecting normality will be to verify that the actual data distriubtion are linearly along a straignt 45 degrees diagonal line. The result is illustrated below.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-9.png" width="672" style="display: block; margin: auto;" /></p>
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insights-from-q-q-plot">Insights from Q-Q plot</h3>
+<p>From the Q-Q plot, it is deduced that the dataset deviates from the line of expected normal distribution hence heavily skewed. While the visualization so far points to the direction of a non-normal distribution, there is still the opportunity to cross-check these suggestions with some statistically test for normality.</p>
+<h3 id="statistically-test-for-normality-shapiro-wilk-test-of-normality">Statistically test for normality: Shapiro-Wilk test of normality</h3>
+<p>The visual inspections are supported with Shapiro-Wilk test to test the hypothesis that the distribution of data is not different from an expected normal distribution.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="calculating-normality">Calculating normality</h3>
+<p>This another approach is to assessing normality using the pingouin module.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insight-from-shapiro-wilk-test-of-normality">Insight from Shapiro-Wilk test of normality</h3>
+<p>The p-value of the test is less than 0.05 (5% significance level) which suggests a statistically significant difference from a normal distribution. Thus, the null hypothesis is rejected. This is not one of the relevant hypothesis to be tested for our products but its gives us an important clue as to the right statistical method to adopt for assessing our business relevant hypothesis.</p>
+<p>With the data failing to meet the assumption of normal distribution required for the adoption of a parametric method, the compass of the analysis is gearing towards a non-parametric method. But before ascertaining that, there is the need to test for other assumptions required such as homogeneity which stipulates that variance between categories to analyzed should be equal across the data distribution for methods such ANOVA to be properly use.</p>
+<h3 id="statistical-test-for-homogeneity">Statistical test for homogeneity</h3>
+<h3 id="bartletts-test">Bartlett’s test</h3>
+<p>The first approach being used to test for equal variance in the distribution is the Bartlett’s test. Given that the distribution is non-normal, Barlett’s test is supported with Levene’s test which is a much more robust test when the data is not a normal distribution.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insight-from-the-bartletts-test">Insight from the Bartlett’s test</h3>
+<p>The bartlett test result shows a p-value that is statistically significant hence the hypothesis that variation in the distribution is equal is rejected. This points in the direction of a non-parametric approach for the analysis but before then the result needs to be verified with a Levene’s test.</p>
+<h3 id="levenes-statistical-test-for-homogeneity">Levene’s statistical test for homogeneity</h3>
+<p>Levene’s test is employed as a final approach in this context to verify whether not the variance in the data is equal.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="insight-from-levenes-test">Insight from Levene’s test</h3>
+<p>The levene’s test depict an unequal variance with a statistical significant p-value &lt; 0.05 (at 5% significant level) hence confirming Bartlett’s test.</p>
+<h3 id="conclusion-drawn-from-testing-of-statistical-assumptions">Conclusion drawn from testing of statistical assumptions</h3>
+<p>With visual inspections and all statistically tests indicating the data has a non-normal distribution and variance of values are unequal, the statistical approach adopted for testing the various relevant hypothesis devised is a non-parametric one.</p>
+<h3 id="kruskal-wallis-test">Kruskal-Wallis test</h3>
+<p>After finally deciding on the type of statiscal approach to adopt, a selection is made among several non-parametric methods. For this, consideration is given to the number of categories or groupings in the independent variable. Three types of sales scripts were identified in the datset hence the decision to use Kruskal-Wallis test for the analysis of the second objective.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="results">Results</h3>
+<p>The p-value from the Kruskal-Wallis test is statistically significant at 5% significant level which suggests the null hypothesis that conversion among the differenct scripts is rejected.</p>
+<h3 id="conclusion-on-objective-2">Conclusion on objective 2</h3>
+<p>The objective 2 seeks to test the hypothesis that all sales scripts produce equal conversions without statistically significant difference. The conclusion drawn is to reject this hypothesis. This can be seen as a breakthrough from the exploratory data analysis yet this results equally raise another enquiry. Though, it is now clear that at least one sales script seems to do better than another for conversion, the analysis does not indicate which sales scripts has a higher conversion and how they differ. This calls for further analysis in the form of post-hoc test.</p>
+<h3 id="recommendation-on-objective-2">Recommendation on objective 2</h3>
+<p>With the suggestion that sales script donot produce equal conversions, it is recommended that, a deliberate effort is made to choose the script with higher rate of conversion. While this recommendation indicates there is opportunity to prioritize sales scripts for higher conversion, it has not specifically suggested which sales script in particular should be used. To provide such a data driven recommendation, further analysis is required to determine which script should be used to maximize conversion.</p>
+<h3 id="objective-3-to-identify-which-sales-script-produces-higher-total-conversions-on-the-average">Objective 3: To identify which sales script produces higher total conversions on the average</h3>
+<p>Post-hoc test is used to satisfy this objective. It provides a better insight through a pairwise comparison of the significant level of differences in conversion between scripts and further identify which scripts are assosiated with higher conversion.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="result-of-post-hoc-test-of-difference-in-conversion">Result of post-hoc test of difference in conversion</h3>
+<p>The post-hoc test based on Dunn test indicates that there are significant differences in conversion between all the sales scripts and not just at least one. The p-value for the pairwise difference between all the scripts are statistically significant. The result shown above only captures the p-values and in order discern the difference better, another module is used for the estimation.</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<h3 id="interpretation-of-post-hoc-rest-results">Interpretation of post-hoc rest results</h3>
+<p>From the post-hoc test results, the mean of script B is 4.333, mean of script A is 8.342 and the mean of script c is 0.638. The results suggests sales script A has a significantly higher conversion than sales script B and C. In a similar manner, sales script B has a significantly higher conversion than script C in statistical terms.</p>
+<h3 id="conclusion-drawn-for-objective-3">Conclusion drawn for objective 3</h3>
+<p>The third objective seeks to assess whether difference in conversion is statistically significant and identify which sales script has a significantly higher conversion. The results based on available data suggests that on a given demo day, the number of conversion that sales script A will produce is on the average, significantly higher than the other script types hence should be prioritize in our efforts to increase conversion</p>
+<h3 id="recommendation-for-objective-3">Recommendation for objective 3</h3>
+<p>The sales team should consider prioritizing script A as the best bet to attain a higher conversion rate.</p>
+<h2 id="objective-4-assessing-factors-that-influence-the-likelihood-of-a-client-to-convert">Objective 4: Assessing factors that influence the likelihood of a client to convert</h2>
+<p>The fourth objective of the product analysis is to move a step further and assess our data with focus on predicting how various factors influence the probability of a client signing up for our product. In order to achieve the goal of higher amount of conversion, as assessment is undertaken to model whether or not a client will sign-up. Knowing how these factors influence client’s decision to purchase our service will enable us better target clients by managing such predictors well. For this, a review of the various variables available has been undertaken to identify potential predictors.</p>
+<p>The business problem at hand can be translated into an analytical one that requires a classification solution. In this case, the aim is to classify clients into two groups of convert and non-convert. This is the outcome we seek to predict hence the response or dependent variable. The response variable has two categories or classes as indicated, conversion and non-conversion, hence a regression analysis that caters for such characteristics is chosen.</p>
+<h2 id="method-logistic-regression">Method: Logistic regression</h2>
+<p>Logistic regression will be used for assessing how various factors influence the probability of a client deciding to convert.</p>
+<p>Based on the available limited data guided with domain knowledge of the business operations, the potential predictors identified for the analysis are the following</p>
+<ol type="1">
+<li><p>Type of sales script</p></li>
+<li><p>Company type</p></li>
+</ol>
+<h3 id="description-of-predictors-and-rational-for-their-selection">Description of predictors and rational for their selection</h3>
+<ul>
+<li><p>The relationship between the type of sales script and conversion has been our main focus for earilier analysis and yet it is still important to understand how they influence the actual decision to convert and not the total number of conversion this time round. It can be presume, as it is the case to hypothesize, that there is a logical understanding of type of sales script being a potential influential determinant.</p></li>
+<li><p>Company type as a potential predictor is based on the assumption that the characteristics of the company will determine its decision to finally purchase our product. Given that, these features are not adequately disclosed, the difference in labelling of company type is taken to be directly related to difference in company characteristics.</p></li>
+</ul>
+<h3 id="data-treatment-preprocessing">Data treatment / preprocessing</h3>
+<p>Some predictors have receive a special focus different from earlier, in order to prepare the variables into an acceptable format for modeling. It is worthing highlight such instances for transparency and reproducability of the analysis.</p>
+<p>First of all, the company type variable had two categories being 0 and 1, and several missing data in the original dataset. In this case, it is possible that the missiing data was just an instance of unavailable data that was not provided due to some privacy concerns. Moreover, as much as 4,916 missing data is identified in the original dataset which constitutes a sizeable part of the dataset to eliminte from the analysis and very likely to reduce the possibility of capturing as much variations as the reality is on the ground. Supported by this, is the fact that, such a large amount of missing data is enough to constitute a category in its own right for analysis and insight. Based on these available information and context, the decision was made to replace all instances of missing data for company type with ‘Others’ as another company type. This led to reclassification of company type into company group A, B and Others corresponding to 0, 1 and missing data respectively;</p>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<div class="layout-chunk" data-layout="l-body">
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+function (...) 
+{
+    dots <- py_resolve_dots(list(...))
+    result <- py_call_impl(callable, dots$args, dots$keywords)
+    if (convert) 
+        result <- py_to_r(result)
+    if (is.null(result)) 
+        invisible(result)
+    else result
+}
+</div>
+<p>Assessment of the model performance and using it for prediction based on the validation dataset is provided as a dashboard in a web application. The analysis this far has satisfied the objective set-out</p>
+<h3 id="insights-from-multiple-logistic-regression">Insights from multiple logistic regression</h3>
+<p>The logistic regression for predicting the probability that a client will sign-up produced a non-significant p-value for all cases. Script A was used as reference point for script B and C. Thus, with a co-efficient of -0.049 for script B, it is suggested that using script B results in a decrease in the log odds of signing a client by 0.049 in comparison to script A. This is however statistically insignificant. Script C has a co-efficient of 0.24 which suggests that when a sales manager uses script C, the log odds of signing a client increases by 0.24 compared to script A which is statistically insignificant.</p>
+<p>With regards to prioritizing companies to reach out to in order to increase conversion, when sales managers take a session with company A or company B, the log odds of landing a conversion increases compared to when they target companies categorized as ‘Others’ in this analysis. The result is however statistically insignificant.</p>
+<h3 id="recommendation-for-objective-4">Recommendation for objective 4</h3>
+<p>From the analysis undertaken, it is recommended that the sales team consider not prioritizing demo sessions with company type ‘Others’. This should however not be treated as a de facto discrimination favouring company A and B to increase conversion given that the results are statistically insignificant.</p>
+<h4 id="recommendation-on-improving-data-collection-for-better-analytics-of-greater-statistical-power">Recommendation on improving data collection for better analytics of greater statistical power</h4>
+<p>Some potential predictors that could be included in the model are available in the dataset but the data format or how it is organized is not suitable for further transformation and inclusion in the model. I will highlight them and suggest how to organized such data to be used. This is intended to lay a foundation for a cross-functional and collaborative teamwork with other departments that generate data to be analyze.</p>
+<p>source* - marketing source of the lead. This variable is very important in order to gain insight into the effectiveness of marketing strategy in producing conversion. Currently, the variable has 28 unique categories which requires that they are classified into logical groups of similarity, for instance organic source, referral, direct or indirect soruce, in order to be used as a categorical predictor. Given that actual names of the source have been hashed, such exercise is currently not possible hence the exclusion of this potential predictor. Thus, it is recommended that the actual names of the marketing source be provided to consider the possibility of using them as potential predictors.</p>
+<p>sales_group_name* The type of sales team is likely to be a potential predictor influencing conversion. This variable has 22 categories which needs to be grouped in order to be used a categorical predictor. To do this, there is the need to provide further description about the various groups in order to classify them into logical groups for predicting conversion.</p>
+<h2 id="summary">Summary</h2>
+<p>This analysis set-out to provide data-driven evidence to support decision making by the product team with the aim of increasing conversion.</p>
+<p>A major tool that the sales team use to aid conversion is sales script of which there are different variant. Thus, the main focus of the analysis is assess the role of sales script as a driver of conversion among others. To achieve this, there was initial conceptualization of the business problem which translated into several hypothesis.</p>
+<p>Among others, the analysis sought to test the hypothesis that there is statistically significant relationship between type of sales script and conversion and that there is statistically significant difference in the total conversion made using different script. Further, the analysis sought to assess how sales script and company type influences the likelihood of a company signing up during and after a demo session.</p>
+<h3 id="what-should-we-pay-attention-to">What should we pay attention to</h3>
+<ol type="1">
+<li><p>It is recommended that sales script A be prioritized when deciding on the type of sales script to use for a demo. This is informed by the fact that sales script A had a statistically significant higher conversions on the average compared to the other scripts. It should be noted that even though the multiple logistic regression suggested that the odds of signing up slightly increases in favour of script C, this result was not statistically significant. Moreover, other variables such as company type may have contributed as a confounding factor</p></li>
+<li><p>It is recommended that sales script B be given a higher priority in comparison to script C for use in demo session in order to increase overall conversion.</p></li>
+</ol>
+<h3 id="what-should-we-do-next">What should we do next</h3>
+<p>The analysis has underscored that while it was possible to derive insights from the available data, there is the need to include other potential predictors in the data collected. This is informed by the fact that, the models developed (shared on the web app) does not adequately explain the variation in conversion rate. This in addition to other recommendations provided will set-up Envio on the path to strong data driven decision making to increase conversion</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
