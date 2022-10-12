@@ -114,26 +114,27 @@ All scripts were used for approximately the same time period. It is however real
 
 ## Data exploration
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## Import packages
 import pandas as pd
-from pandas_ply import install_ply, X, sym_call
-from dplython import (DplyFrame, X, diamonds, select, sift, sample_n,
-    sample_frac, head, arrange, mutate, group_by, summarize, DelayFunction) 
+#from pandas_ply import install_ply, X, sym_call
+#from dplython import (DplyFrame, X, diamonds, select, sift, sample_n,
+#    sample_frac, head, arrange, mutate, group_by, summarize, DelayFunction) 
 
-from ggpy import *
-from plotnine import *
-import sklearn as sk
+#from ggpy import 
+#from plotnine import *
+from plotnine import ggplot, ggtitle, aes, geom_col, theme_dark, theme_light, geom_boxplot
+#import sklearn as sk
 import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import seaborn as sns
-from dplython import *
-from dscitools import *
-from plotly import *
+#from dplython import *
+#from dscitools import *
+#from plotly import *
 #from ggplot import *
-from siuba import *
-import siuba.experimental.completer
+#from siuba import *
+#import siuba.experimental.completer
 import scipy.stats as stats 
 from bioinfokit.analys import stat
 import statsmodels.api as sm
@@ -150,7 +151,7 @@ from sklearn.model_selection import train_test_split
 
 The data analysis begins with importing the data and inspecting to have a view of the variables. Initial manipulation of the original dataset was done in R. In this section, the data is explored.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## import data and read top 5
 
 df = pd.read_csv('/Users/lin/Documents/Envio GmbH/data_transform.csv')
@@ -160,33 +161,33 @@ df.head(3)
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## Identify the categories of sales scripts
 df.sales_script_variant.unique()
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## get description of the variables in the data
 
 df.info()
 ```
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## shows the shape of the data -- number of rows and columns
 df.shape
 
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## Cast the data into DplyFrame in order to use dplython functions on it.
 
-df_dataframe = DplyFrame(df)
+df_dataframe = df.copy()
 df_dataframe.columns
 ```
 
-```{python, echo=TRUE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 
 #dfdum = df_dataframe[df_dataframe.columns in ['company_type', 'first_call', 'first_reach', 'sales_script_variant']]
 #dfdum.columns
@@ -202,7 +203,7 @@ Given that our goal is to increase conversion, the analysis will centered around
 
 From the analysis below, total number of conversion was 5,018 which is slightly higher than non-conversion of 4,982. The sum of both conversion and non-conversion equates to the total number of requests made.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## select some columns needed to estimating conversion
 #(df_dplyselect = df_dataframe >> siuba.select(_.is_signed, _.conversion, _.sales_script_type, _.request_to_1streach_timelength_minutes_, _.company_group))
  
@@ -218,7 +219,7 @@ conversion_total
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 (ggplot(conversion_total, aes(x='conversion', y='total_conversion'))
  + geom_col(stat = 'identity') + ggtitle('Bar chart of Total Conversion and non-conversion') + theme_light()
@@ -233,7 +234,7 @@ C1 formula
 С1 = [N of contracts signed] / [N of Demo requests]
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## The [N of Demo requests] is estimated below
 
 request_total = conversion_total['total_conversion'].sum()
@@ -241,7 +242,7 @@ request_total
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## C1 
 C1 = conversion_total.iloc[[0],[1]] / request_total
 C1
@@ -258,16 +259,16 @@ It is concluded that conversion rate in percentage terms if 50.2%
 In order to better understand conversion, there is the need to explore the data based on certain dimensions.
 
 
-```{python}
-### group data based on company type and count total conversion for eash 
-company_conversion = df_dplyselect >> siuba.group_by(_.company_group, _.conversion) >> siuba.summarize(total_count = _.conversion.count())
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 
-print(company_conversion)
+company_conversion = df_dplyselect.groupby(['company_group', 'conversion'])['conversion'].count().to_frame().rename(columns={'conversion': 'total_count'}).reset_index()
 
+company_conversion
 ```
 
 
-```{python}
+
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 (ggplot(company_conversion, aes(x='company_group', y='total_count', fill='conversion'))
  + geom_col(stat='identity', position='dodge')) + theme_dark() + ggtitle('Conversion based on type of company')
 
@@ -277,21 +278,19 @@ print(company_conversion)
 From our research questions and hypothesis, conversion based on sales script type is will offer valuable insight hence the data is grouped and conversion is estimated and visualized for the different sales group before testing their hypothesis further.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## group data based on type of sales script and count total conversion 
-script_conversion = (df_dplyselect
- >> siuba.group_by(_.sales_script_type, _.conversion)
->> siuba.summarize(total_conversion = _.conversion.count())
-)
+script_conversion = df_dplyselect.groupby(['sales_script_type', 'conversion'])['conversion'].count().to_frame().rename(columns={'conversion': 'total_conversion'}).reset_index()
 
-print(script_conversion)
+script_conversion
+
 ```
 
 
 #### The result of the table can be visualize below
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide', preview=TRUE}
 ### Plot the total conversion based on script type
 
 (ggplot(script_conversion, aes(x='sales_script_type', y='total_conversion', fill='conversion'))
@@ -322,7 +321,7 @@ Chi squared test of independence is appropriate for assessing whether there is a
 
 Contigency table
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## contigency table between sales script type and conversion
 
 conversion_script_type_contengency = pd.crosstab(df_dplyselect['sales_script_type'], df_dplyselect['conversion'])
@@ -331,7 +330,7 @@ print(conversion_script_type_contengency)
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### chi-square test of independence
 chi_square_result = stat()
 
@@ -371,20 +370,21 @@ The assumption was made that all sales scripts had equal chance of being used du
 There were no cases of repeated sessions where scripts were used again.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### select various columns and split the demo appointment column into date and time
-df_grp = (df >> siuba.select(_.demo_appointment_datetime, _.request_to_1streach_timelength_minutes_, 
-                  _.conversion, _.company_group, _.sales_script_type, _.is_signed)>>
-siuba.separate(col = _.demo_appointment_datetime, sep = ' ', into = ('demo_appointment_yyyymmdd', 
-                                                                     'demo_appointment_hhmmss')) >>
- siuba.group_by(_.demo_appointment_yyyymmdd, _.sales_script_type)
-)
+df_grp = df[['demo_appointment_datetime', 'request_to_1streach_timelength_minutes_', 
+                  'conversion', 'company_group', 'sales_script_type', 'is_signed']]
+                  
+                  
+df_grp[['demo_appointment_yyyymmdd', 'demo_appointment_hhmmss']] = df_grp.demo_appointment_datetime.str.split(' ', expand=True)
+    
+## sum the total conversion for each script on each day    
+df_grp_sum = df_grp.groupby(['demo_appointment_yyyymmdd','sales_script_type'])['is_signed'].sum().to_frame().rename(columns={'is_signed': 'total_conversion'}).reset_index()            
 
-## sum the total conversion for each script on each day
-df_grp_sum = df_grp >> siuba.summarize(total_conversion = _.is_signed.sum())
-df_grp_sum.head(5)
-
+df_grp_sum.head()
 ```
+
+
 
 
 ### Visualizing the total conversion on demo day for the various scripts
@@ -392,7 +392,7 @@ df_grp_sum.head(5)
 First, the distribution of total conversion based on sales script is visualized using boxplot which shows the mean conversion for sales scripts as well as the minimum, 25th quartile, 75th quartile and maximum.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 (ggplot(data = df_grp_sum, mapping = aes(x = 'sales_script_type', y = 'total_conversion'))+ geom_boxplot() + 
  ggtitle('Total conversion by script type (based on conversion counts of demo day)')) 
 
@@ -416,8 +416,8 @@ Generally, there are two family of statistical techniques that can be employed i
 To use a parametric method, normality of data distribution of is assummed. A simple approach to verifying this is with the aid of histogram
 
 
-```{python}
-sns.histplot(df_grp_sum['total_conversion'], bins=20, kde=True, color='g')
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+sns.histplot(df_grp_sum['total_conversion'], bins=20, kde=True, color='g')#.show()
 
 ```
 
@@ -432,7 +432,7 @@ From visual inspection, the distribution is right-tailed hence a right-skewed or
 
 In order to gain a better view on the normality of the distribution, a Q-Q plot is use to compare actual total conversion to an expected value in a normal distribution. The yardstick for detecting normality will be to verify that the actual data distriubtion are linearly along a straignt 45 degrees diagonal line. The result is illustrated below.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### QQ-PLOT
 sm.qqplot(df_grp_sum['total_conversion'], line = '45')
 
@@ -450,7 +450,7 @@ From the Q-Q plot, it is deduced that the dataset deviates from the line of expe
 The visual inspections are supported with Shapiro-Wilk test to test the hypothesis that the distribution of data is not different from an expected normal distribution.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 #### Shapiro-Wilk test
 
 w, pvalue = stats.shapiro(df_grp_sum['total_conversion'])
@@ -466,7 +466,7 @@ print(w, pvalue)
 
 This another approach is to assessing normality using the pingouin module.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 pg.normality(df_grp_sum, group='sales_script_type', dv='total_conversion')
 ```
 
@@ -483,7 +483,7 @@ With the data failing to meet the assumption of normal distribution required for
 
 The first approach being used to test for equal variance in the distribution is the Bartlett's test. Given that the distribution is non-normal, Barlett's test is supported with Levene's test which is a much more robust test when the data is not a normal distribution.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### bartlett's test for homogeneity
 script_bartlett = stat()
 script_bartlett.bartlett(df = df_grp_sum, res_var = 'total_conversion', xfac_var = 'sales_script_type')
@@ -499,14 +499,14 @@ The bartlett test result shows a p-value that is statistically significant hence
 Levene's test is employed as a final approach in this context to verify whether not the variance in the data is equal.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## levene test
 script_lev = stat()
 script_lev.levene(df = df_grp_sum, res_var='total_conversion', xfac_var = 'sales_script_type')
 script_lev.levene_summary
 ```
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### Usingthe pingouin module for the analysis
 
 pg.homoscedasticity(df_grp_sum, group='sales_script_type', dv='total_conversion')
@@ -526,7 +526,7 @@ With visual inspections and all statistically tests indicating the data has a no
 
 After finally deciding on the type of statiscal approach to adopt, a selection is made among several non-parametric methods. For this, consideration is given to the number of categories or groupings in the independent variable. Three types of sales scripts were identified in the datset hence the decision to use Kruskal-Wallis test for the analysis of the second objective.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 pg.kruskal(data=df_grp_sum, dv='total_conversion', between='sales_script_type')
 
 ```
@@ -550,7 +550,7 @@ With the suggestion that sales script donot produce equal conversions, it is rec
 Post-hoc test is used to satisfy this objective. It provides a better insight through a pairwise comparison of the significant level of differences in conversion between scripts and further identify which scripts are assosiated with higher conversion.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### Post-hoc test with Dunn
 
 sp.posthoc_dunn(a = df_grp_sum, val_col = 'total_conversion', group_col = 'sales_script_type', p_adjust='bonferroni')
@@ -563,7 +563,7 @@ sp.posthoc_dunn(a = df_grp_sum, val_col = 'total_conversion', group_col = 'sales
 The post-hoc test based on Dunn test indicates that there are significant differences in conversion between all the sales scripts and not just at least one. The p-value for the pairwise difference between all the scripts are statistically significant. The result shown above only captures the p-values and in order discern the difference better, another module is used for the estimation.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## Post-hoc test with means of script among other feature output
 pg.pairwise_ttests(dv='total_conversion', between='sales_script_type', data=df_grp_sum, parametric = 'false',
                   alpha = 0.05, padjust = 'bonf', return_desc = 'true').round(3)
@@ -614,7 +614,7 @@ Some predictors have receive a special focus different from earlier, in order to
 First of all, the company type variable had two categories being 0 and 1, and several missing data in the original dataset. In this case, it is possible that the missiing data was just an instance of unavailable data that was not provided due to some privacy concerns. Moreover, as much as 4,916 missing data is identified in the original dataset which constitutes a sizeable part of the dataset to eliminte from the analysis and very likely to reduce the possibility of capturing as much variations as the reality is on the ground. Supported by this, is the fact that, such a large amount of missing data is enough to constitute a category in its own right for analysis and insight. Based on these available information and context, the decision was made to replace all instances of missing data for company type with 'Others' as another company type. This led to reclassification of company type into company group A, B and Others corresponding to 0, 1 and missing data respectively;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### Logistc regression
 
 #df_dplyselect.info()
@@ -626,17 +626,17 @@ log_data = df_dplyselect#>> siuba.filter(_.request_to_1streach_timelength_minute
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ### make dummy variables for categorical variables with more than 2 classes
 
 logdata_dummy = pd.get_dummies(df_dplyselect, prefix_sep='_', drop_first=True)
 
-print(logdata_dummy)
+logdata_dummy
 
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## Select columns for dependent and independent varible
 y = logdata_dummy['is_signed']
 
