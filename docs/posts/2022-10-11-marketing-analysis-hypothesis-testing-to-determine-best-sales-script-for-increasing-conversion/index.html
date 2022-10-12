@@ -104,7 +104,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them"/>
 <meta property="og:url" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/"/>
-<meta property="og:image" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="og:image" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png"/>
 <meta property="og:image:width" content="1228"/>
 <meta property="og:image:height" content="921"/>
 <meta property="og:locale" content="en_US"/>
@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="twitter:title" content="Data science tutorials: Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them"/>
 <meta property="twitter:description" content="This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them"/>
 <meta property="twitter:url" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/"/>
-<meta property="twitter:image" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png"/>
+<meta property="twitter:image" content="https://addurl/posts/2022-10-11-marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion/marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png"/>
 <meta property="twitter:image:width" content="1228"/>
 <meta property="twitter:image:height" content="921"/>
 
@@ -2202,50 +2202,49 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Import packages</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#from pandas_ply import install_ply, X, sym_call</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#from dplython import (DplyFrame, X, diamonds, select, sift, sample_n,</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    sample_frac, head, arrange, mutate, group_by, summarize, DelayFunction) </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#from ggpy import </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#from plotnine import *</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> ggplot, ggtitle, aes, geom_col, theme_dark, theme_light, geom_boxplot</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#import sklearn as sk</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#from dplython import *</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#from dscitools import *</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#from plotly import *</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#from ggplot import *</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#from siuba import *</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#import siuba.experimental.completer</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioinfokit.analys <span class="im">import</span> stat</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pingouin <span class="im">as</span> pg</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scikit_posthocs <span class="im">as</span> sp</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression, LogisticRegressionCV</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> ggplot, ggtitle, aes, geom_col, theme_dark, theme_light, geom_boxplot</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> stats </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bioinfokit.analys <span class="im">import</span> stat</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pingouin <span class="im">as</span> pg</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scikit_posthocs <span class="im">as</span> sp</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression, LogisticRegressionCV</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span></code></pre></div>
 </div>
 <h3 id="importing-and-inspecting-dataset">Importing and inspecting dataset</h3>
 <p>The data analysis begins with importing the data and inspecting to have a view of the variables. Initial manipulation of the original dataset was done in R. In this section, the data is explored.</p>
 <div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">## import data and read top 5</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&#39;/Users/lin/Documents/Envio GmbH/data_transform.csv&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(data_path)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">## View first 3 rows of the data</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>   Unnamed: 0  ...  first_call_to_1streach_timelength_minutes_
+0           1  ...                                  327.465776
+1           2  ...                                  138.429704
+2           3  ...                                  357.238224
+
+[3 rows x 26 columns]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Identify the categories of sales scripts</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.sales_script_variant.unique()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Identify the categories of sales scripts</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.sales_script_variant.unique()</span></code></pre></div>
+<pre><code>array([&#39;a170e8b5b0085420fa52f9f9e1d546f9&#39;,
+       &#39;e908f62885515872936a2bf07e5960a0&#39;,
+       &#39;21790c97eeb6336e5f0fdb9ef4de636f&#39;], dtype=object)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">## get description of the variables in the data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df.info()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">## get description of the variables in the data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df.info()</span></code></pre></div>
 <pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 RangeIndex: 10000 entries, 0 to 9999
 Data columns (total 26 columns):
@@ -2281,21 +2280,27 @@ dtypes: float64(4), int64(5), object(17)
 memory usage: 2.0+ MB</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">## shows the shape of the data -- number of rows and columns</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">## shows the shape of the data -- number of rows and columns</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code></pre></div>
 <pre><code>(10000, 26)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Cast the data into DplyFrame in order to use dplython functions on it.</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df_dataframe <span class="op">=</span> df.copy()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df_dataframe.columns</span></code></pre></div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#dfdum = df_dataframe[df_dataframe.columns in [&#39;company_type&#39;, &#39;first_call&#39;, &#39;first_reach&#39;, &#39;sales_script_variant&#39;]]</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#dfdum.columns</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df_dataframe[[<span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, <span class="st">&#39;company_group&#39;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Cast the data into DplyFrame in order to use dplython functions on it.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df_dataframe <span class="op">=</span> df.copy()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_dataframe.columns</span></code></pre></div>
+<pre><code>Index([&#39;Unnamed: 0&#39;, &#39;request_id&#39;, &#39;source&#39;, &#39;request_created_at&#39;,
+       &#39;company_type&#39;, &#39;first_call&#39;, &#39;first_reach&#39;, &#39;sales_script_variant&#39;,
+       &#39;sales_group_name&#39;, &#39;demo_appointment_datetime&#39;,
+       &#39;appointment_added_by_id&#39;, &#39;is_signed&#39;, &#39;conversion&#39;,
+       &#39;sales_script_type&#39;, &#39;company_group&#39;, &#39;request_created_date&#39;,
+       &#39;first_call_date&#39;, &#39;first_reach_date&#39;, &#39;request_created_year&#39;,
+       &#39;request_created_month&#39;, &#39;request_to_1stcall_interval&#39;,
+       &#39;request_to_1streach_interval&#39;, &#39;first_call_to_1streach_interval&#39;,
+       &#39;request_to_1stcall_timelength_minutes_&#39;,
+       &#39;request_to_1streach_timelength_minutes_&#39;,
+       &#39;first_call_to_1streach_timelength_minutes_&#39;],
+      dtype=&#39;object&#39;)</code></pre>
 </div>
 <h2 id="estimating-total-number-of-conversions-for-the-whole-period-covered">Estimating total number of conversions for the whole period covered</h2>
 <ul>
@@ -2304,73 +2309,95 @@ memory usage: 2.0+ MB</code></pre>
 <p>Non-conersion are cases where the client did not sign up during and after the demo session Given that our goal is to increase conversion, the analysis will centered around that. First, the total number of conversion is estimated and compared to non-conversion</p>
 <p>From the analysis below, total number of conversion was 5,018 which is slightly higher than non-conversion of 4,982. The sum of both conversion and non-conversion equates to the total number of requests made.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">## select some columns needed to estimating conversion</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#(df_dplyselect = df_dataframe &gt;&gt; siuba.select(_.is_signed, _.conversion, _.sales_script_type, _.request_to_1streach_timelength_minutes_, _.company_group))</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_dplyselect <span class="op">=</span> df_dataframe[[<span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, <span class="st">&#39;company_group&#39;</span>]] </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Group data based on conversion column and count number of conversion</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>conversion_total <span class="op">=</span> df_dplyselect[<span class="st">&#39;conversion&#39;</span>].value_counts().reset_index()<span class="co">#.rename(columns=)</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#conversion_total[&#39;total_conversion&#39;] = conversion_total[&#39;conversion&#39;].value_counts()</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>conversion_total.rename(columns<span class="op">=</span>{<span class="st">&#39;index&#39;</span>: <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>conversion_total</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#conversion_total.info()#.reset_index()</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#df_dplyselect</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">## select some columns needed to estimating conversion</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df_dplyselect <span class="op">=</span> df_dataframe[[<span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, <span class="st">&#39;company_group&#39;</span>]] </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Group data based on conversion column and count number of conversion</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>conversion_total <span class="op">=</span> df_dplyselect[<span class="st">&#39;conversion&#39;</span>].value_counts().reset_index()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>conversion_total.rename(columns<span class="op">=</span>{<span class="st">&#39;index&#39;</span>: <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>conversion_total</span></code></pre></div>
 <pre><code>    conversion  total_conversion
 0      convert              5018
 1  not_convert              4982</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>(ggplot(conversion_total, aes(x<span class="op">=</span><span class="st">&#39;conversion&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat <span class="op">=</span> <span class="st">&#39;identity&#39;</span>) <span class="op">+</span> ggtitle(<span class="st">&#39;Bar chart of Total Conversion and non-conversion&#39;</span>) <span class="op">+</span> theme_light()</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>&lt;ggplot: (8787681673400)&gt;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>(ggplot(conversion_total, aes(x<span class="op">=</span><span class="st">&#39;conversion&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat <span class="op">=</span> <span class="st">&#39;identity&#39;</span>) <span class="op">+</span> ggtitle(<span class="st">&#39;Bar chart of Total Conversion and non-conversion&#39;</span>) <span class="op">+</span> theme_light()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&lt;ggplot: (8764162929035)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="estimating-c1">Estimating C1</h3>
 <p>After estimating conversion and non-conversion, C1 needs to be estimated. This can be considered as one of the major KPI for the period.</p>
 <p>C1 formula С1 = [N of contracts signed] / [N of Demo requests]</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">## The [N of Demo requests] is estimated below</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>request_total <span class="op">=</span> conversion_total[<span class="st">&#39;total_conversion&#39;</span>].<span class="bu">sum</span>()</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>request_total</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">## The [N of Demo requests] is estimated below</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>request_total <span class="op">=</span> conversion_total[<span class="st">&#39;total_conversion&#39;</span>].<span class="bu">sum</span>()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>request_total</span></code></pre></div>
 <pre><code>10000</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">## C1 </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>C1 <span class="op">=</span> conversion_total.iloc[[<span class="dv">0</span>],[<span class="dv">1</span>]] <span class="op">/</span> request_total</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>C1</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>C1.rename(index<span class="op">=</span><span class="bu">str</span>, columns<span class="op">=</span>{<span class="st">&quot;total_conversion&quot;</span>: <span class="st">&quot;C1&quot;</span>})</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">## C1 </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>C1 <span class="op">=</span> conversion_total.iloc[[<span class="dv">0</span>],[<span class="dv">1</span>]] <span class="op">/</span> request_total</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>C1</span></code></pre></div>
+<pre><code>   total_conversion
+0            0.5018</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>C1.rename(index<span class="op">=</span><span class="bu">str</span>, columns<span class="op">=</span>{<span class="st">&quot;total_conversion&quot;</span>: <span class="st">&quot;C1&quot;</span>})</span></code></pre></div>
+<pre><code>       C1
+0  0.5018</code></pre>
 </div>
 <p>Thus, C1 is estimated to be 0.5018. It is concluded that conversion rate in percentage terms if 50.2%</p>
 <h3 id="disaagregating-conversion-for-indepth-analysis">Disaagregating conversion for indepth analysis</h3>
 <p>In order to better understand conversion, there is the need to explore the data based on certain dimensions.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>company_conversion <span class="op">=</span> df_dplyselect.groupby([<span class="st">&#39;company_group&#39;</span>, <span class="st">&#39;conversion&#39;</span>])[<span class="st">&#39;conversion&#39;</span>].count().to_frame().rename(columns<span class="op">=</span>{<span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_count&#39;</span>}).reset_index()</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>company_conversion</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>company_conversion <span class="op">=</span> df_dplyselect.groupby([<span class="st">&#39;company_group&#39;</span>, <span class="st">&#39;conversion&#39;</span>])[<span class="st">&#39;conversion&#39;</span>].count().to_frame().rename(columns<span class="op">=</span>{<span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_count&#39;</span>}).reset_index()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>company_conversion</span></code></pre></div>
+<pre><code>  company_group   conversion  total_count
+0        Others      convert         2446
+1        Others  not_convert         2470
+2     company_A      convert         1027
+3     company_A  not_convert         1039
+4     company_B      convert         1545
+5     company_B  not_convert         1473</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(ggplot(company_conversion, aes(x<span class="op">=</span><span class="st">&#39;company_group&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_count&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of company&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>(ggplot(company_conversion, aes(x<span class="op">=</span><span class="st">&#39;company_group&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_count&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of company&#39;</span>)</span></code></pre></div>
+<pre><code>&lt;ggplot: (8764164986606)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-3.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <p>From our research questions and hypothesis, conversion based on sales script type is will offer valuable insight hence the data is grouped and conversion is estimated and visualized for the different sales group before testing their hypothesis further.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">## group data based on type of sales script and count total conversion </span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>script_conversion <span class="op">=</span> df_dplyselect.groupby([<span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;conversion&#39;</span>])[<span class="st">&#39;conversion&#39;</span>].count().to_frame().rename(columns<span class="op">=</span>{<span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}).reset_index()</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>script_conversion</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">## group data based on type of sales script and count total conversion</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>script_conversion <span class="op">=</span> df_dplyselect.groupby([<span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;conversion&#39;</span>])[<span class="st">&#39;conversion&#39;</span>].count().to_frame().rename(columns<span class="op">=</span>{<span class="st">&#39;conversion&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}).reset_index()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>script_conversion</span></code></pre></div>
+<pre><code>  sales_script_type   conversion  total_conversion
+0          script_A      convert              3320
+1          script_A  not_convert              3237
+2          script_B      convert              1638
+3          script_B  not_convert              1692
+4          script_C      convert                60
+5          script_C  not_convert                53</code></pre>
 </div>
 <h4 id="the-result-of-the-table-can-be-visualize-below">The result of the table can be visualize below</h4>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Plot the total conversion based on script type</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>(ggplot(script_conversion, aes(x<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of sales script&#39;</span>)</span></code></pre></div>
-<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png" width="614" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">### Plot the total conversion based on script type</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>(ggplot(script_conversion, aes(x<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of sales script&#39;</span>)</span></code></pre></div>
+<pre><code>&lt;ggplot: (8764165199303)&gt;</code></pre>
+<p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png" width="614" data-distill-preview=1 style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="insights-from-the-visuals">Insights from the visuals</h3>
 <p>Illustrating conversion based on script type shows that both script A and script C made a higher conversion compared to non-conversion. Script A made 83 more conversions than non-conversion while script C made 7 more conversion than non-conversion. On the contrary, script B made 54 less conversions compared to non-conversion.</p>
@@ -2385,26 +2412,39 @@ memory usage: 2.0+ MB</code></pre>
 <p>Chi squared test of independence is appropriate for assessing whether there is a relationship between two categorical variable hence used. The procedure involves producing a contigency table and using that for the analysis. This is demonstrated below.</p>
 <p>Contigency table</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">## contigency table between sales script type and conversion</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>conversion_script_type_contengency <span class="op">=</span> pd.crosstab(df_dplyselect[<span class="st">&#39;sales_script_type&#39;</span>], df_dplyselect[<span class="st">&#39;conversion&#39;</span>])</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conversion_script_type_contengency)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">## contigency table between sales script type and conversion</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>conversion_script_type_contengency <span class="op">=</span> pd.crosstab(df_dplyselect[<span class="st">&#39;sales_script_type&#39;</span>], df_dplyselect[<span class="st">&#39;conversion&#39;</span>])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(conversion_script_type_contengency)</span></code></pre></div>
+<pre><code>conversion         convert  not_convert
+sales_script_type                      
+script_A              3320         3237
+script_B              1638         1692
+script_C                60           53</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">### chi-square test of independence</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>chi_square_result <span class="op">=</span> stat()</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>chi_square_result.chisq(df<span class="op">=</span>conversion_script_type_contengency)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chi_square_result.summary)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">### chi-square test of independence</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>chi_square_result <span class="op">=</span> stat()</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>chi_square_result.chisq(df<span class="op">=</span>conversion_script_type_contengency)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(chi_square_result.summary)</span></code></pre></div>
+<pre><code>
+Chi-squared test for independence
+
+Test              Df    Chi-square    P-value
+--------------  ----  ------------  ---------
+Pearson            2       2.23037   0.327855
+Log-likelihood     2       2.23068   0.327804</code></pre>
 </div>
 <h3 id="results-for-objective-one">Results for objective one</h3>
 <p>With a p-value of 0.3279 being greater than 0.05 (5% significance level), it is suggested that there is no statistically significant relationship between type of sales script and conversion. Thus, we fail to reject the null hypothesis of independence based on available evidence.</p>
 <p>This result has an added twist to it, which is that, there is the possibility of a change in result when more and better data is acquired.</p>
 <p>A major research gap that remains is whether the differences in conversion between scripts as deduced from the bar plots is significant. This requires the need to test another hypothesis hence research objective 2.</p>
+<h3 id="research-objective-2">Research objective 2</h3>
 <ul>
-<li>Research objective 2: To test the hypothesis that difference in mean conversion among sales script are equal</li>
+<li>To test the hypothesis that difference in mean conversion among sales script are equal</li>
 </ul>
 <p>In order to test this hypothesis, there is the need to have continuous varaible. For this, the total number of conversions on daily basis can analyzed and used as a continuous variable. The rational for estimating daily total conversions instead of monthly or yearly is to ensure that there are enough data points to make statistical inference.</p>
 <p>The available data covers only a year and a couple of days, hence daily conversions is a logical timeframe for estimating total conversion.</p>
@@ -2417,23 +2457,47 @@ memory usage: 2.0+ MB</code></pre>
 <p>The assumption was made that all sales scripts had equal chance of being used during a demo session.</p>
 <p>There were no cases of repeated sessions where scripts were used again.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">### select various columns and split the demo appointment column into date and time</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_grp <span class="op">=</span> df[[<span class="st">&#39;demo_appointment_datetime&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;company_group&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;is_signed&#39;</span>]]</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                  </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                  </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>df_grp[[<span class="st">&#39;demo_appointment_yyyymmdd&#39;</span>, <span class="st">&#39;demo_appointment_hhmmss&#39;</span>]] <span class="op">=</span> df_grp.demo_appointment_datetime.<span class="bu">str</span>.split(<span class="st">&#39; &#39;</span>, expand<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">## sum the total conversion for each script on each day    </span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_grp_sum <span class="op">=</span> df_grp.groupby([<span class="st">&#39;demo_appointment_yyyymmdd&#39;</span>,<span class="st">&#39;sales_script_type&#39;</span>])[<span class="st">&#39;is_signed&#39;</span>].<span class="bu">sum</span>().to_frame().rename(columns<span class="op">=</span>{<span class="st">&#39;is_signed&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}).reset_index()            </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>df_grp_sum.head()</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">### select various columns and split the demo appointment column into date and time</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>df_grp <span class="op">=</span> df[[<span class="st">&#39;demo_appointment_datetime&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>, </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&#39;conversion&#39;</span>, <span class="st">&#39;company_group&#39;</span>, <span class="st">&#39;sales_script_type&#39;</span>, <span class="st">&#39;is_signed&#39;</span>]]</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                  </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                  </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>df_grp[[<span class="st">&#39;demo_appointment_yyyymmdd&#39;</span>, <span class="st">&#39;demo_appointment_hhmmss&#39;</span>]] <span class="op">=</span> df_grp.demo_appointment_datetime.<span class="bu">str</span>.split(<span class="st">&#39; &#39;</span>, expand<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">## sum the total conversion for each script on each day    </span></span></code></pre></div>
+<pre><code>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df_grp_sum <span class="op">=</span> (df_grp.groupby([<span class="st">&#39;demo_appointment_yyyymmdd&#39;</span>,<span class="st">&#39;sales_script_type&#39;</span>])[<span class="st">&#39;is_signed&#39;</span>]</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                            .<span class="bu">sum</span>().to_frame()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                            .rename(columns<span class="op">=</span>{<span class="st">&#39;is_signed&#39;</span>: <span class="st">&#39;total_conversion&#39;</span>}).reset_index()  </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>df_grp_sum.head()</span></code></pre></div>
+<pre><code>  demo_appointment_yyyymmdd sales_script_type  total_conversion
+0                2019-12-28          script_A                 0
+1                2019-12-28          script_B                 2
+2                2019-12-29          script_A                 0
+3                2019-12-29          script_B                 1
+4                2019-12-30          script_B                 1</code></pre>
 </div>
 <h3 id="visualizing-the-total-conversion-on-demo-day-for-the-various-scripts">Visualizing the total conversion on demo day for the various scripts</h3>
 <p>First, the distribution of total conversion based on sales script is visualized using boxplot which shows the mean conversion for sales scripts as well as the minimum, 25th quartile, 75th quartile and maximum.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(ggplot(data <span class="op">=</span> df_grp_sum, mapping <span class="op">=</span> aes(x <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>, y <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>))<span class="op">+</span> geom_boxplot() <span class="op">+</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> ggtitle(<span class="st">&#39;Total conversion by script type (based on conversion counts of demo day)&#39;</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>(ggplot(data <span class="op">=</span> df_grp_sum, mapping <span class="op">=</span> aes(x <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>, y <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="op">+</span> geom_boxplot() <span class="op">+</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a> ggtitle(<span class="st">&#39;Total conversion by script type (based on conversion counts of demo day)&#39;</span>)) </span></code></pre></div>
+<pre><code>&lt;ggplot: (8764164950676)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-7.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="insights-from-boxplot-of-total-conversions-based-on-demo-date">Insights from boxplot of total conversions based on demo date</h3>
@@ -2444,7 +2508,8 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="visual-inspection-of-normality">Visual inspection of normality</h3>
 <p>To use a parametric method, normality of data distribution of is assummed. A simple approach to verifying this is with the aid of histogram</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>], bins<span class="op">=</span><span class="dv">20</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">&#39;g&#39;</span>)<span class="co">#.show()</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>sns.histplot(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>], bins<span class="op">=</span><span class="dv">20</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">&#39;g&#39;</span>)</span></code></pre></div>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-9.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="results-of-the-histogram">Results of the histogram</h3>
@@ -2453,11 +2518,13 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="q-q-plot-for-visualizing-normality">Q-Q plot for visualizing normality</h3>
 <p>In order to gain a better view on the normality of the distribution, a Q-Q plot is use to compare actual total conversion to an expected value in a normal distribution. The yardstick for detecting normality will be to verify that the actual data distriubtion are linearly along a straignt 45 degrees diagonal line. The result is illustrated below.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">### QQ-PLOT</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sm.qqplot(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>], line <span class="op">=</span> <span class="st">&#39;45&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">### QQ-PLOT</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>sm.qqplot(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>], line <span class="op">=</span> <span class="st">&#39;45&#39;</span>)</span></code></pre></div>
 
-<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Q-Q plot for total conversion&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">&#39;Q-Q plot for total conversion&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-11.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="insights-from-q-q-plot">Insights from Q-Q plot</h3>
@@ -2465,19 +2532,22 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="statistically-test-for-normality-shapiro-wilk-test-of-normality">Statistically test for normality: Shapiro-Wilk test of normality</h3>
 <p>The visual inspections are supported with Shapiro-Wilk test to test the hypothesis that the distribution of data is not different from an expected normal distribution.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#### Shapiro-Wilk test</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>w, pvalue <span class="op">=</span> stats.shapiro(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>])</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w, pvalue)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#w, pvalue = stats.shapiro(script_anova.anova_model_out.resid)</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#print(w, pvalue)</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co">#### Shapiro-Wilk test</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>w, pvalue <span class="op">=</span> stats.shapiro(df_grp_sum[<span class="st">&#39;total_conversion&#39;</span>])</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w, pvalue)</span></code></pre></div>
+<pre><code>0.9258283376693726 2.6865092770727672e-20</code></pre>
 </div>
 <h3 id="calculating-normality">Calculating normality</h3>
 <p>This another approach is to assessing normality using the pingouin module.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pg.normality(df_grp_sum, group<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>pg.normality(df_grp_sum, group<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>)</span></code></pre></div>
+<pre><code>                 W          pval  normal
+script_A  0.977833  8.850418e-06   False
+script_B  0.960671  1.574002e-08   False
+script_C  0.745857  1.854477e-11   False</code></pre>
 </div>
 <h3 id="insight-from-shapiro-wilk-test-of-normality">Insight from Shapiro-Wilk test of normality</h3>
 <p>The p-value of the test is less than 0.05 (5% significance level) which suggests a statistically significant difference from a normal distribution. Thus, the null hypothesis is rejected. This is not one of the relevant hypothesis to be tested for our products but its gives us an important clue as to the right statistical method to adopt for assessing our business relevant hypothesis.</p>
@@ -2486,25 +2556,39 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="bartletts-test">Bartlett’s test</h3>
 <p>The first approach being used to test for equal variance in the distribution is the Bartlett’s test. Given that the distribution is non-normal, Barlett’s test is supported with Levene’s test which is a much more robust test when the data is not a normal distribution.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">### bartlett&#39;s test for homogeneity</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>script_bartlett <span class="op">=</span> stat()</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>script_bartlett.bartlett(df <span class="op">=</span> df_grp_sum, res_var <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>, xfac_var <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>script_bartlett.bartlett_summary</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co">### bartlett&#39;s test for homogeneity</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>script_bartlett <span class="op">=</span> stat()</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>script_bartlett.bartlett(df <span class="op">=</span> df_grp_sum, res_var <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>, xfac_var <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>script_bartlett.bartlett_summary</span></code></pre></div>
+<pre><code>                 Parameter     Value
+0      Test statistics (T)  425.8573
+1  Degrees of freedom (Df)    2.0000
+2                  p value    0.0000</code></pre>
 </div>
 <h3 id="insight-from-the-bartletts-test">Insight from the Bartlett’s test</h3>
 <p>The bartlett test result shows a p-value that is statistically significant hence the hypothesis that variation in the distribution is equal is rejected. This points in the direction of a non-parametric approach for the analysis but before then the result needs to be verified with a Levene’s test.</p>
 <h3 id="levenes-statistical-test-for-homogeneity">Levene’s statistical test for homogeneity</h3>
 <p>Levene’s test is employed as a final approach in this context to verify whether not the variance in the data is equal.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">## levene test</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>script_lev <span class="op">=</span> stat()</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>script_lev.levene(df <span class="op">=</span> df_grp_sum, res_var<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, xfac_var <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>script_lev.levene_summary</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">## levene test</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>script_lev <span class="op">=</span> stat()</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>script_lev.levene(df <span class="op">=</span> df_grp_sum, res_var<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, xfac_var <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>script_lev.levene_summary</span></code></pre></div>
+<pre><code>                 Parameter     Value
+0      Test statistics (W)  119.2498
+1  Degrees of freedom (Df)    2.0000
+2                  p value    0.0000</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Usingthe pingouin module for the analysis</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pg.homoscedasticity(df_grp_sum, group<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Usingthe pingouin module for the analysis</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>pg.homoscedasticity(df_grp_sum, group<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>)</span></code></pre></div>
+<pre><code>                 W          pval  equal_var
+levene  119.249752  1.772745e-46      False</code></pre>
 </div>
 <h3 id="insight-from-levenes-test">Insight from Levene’s test</h3>
 <p>The levene’s test depict an unequal variance with a statistical significant p-value &lt; 0.05 (at 5% significant level) hence confirming Bartlett’s test.</p>
@@ -2513,7 +2597,9 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="kruskal-wallis-test">Kruskal-Wallis test</h3>
 <p>After finally deciding on the type of statiscal approach to adopt, a selection is made among several non-parametric methods. For this, consideration is given to the number of categories or groupings in the independent variable. Three types of sales scripts were identified in the datset hence the decision to use Kruskal-Wallis test for the analysis of the second objective.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pg.kruskal(data<span class="op">=</span>df_grp_sum, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, between<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>pg.kruskal(data<span class="op">=</span>df_grp_sum, dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, between<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>)</span></code></pre></div>
+<pre><code>                    Source  ddof1           H         p-unc
+Kruskal  sales_script_type      2  338.713092  2.814406e-74</code></pre>
 </div>
 <h3 id="results">Results</h3>
 <p>The p-value from the Kruskal-Wallis test is statistically significant at 5% significant level which suggests the null hypothesis that conversion among the differenct scripts is rejected.</p>
@@ -2524,16 +2610,35 @@ memory usage: 2.0+ MB</code></pre>
 <h3 id="objective-3-to-identify-which-sales-script-produces-higher-total-conversions-on-the-average">Objective 3: To identify which sales script produces higher total conversions on the average</h3>
 <p>Post-hoc test is used to satisfy this objective. It provides a better insight through a pairwise comparison of the significant level of differences in conversion between scripts and further identify which scripts are assosiated with higher conversion.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Post-hoc test with Dunn</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>sp.posthoc_dunn(a <span class="op">=</span> df_grp_sum, val_col <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>, group_col <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>, p_adjust<span class="op">=</span><span class="st">&#39;bonferroni&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co">### Post-hoc test with Dunn</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>dunnposthoc_result <span class="op">=</span> sp.posthoc_dunn(a <span class="op">=</span> df_grp_sum, val_col <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>, </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                                      group_col <span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, p_adjust<span class="op">=</span><span class="st">&#39;bonferroni&#39;</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                                      )</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>                                      </span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>dunnposthoc_result</span></code></pre></div>
+<pre><code>              script_A      script_B      script_C
+script_A  1.000000e+00  9.195689e-30  5.152029e-66
+script_B  9.195689e-30  1.000000e+00  3.801421e-23
+script_C  5.152029e-66  3.801421e-23  1.000000e+00</code></pre>
 </div>
 <h3 id="result-of-post-hoc-test-of-difference-in-conversion">Result of post-hoc test of difference in conversion</h3>
-<p>The post-hoc test based on Dunn test indicates that there are significant differences in conversion between all the sales scripts and not just at least one. The p-value for the pairwise difference between all the scripts are statistically significant. The result shown above only captures the p-values and in order discern the difference better, another module is used for the estimation.</p>
+<p>The post-hoc test based on Dunn test indicates that there are significant differences in conversion between all the sales scripts and not just at least one. The p-value for the pairwise difference between all the scripts are statistically significant. The result shown above only captures the p-values and in order to discern the difference better, another module is used for the estimation.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Post-hoc test with means of script among other feature output</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>pg.pairwise_ttests(dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, between<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, data<span class="op">=</span>df_grp_sum, parametric <span class="op">=</span> <span class="st">&#39;false&#39;</span>,</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                  alpha <span class="op">=</span> <span class="fl">0.05</span>, padjust <span class="op">=</span> <span class="st">&#39;bonf&#39;</span>, return_desc <span class="op">=</span> <span class="st">&#39;true&#39;</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Post-hoc test with means of script among other feature output</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>posthoc_result <span class="op">=</span> pg.pairwise_ttests(dv<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, between<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, </span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                                    data<span class="op">=</span>df_grp_sum, parametric <span class="op">=</span> <span class="st">&#39;false&#39;</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>                                    padjust <span class="op">=</span> <span class="st">&#39;bonf&#39;</span>, return_desc <span class="op">=</span> <span class="st">&#39;true&#39;</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>/Users/lin/Documents/python_venvs/pytorch_deepL/lib/python3.9/site-packages/pingouin/pairwise.py:27: UserWarning: pairwise_ttests is deprecated, use pairwise_tests instead.</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>posthoc_result</span></code></pre></div>
+<pre><code>            Contrast         A         B  ...  p-adjust        BF10  hedges
+0  sales_script_type  script_A  script_B  ...      bonf   1.127e+41   1.055
+1  sales_script_type  script_A  script_C  ...      bonf  9.194e+113   1.784
+2  sales_script_type  script_B  script_C  ...      bonf   6.315e+94   1.745
+
+[3 rows x 17 columns]</code></pre>
 </div>
 <h3 id="interpretation-of-post-hoc-rest-results">Interpretation of post-hoc rest results</h3>
 <p>From the post-hoc test results, the mean of script B is 4.333, mean of script A is 8.342 and the mean of script c is 0.638. The results suggests sales script A has a significantly higher conversion than sales script B and C. In a similar manner, sales script B has a significantly higher conversion than script C in statistical terms.</p>
@@ -2557,34 +2662,49 @@ memory usage: 2.0+ MB</code></pre>
 <li><p>Company type as a potential predictor is based on the assumption that the characteristics of the company will determine its decision to finally purchase our product. Given that, these features are not adequately disclosed, the difference in labelling of company type is taken to be directly related to difference in company characteristics.</p></li>
 </ul>
 <h3 id="data-treatment-preprocessing">Data treatment / preprocessing</h3>
-<p>Some predictors have receive a special focus different from earlier, in order to prepare the variables into an acceptable format for modeling. It is worthing highlight such instances for transparency and reproducability of the analysis.</p>
+<p>Some predictors have receive a special focus different from earlier, in order to prepare the variables into an acceptable format for modeling. It is worth highlighting such instances for transparency and reproducability of the analysis.</p>
 <p>First of all, the company type variable had two categories being 0 and 1, and several missing data in the original dataset. In this case, it is possible that the missiing data was just an instance of unavailable data that was not provided due to some privacy concerns. Moreover, as much as 4,916 missing data is identified in the original dataset which constitutes a sizeable part of the dataset to eliminte from the analysis and very likely to reduce the possibility of capturing as much variations as the reality is on the ground. Supported by this, is the fact that, such a large amount of missing data is enough to constitute a category in its own right for analysis and insight. Based on these available information and context, the decision was made to replace all instances of missing data for company type with ‘Others’ as another company type. This led to reclassification of company type into company group A, B and Others corresponding to 0, 1 and missing data respectively;</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Logistc regression</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df_dplyselect.info()</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co">#### Remove all negative values in request_to_1streach_timelength_minutes_</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>log_data <span class="op">=</span> df_dplyselect<span class="co">#&gt;&gt; siuba.filter(_.request_to_1streach_timelength_minutes_ &gt; 0)</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co">#log_data.info()</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co">### make dummy variables for categorical variables with more than 2 classes</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>logdata_dummy <span class="op">=</span> pd.get_dummies(df_dplyselect, prefix_sep<span class="op">=</span><span class="st">&#39;_&#39;</span>, drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>logdata_dummy</span></code></pre></div>
+<pre><code>      is_signed  ...  company_group_company_B
+0             0  ...                        1
+1             0  ...                        0
+2             0  ...                        0
+3             0  ...                        0
+4             0  ...                        0
+...         ...  ...                      ...
+9995          0  ...                        1
+9996          1  ...                        1
+9997          1  ...                        0
+9998          0  ...                        1
+9999          1  ...                        0
+
+[10000 rows x 7 columns]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">### make dummy variables for categorical variables with more than 2 classes</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>logdata_dummy <span class="op">=</span> pd.get_dummies(df_dplyselect, prefix_sep<span class="op">=</span><span class="st">&#39;_&#39;</span>, drop_first<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>logdata_dummy</span></code></pre></div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Select columns for dependent and independent varible</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> logdata_dummy[<span class="st">&#39;is_signed&#39;</span>]</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> logdata_dummy.drop(columns<span class="op">=</span>[<span class="st">&#39;conversion_not_convert&#39;</span>, <span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>])</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Split data into training and validation dataset</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>train_X, valid_X, train_y, valid_y <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.4</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Fit logistic regression on training dataset</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>pg.logistic_regression(train_X, train_y)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Select columns for dependent and independent varible</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> logdata_dummy[<span class="st">&#39;is_signed&#39;</span>]</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> logdata_dummy.drop(columns<span class="op">=</span>[<span class="st">&#39;conversion_not_convert&#39;</span>, <span class="st">&#39;is_signed&#39;</span>, <span class="st">&#39;request_to_1streach_timelength_minutes_&#39;</span>])</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Split data into training and validation dataset</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>train_X, valid_X, train_y, valid_y <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.4</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Fit logistic regression on training dataset</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>reg_result <span class="op">=</span> pg.logistic_regression(train_X, train_y)</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>reg_result</span></code></pre></div>
+<pre><code>                        names      coef  ...  CI[2.5%]  CI[97.5%]
+0                   Intercept -0.026989  ... -0.107403   0.053425
+1  sales_script_type_script_B -0.049030  ... -0.157495   0.059436
+2  sales_script_type_script_C  0.243650  ... -0.223056   0.710357
+3     company_group_company_A  0.045234  ... -0.087648   0.178115
+4     company_group_company_B  0.103170  ... -0.013828   0.220169
+
+[5 rows x 7 columns]</code></pre>
 </div>
 <p>Assessment of the model performance and using it for prediction based on the validation dataset is provided as a dashboard in a web application. The analysis this far has satisfied the objective set-out</p>
 <h3 id="insights-from-multiple-logistic-regression">Insights from multiple logistic regression</h3>
@@ -2607,7 +2727,7 @@ memory usage: 2.0+ MB</code></pre>
 </ol>
 <h3 id="what-should-we-do-next">What should we do next</h3>
 <p>The analysis has underscored that while it was possible to derive insights from the available data, there is the need to include other potential predictors in the data collected. This is informed by the fact that, the models developed (shared on the web app) does not adequately explain the variation in conversion rate. This in addition to other recommendations provided will set-up Envio on the path to strong data driven decision making to increase conversion</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
