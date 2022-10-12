@@ -1,7 +1,8 @@
 ---
-title: "Product analysis"
+title: "Product analysis: A/B testing and KPI analysis of products for a start-up"
 description: |
-  A short description of the post.
+  This post discusses identifying and analyzing KPIs for products as well as undertaking A/B testing to make recommendations to the products team. The post is an end-to-end project that demonstrates how to support product development with statistical analysis.
+  
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -37,12 +38,37 @@ output:
   
   
 draft: false
-categories: product analysis
+categories: 
+  - product analysis
+  - R
+  - A/B testing
+  - Hypothesis testing
+  - Product KPI analysis
 ---
 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{python, echo=FALSE, warning=FALSE, message=FALSE, results='hide', include=FALSE}
+import os
+
+pwd = os.getcwd()
+img_name = '/funnel_user_journey.png'
+img_path = pwd + img_name
+
+```
+
+
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE, include=FALSE}
+library(reticulate)
+library(magick)
+
+#scq <- 
+magick::image_read(path = py$img_path)
+
 ```
 
 

@@ -1,7 +1,7 @@
 ---
 title: "Hypothesis testing and regression: Determining which marketing strategy will increase sales and conversion and how factors influence them"
 description: |
-  This post discusses a detailed analysis for a start-up that aims to make a data driven decision on deciding on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them
+  This post discusses a detailed analysis for a start-up that aims to make a data driven decision on optimal marketing strategy that maximizes sales and conversion as well as understanding factors driving them
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
