@@ -62,7 +62,7 @@ img_path = pwd + img_name
 ```
 
 
-```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE, include=FALSE}
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE}
 library(reticulate)
 library(magick)
 
@@ -412,6 +412,8 @@ bounce_rate_rcsp_show$n  ## 13.59 % bounce rate for rcsp_show
 Given that the difference in bounce rate between the two groups is a very small margin, further inquiry will be to analyze the user journey and display the result using a funnel chart. This will enable visualizing pages where users leave Homelike website and get a sense of which group makes is closer to final conversion. 
 
 The code for user journey for A/B testing is provided below.
+
+
 ```{r, message=FALSE}
 ####### User journey for A/B testing
 ##### user journey for user_ref
@@ -527,6 +529,7 @@ ggplot(data = top20_users_country, mapping = aes(x = reorder(user_location_count
 ```
 
 #### Cluster users into groups based on device brower used
+
 ```{r message=FALSE}
 ### clusters users into groups based on device brower used
 users_browser <- data18%>%
@@ -584,6 +587,8 @@ visitor_pageviews_sessions_num <- merge(user_pageviews, user_sess_num)
 
 
 After preparing the variables, they are scaled, their distance measure estimated and clustering analysis undertaken. For this analysis, outliers were not remove and may influence the result even though scaling and standardization was undertaken.
+
+
 ```{r message=FALSE}
 ## k-mean clustering
 visitor_pageviews_sessions_num <- na.omit(visitor_pageviews_sessions_num)
@@ -621,7 +626,10 @@ silh_visitors
 
 ```
 
+
 #### Clustering users into 2 groups as the optimal number of cluster groups is shown below
+
+
 ```{r}
 #####  compute k-means clustering with k = 2  // the optimal clusters according to silhoutte
 set.seed(123)
@@ -633,6 +641,8 @@ optimal_clust_viz
 
 
 The cluster group for each user is identified by adding the clustering result to the data. The first 50 users are shown below. 
+
+
 ```{r}
 ###extracting clustering and adding to data
 user_cluster_groups <- users_all%>%
@@ -641,4 +651,6 @@ user_cluster_groups <- users_all%>%
 #  summarise_all("mean")
 DT::datatable(user_cluster_groups[1:50,])
 ```
+
+
 ##### NOTE: From the data, it is deduced that most of the first 50 users are in cluster group 2 and indeed only a few users are in cluster group one as a whole. This is likely the influence of outliers since outliers were not removed and some users had an extermely high number of pageviews and sessions. This could be an error in the data collection process.
