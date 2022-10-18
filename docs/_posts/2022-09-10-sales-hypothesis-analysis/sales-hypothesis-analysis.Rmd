@@ -1,7 +1,7 @@
 ---
-title: "sales hypothesis analysis"
+title: "Online Marketing Ads click prediction: End-to-End workflow for machine learning solution"
 description: |
-  A short description of the post.
+  This post demonstrates the process for predicting number of clicks with focus on procedures and logic behind the modelling decision making process. While the ideal aim is to produce a model that accurately predicts number of clicks, a great model with the least error is compromise between cost of computational power and time on one hand, and the expected marginal benefit to the business. Thus, the approach is to develop an accurate model that is computationally least expensive. By this, a benchmark model was defined as a minimal standard against which the model developed is deem acceptable or not. An exploratory analysis was undertaken to decide which algorithmn to employ. The findings of the exploratory analysis which included predictor variables not having a linear relationship with the target variable, potential loss of about 28% of data attributable to missing data, absence of multicollinearity and presence of outliers among others, informed the decision to use a non-parametric model hence decision tree based model. In other to choose a model that handles missing data relatively well, HistGradientBoostingRegressor was used. Various approaches to improving model performance were also demonstrated within the limited time and computational power available. Hyperparameter tuning was undertaken with grid search cross validation using few combinations of parameters. With the improved model from hyperparameter tuning, bagging was employed to further reduce error and overfitting. An alternative ensembel model of decision tree was also implemented with Extreme Gradient boosting Random Forest (XGBRFRegressor). It is duly recognized that not all techniques, some of which are capable of further reducing error, where employed due to the constrain of computation time. Nonetheless, an unexhaustive highlight of how to improve the model has been provided.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -9,17 +9,74 @@ date: 2022-09-10
 output:
   distill::distill_article:
     self_contained: false
+    
+draft: false
+  
+categories:
+  - Machine learning
+  - Python
 ---
 
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.height = 7, fig.width = 7,
+                      tidy = 'styler', fig.keep = 'all', 
+                      fig.show = 'asis', fig.align = 'center'
+                      )
 ```
 
-## Background
 
-In most companies where new products need to be lauched, a great concern is whether it will fetch as much revenue as projected hence the need to investigate 
-the all factors needed to promote sales.
+```{r}
+library(reticulate)
+use_virtualenv('/Users/lin/Documents/python_venvs/trivago_env 2', required=TRUE)
 
+
+```
+
+
+```{python, echo=FALSE, warning=FALSE, message=FALSE, results='hide', include=FALSE}
+import os
+
+pwd = os.getcwd()
+pwd
+img_name = '/SCQ.png'
+img_path = pwd + img_name
+
+```
+
+
+
+## Problem Statement
+
+
+The business problem define by trivago requires a strategic decision making which seeks to balance the satisfaction between 
+end-users at opposite divide; mainly advertisers who run campaigns and users (consumers) who consume (click) those campaign ads.
+Identified among others is the the number of clicks as a Key Performance Indicator (KPI) capturing satisfaction by both users
+and advertisers. From this, the higher the number of clicks, the higher the perceived campaign success by advertisers and 
+the higher the user utility (to some extent). With this understanding, a higher number of click is likely to result from 
+displaying ads with accommodattion characteristics that satisfy users' interests. This suggests that predicting number of 
+clicks can be done by identifying patterns in accommodation ads characteristics that compel users to click more often.
+
+Thus, the number of clicks is the target variable and variables that capture various properties of the accommodation ads are the predictor variable.
+
+In order to translate this understanding into a technical solution that can be communicated to non-technical audience later, there is the need to capture the prevailing challenge as a snapshot with a problem design framework. 
+
+
+The Situation Complication Question (SCQ) framework was employed for that purpose. A key element is identifying the stakeholder and end-user
+of the solution to be provided. This will require some level of insider information about the various stakeholders who 
+have identified clicks prediction as their pain point. Hypothetically, the stakeholder is defined to be the bidding team with support 
+from the data science team. The SCQ is depicted below;
+
+
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE}
+library(reticulate)
+library(magick)
+
+#scq <- 
+magick::image_read(path = py$img_path)
+
+```
 
 
