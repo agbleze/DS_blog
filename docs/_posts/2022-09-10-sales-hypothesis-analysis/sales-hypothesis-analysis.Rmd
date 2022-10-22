@@ -41,12 +41,22 @@ import os
 
 pwd = os.getcwd()
 pwd
+img_preview = '/feature_importance.png'
 img_name = '/SCQ.png'
 img_path = pwd + img_name
+img_preview_path = pwd + img_preview
 
 ```
 
 
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE, include=FALSE}
+library(reticulate)
+library(magick)
+
+#scq <- 
+magick::image_read(path = py$img_preview_path)
+
+```
 
 ## Problem Statement
 
@@ -70,11 +80,7 @@ have identified clicks prediction as their pain point. Hypothetically, the stake
 from the data science team. The SCQ is depicted below;
 
 
-```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE, preview=TRUE}
-library(reticulate)
-library(magick)
-
-#scq <- 
+```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE}
 magick::image_read(path = py$img_path)
 
 ```
@@ -125,7 +131,7 @@ The implementation of the exploratory analysis is highlighted below beginnning w
 dataset
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # import packages
 import pandas as pd
 import seaborn as sns
@@ -144,7 +150,7 @@ from sklearn.metrics import make_scorer
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # %% load data
 data = pd.read_csv(r"Data/train_set.csv")
 
@@ -162,7 +168,7 @@ the mean, median, quantiles among others to enable understanding of the data dis
 done as follows; 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 data.describe()
 ```
 
@@ -181,14 +187,14 @@ or choosing a model that handles that well. Hence, the number of missing values 
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # number of missing values per variable
 data.isnull().sum()
 ```
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 # number of data points (observations)
 n_obs = data.shape[0]
@@ -204,15 +210,8 @@ print(f"Percentage of data left if all missing values are removed: {narm_percent
 ```
 
 
-72% (286,026) of data will remain after removing all 
-missing values. While a sizeable amount of data will 
-still be left for modeling, a lost of 28% of data 
-could be quite impactful on the model to be developed particularly 
-when attempt is made to impute missing values. Dropping all missing values 
-will lead to loss of information while an imputation could lead to introducing 
-a sizeable amount of noise or "fake" data that may deviate from reality.
-In this regard, a decision is made in favour of choosing an algorithm that 
-natively handles and less impacted by missing values.
+72% (286,026) of data will remain after removing all missing values. While a sizeable amount of data will still be left for modeling, a lost of 28% of data could be quite impactful on the model to be developed particularly when attempt is made to impute missing values. Dropping all missing values will lead to loss of information while an imputation could lead to introducing 
+a sizeable amount of noise or "fake" data that may deviate from reality. In this regard, a decision is made in favour of choosing an algorithm that natively handles and less impacted by missing values.
 
 
 
@@ -230,7 +229,7 @@ continuous variables. This is implemented below.
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 data['city_id'].nunique()
 
@@ -241,7 +240,7 @@ city_id is a high cardinality categorical variable with 33213 unique values. Plo
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 variables=['content_score', 'n_images',
             'distance_to_center', 'avg_rating', 
@@ -255,7 +254,7 @@ variables=['content_score', 'n_images',
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # function to create histogram 
 def plot_histogram(data: pd.DataFrame, colname: str):
     """Plot the distribution of variable using a histogram
@@ -275,7 +274,7 @@ def plot_histogram(data: pd.DataFrame, colname: str):
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # plot histogram of all variables  
 for colname in variables:
         plot_histogram(data=data, colname=colname)
@@ -284,11 +283,7 @@ for colname in variables:
 
 
 
-The result shows that most of the variables are right skewed.
-The variable content_score is left skewed (not too bad).
-The variables n_images, distance_to_center,
-avg_rating, n_reviews, avg_rank, avg_price,
-avg_saving_percent and n_clicks are right skewed
+The result shows that most of the variables are right skewed. The variable content_score is left skewed (not too bad). The variables n_images, distance_to_center, avg_rating, n_reviews, avg_rank, avg_price, avg_saving_percent and n_clicks are right skewed
 
 city_id is a categorical variable which has been hashed.
 A number of ways exist to treat categorical variable including
@@ -302,7 +297,7 @@ made by first understanding number of classes it has below.
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 data['city_id'].nunique()
 
 ```
@@ -319,7 +314,7 @@ As indicated earlier, a key factor in deciding which algorithm to use is the dis
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # function to create boxplot
 def make_boxplot(data: pd.DataFrame, variable_name: str):
     """This function accepts a data and variable name and returns a boxplot
@@ -338,7 +333,7 @@ def make_boxplot(data: pd.DataFrame, variable_name: str):
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 for var in variables:
     make_boxplot(data=data, variable_name=var)
 ````
@@ -354,7 +349,7 @@ From the boxplot of content_score, the least score of 7 is quite distant from th
 In order to investigate whether or not a linear relationship between the target variable and predictor variables exists, a scatterplot is used to visualize them. Thus, all the predictor variables are plotted against n_clicks on the y-axis This is implemented below;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 def plot_scatterplot(data: pd.DataFrame,
                  x_colname: str,
                  y_colname: str = 'n_clicks'):
@@ -378,7 +373,7 @@ def plot_scatterplot(data: pd.DataFrame,
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #
 for colname in variables:
     plot_scatterplot(data=data, x_colname=colname)
@@ -396,7 +391,7 @@ Another exploration to do for the data is checking for multicollinearity among p
 
 Correlation analysis is undertaken on the predictor variables to check for multicollinearity as follows;.
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # 'n_clicks' is the target variable
 ## all others with exception of 'hotel_id' are predictors
 y = data['n_clicks']
@@ -407,7 +402,7 @@ hotel_id is not included as predictor because it is just an identifier and offer
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 ## create predictor variables data
 X = data.drop(columns=['hotel_id', 'n_clicks'])
@@ -416,7 +411,7 @@ X.head()
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #%% create correlation
 corr = X.corr()
 corr
@@ -424,7 +419,7 @@ corr
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # Create a mask to hide the upper triangle
 mask = np.zeros_like(corr, dtype=np.bool)
 mask[np.triu_indices_from(mask)] = True
@@ -474,7 +469,7 @@ The decision on how the data is proportioned for learning and evaluation is one 
 The implementation is as follows;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # split the data into train and validation set
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=.3, random_state=2022)
 
@@ -489,7 +484,7 @@ for this work, Normalized Weighted Mean Squared Error (NWMSE) will be used for t
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # normalized weighted Mean Squared Error
 def norm_weighted_mse(y_true: float, y_pred: float) -> float:
     """
@@ -517,7 +512,7 @@ def norm_weighted_mse(y_true: float, y_pred: float) -> float:
 The normalized weighted MSE (NWMSE) is used to create a customized scorer to be used in the pipeline of the model. Given that the aim is to minimize the error, greater_is_better is set to false. This is implemented below
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # nwmse means Normalized Weighted Mean Squared Error
 nwmse = make_scorer(norm_weighted_mse, greater_is_better=False)
 
@@ -547,7 +542,7 @@ needs to do better. Thus, the baseline model is estimated as follows,
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #%% mean clicks in the training data
 mean_clicks = y_train.mean()
 print(f"Average click is {mean_clicks: .3f}")
@@ -561,7 +556,7 @@ as follows;
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # Baseline model NWMSE, RMSE, Mean Absolute Error (MAE)
 
 baseline_nwmse = norm_weighted_mse(y_val, mean_clicks)
@@ -590,7 +585,7 @@ After defining the baseline model performance, the actual model development is d
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 #%% Histogram-based Gradient Boosting Regression Tree.
 ## chosen because it has an inbuilt handling on missing data
 
@@ -612,7 +607,7 @@ variance present is the co-efficient of determination. For regression models, th
 function is used to estimate that and implemented below;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # Co-efficient of determination
 histgb_r2score = histgb.score(X_train, y_train)
 
@@ -633,7 +628,7 @@ The Normalized Weighted Mean Squared Error (NWMSE) metric is used to evaluate th
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #%% norm_weighted_mse to evaluate validation dataset
 histgb_nwmse_val = norm_weighted_mse(y_val, histgb.predict(X_val))
 
@@ -653,7 +648,7 @@ The result shows a training normalized weighted mean squared error (NWMSE) of 0.
 Other evaluation metrics such as RMSE and MAE are also used to evaluate the model as follows;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # model evaluation on training data
 print("Metrics for HistGradientBoosting on Training dataset")
 regressionSummary(y_train, histgb.predict(X_train))
@@ -662,7 +657,7 @@ regressionSummary(y_train, histgb.predict(X_train))
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # model evaluation on validation data
 print(f"Metrics for HistGradientBoosting on Validation dataset")
 
@@ -689,7 +684,7 @@ For grid search, all possible combinations are used while random search randomly
 GridSearh is demonstrated below. Given the time and computational constraints, limited combinations of paramters are specified to tune HistGradientBoosting Regressor.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # specify values for hyperparameters for the grid search
 param_grid = {'max_depth': [10,11,12,],
               'learning_rate': [0.1, 0.8, 0.9],
@@ -707,16 +702,20 @@ gridSearch = GridSearchCV(HistGradientBoostingRegressor(random_state=2022,
 # fit the model for grid search
 gridSearch.fit(X_train, y_train)
 
-# show parameters that produce the least error from the possible combinations
-print('Best parameters: ', gridSearch.best_params_)
 ```
 
 
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
+
+# show parameters that produce the least error from the possible combinations
+print('Best parameters: ', gridSearch.best_params_)
+
+```
 The hyperparameter tuning was done as a quick search for demonstration purpose only. A well designed parameter set will take a longer computational time to achieve good result. 
 That noted, the best model from the tuning is evaluated as follows;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 improved_histboostgb = gridSearch.best_estimator_
 hist_grid_nwmse_train = norm_weighted_mse(y_train, improved_histboostgb.predict(X_train))
 # use NWMSE to evaluate model on validation data
@@ -734,7 +733,7 @@ hyperparameter tuning particularly when and time and computational resource is d
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 print(f"Metrics for best tuned HistGradientBoosting on Training dataset")
 regressionSummary(y_train, improved_histboostgb.predict(X_train))
 
@@ -742,7 +741,7 @@ regressionSummary(y_train, improved_histboostgb.predict(X_train))
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 
 print("Metrics for best tuned HistGradientBoosting on Validation dataset")
 
@@ -768,7 +767,7 @@ produce scores which are aggregated. As expected, this helps reduce overfitting 
 Bagging is implemented for the HistGradientBoostingRegressor as follows
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # create an instance for model
 bagging = BaggingRegressor(HistGradientBoostingRegressor(random_state=2022,
                                                         l2_regularization=0.8, 
@@ -784,14 +783,14 @@ bagging = BaggingRegressor(HistGradientBoostingRegressor(random_state=2022,
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # fit the model 
 bagging.fit(X_train, y_train)
 
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #%% NWMSE to evaluate bagged histgradientboosting
 bagg_hist_nwmse_val = norm_weighted_mse(y_val, bagging.predict(X_val))
 bagg_hist_nwmse_train = norm_weighted_mse(y_train, bagging.predict(X_train))
@@ -811,7 +810,7 @@ In addition, an insight provided is that bagging equally reduced the amount of o
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 print("Metrics for bagged HistGradientBoosting on Validation dataset")
 
 regressionSummary(y_val, bagging.predict(X_val))
@@ -820,7 +819,7 @@ regressionSummary(y_val, bagging.predict(X_val))
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 print("Metrics for bagged HistGradientBoosting on Training dataset")
 
 regressionSummary(y_train, bagging.predict(X_train))
@@ -839,7 +838,7 @@ XGBRFRegressor is Extreme Gradient Boosting Random Forest regression model and b
 Its implementation is implemented as below;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 ## create an instance of XGBRFRegressor with default parameters 
 ## and set random state for reproducible results
 xgb = XGBRFRegressor(random_state=2022)
@@ -848,7 +847,7 @@ xgb = XGBRFRegressor(random_state=2022)
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 # fit model on training data
 xgb.fit(X_train, y_train)
 
@@ -856,7 +855,7 @@ xgb.fit(X_train, y_train)
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # evaluate model with NWMSE on training data
 xgb_nwmse_train = norm_weighted_mse(y_train, xgb.predict(X_train))
 
@@ -877,7 +876,7 @@ With 0.402 NWMSE on the validation data, XGBRFRegressor performs better than the
 It is equally important to evaluate the model with other metrics considered to gain some insight on performance. This is undertaken below;
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # XGBRFRegressor model evaluation on training data 
 
 print(f"Metrics for XGBRFRegressor on Training dataset")
@@ -887,7 +886,7 @@ regressionSummary(y_train, xgb.predict(X_train))
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # XGBRFRegressor model evaluation on validation data
 print(f"Metrics for XGBRFRegressor on Validation dataset")
 regressionSummary(y_val, xgb.predict(X_val))
@@ -901,7 +900,7 @@ The RMSE of 99.1 on validation dataset for XGBRFRegressor indicates better perfo
 The importance of various features in contributing to the model, otherwise known as predictive power of the variables can be estimated for the model below.
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 #%% estimate feature importance in the model
 important_features = pd.Series(data=xgb.feature_importances_)
 important_features.sort_values(ascending=True,inplace=True)
@@ -919,7 +918,7 @@ feature_importance_df
 #### Visualize feature importance
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 fig = px.bar(data_frame=feature_importance_df, y="Predictors", x="importance", orientation="h",
              color="Predictors", title="Feature Importance in XGBRFRegressor",template="plotly_dark"
              )
@@ -955,7 +954,7 @@ Generally, the prediction made were float values some of which do not reconceal 
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## read test dataset
 test_data = pd.read_csv(r"Data/test_set.csv")
 
@@ -963,7 +962,7 @@ test_data.head()
 ```
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # making prediction on test dataset -- select features and use model to make prediction
 test_data["predictions_made"] = bagging.predict(test_data.iloc[:, 1:])
 test_data
@@ -972,7 +971,7 @@ test_data
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # round off predictions to nearest whole to reflect actual counts of clicks
 
 
@@ -982,163 +981,10 @@ test_data
 
 
 
-```{python}
+```{python, echo=TRUE, warning=FALSE, message=FALSE}
 ## select only columns required for submission
 submission = test_data[['hotel_id', 'n_clicks']]
 
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
