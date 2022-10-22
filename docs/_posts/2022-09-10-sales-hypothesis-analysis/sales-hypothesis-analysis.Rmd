@@ -373,7 +373,7 @@ def plot_scatterplot(data: pd.DataFrame,
 ```
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 #
 for colname in variables:
     plot_scatterplot(data=data, x_colname=colname)
