@@ -87,8 +87,8 @@ magick::image_read(path = py$img_path)
 
 
 ### Identifying variables in the data
-In developing an algorithm for prediction, identifying the variables to use and
-how to categorize them is important. The following were deduced;
+
+In developing an algorithm for prediction, identifying the variables to use and how to categorize them is important. The following were deduced;
 
 #### Target / Response / Outcome variable
 n clicks: Continuous variable
