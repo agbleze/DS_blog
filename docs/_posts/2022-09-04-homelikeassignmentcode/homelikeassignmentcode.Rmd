@@ -71,17 +71,16 @@ magick::image_read(path = py$img_path)
 
 ```
 
+## Background 
 
-### Task 1: What KPIs / Metrics do you recommend for the product team to use?
+Almost all businesses exist to solve problems and their solutions are regarded as products offered to clients and customers. The success of a business at least financially is thus dependent on the product. That does not necessarily mean that are businesses failed because their product was not great. A great product can fail to deliver for a firm because it was not monitored and better positioned to be received in the market or it has not been innovated overtime to response to market and user dynamics. This is where product performance monitoring and analytics come to play. The pending failure of a product can only be predicted if proper records exists and the right indicators are set to measure its performance.
 
-Key Performance Indicators (KPIs) are design to monitor business goals and objectives and in this case product goals. By this, there is the need to first set business goals or objectives that need to be achieved. As a candidate for this position, I will proceed to set the following hypothetical goals. I am aware the business situation at Homelike may be different. 
 
-The main business goals considered in recommending the KPIs are as follows   
-(i) To achieve an increase of 10% in monthly product sales     
-(ii) To increase the number of new customers acquired by 5%  every month    
-(iii) To accelerate web traffic and customer outreach by 3%  on monthly basis 
+Key Performance Indicators (KPIs) are design to monitor business goals and objectives and in this case product goals. By this, there is the need to first set business goals or objectives that need to be achieved and based on that, various KPIs are designed to comprehensively achieve them. The type of KPI that a business uses depends on the industry and the product it is offering to end-users. Thus, selection of a good KPI is informed by a clear undertstanding of the product to be analyzed.
 
-The KPI recommended for the product team to monitor the achievement of the aforementioned hypothetical goals are as follows
+
+
+For this case study, the analysis is for an online accommodation booking firm. The product is an online booking platform where users can search for accommodation, select a number of features such as location, number of booking days among others. A number of KPI can be proposed for the product team to be monitored for analysis. These are as follows;
 
 *I. Conversion rate:*  
 This should be defined to be purchase oriented. That is, a conversion is defined to have occurred when a visitor successfully book an apartment on Homelike webpage. The conversion rate will be the total bookings successfully requested divided by total number of sessions and then multiply the result by 100%. The rational behind recommending this KPI is to enable the product team assess the monetary value contribution of their product to the company as this is likely the primary means of achieving financial viability of Homelike. More importantly, conversion rate is likely to have a positive relationship with sales hence this KPI will enable the monitoring of our first business goal.
@@ -99,9 +98,10 @@ Average sessions per user helps monitor web traffic flow and a high average sess
 Bounce rate indicates single page view without further interaction with the product and this KPI should be monitored to keep it to the minimum possible. Bounce rate is likely to be negatively correlated with revenue and indicative of the user experience of the products.
 
 
-#### ●What is the overall conversion rate on a given day for all users that visited our platform.
+#### Estimating conversion rate
 
 ##### Data analysis
+
 The analysis of the data was undertaken using R programming and Rstudio and several other packages.
 
 ##### Method
@@ -223,6 +223,7 @@ bounce_rate$n  ## 13.54% bounce rate
 From the above analysis, it is concluded that bounce rate is 13.54% on 2021-07-18
 
 ##### Customer acquisition as KPI 
+
 For the customer acquisition KPI that I recommended, the code below can be used to estimate it.
 
 ```{r message=FALSE}
@@ -271,9 +272,7 @@ berlin_conversion_rate$n ### conversion rate in Berlin is 0%
 ##### From the analysis above, it is clear that there were no conversions on 2021-01-18 for users searching in Berlin despite 804 sessions were made.
 
 
-### Task 2: Analyse
-
-#### ●Analyse results of our “rcsp’ A/B test and present results to the product team.
+### Analysis of “rcsp’ A/B test 
 
 ##### Background
 In order to provide a baseline for the A/B testing, I defined goals for the product. It is assumed that we are striving to assess which of our product user groups will help as achieve our goals better. I translated these goals into KPIs to be measured for the A/B testing.
@@ -461,7 +460,8 @@ rcsp_funl
 ```
 
 
-####   ●Cluster our users in logical groups based on the data you have in hand.
+### Clustering clients in logical groups 
+
 There are a number of ways to segment our users into groups. The first approach will be to simply group users based on features that they have in common and second approach will be to use a clustering algorithm such as k-means clustering to segment them into groups of similarity.
 
 I will first visualize the simple groupings using the code below. This funnel chart for user journey is based on dataset of 2021-07-18 and not just the A/B testing groups as above. Hover of the funnel chart to display number of users for each page.
@@ -506,7 +506,8 @@ ggplot(data = users_device_class, mapping = aes(x = reorder(device_class, -`Numb
 
 ```
 
-#### Cluster users into groups based on user country 
+#### Clustering customers into groups based country 
+
 Based on the country users access Homelike page from, the total number of users is analyzed and the top twenty (20) countries with highest number of visitors are visualized.
 
 
@@ -528,7 +529,7 @@ ggplot(data = top20_users_country, mapping = aes(x = reorder(user_location_count
 
 ```
 
-#### Cluster users into groups based on device brower used
+#### Clustering customers into groups based on device brower used
 
 ```{r message=FALSE}
 ### clusters users into groups based on device brower used
@@ -546,7 +547,8 @@ ggplot(data = top_n(users_browser, n =5), mapping= aes(x = reorder(device_browse
 ```
 
 
-#### K-means clustering to cluster users into groups of similarity
+### K-means clustering to cluster users into groups of similarity
+
 A more robust way to segment users into groups of similarity involves using K-means clustering analysis. This method have been employed here to segment our users to groups. The number of groups to segment users into can vary. In order to choose the optimal number of groups for the clustering, I used average silhouettes method to determine the optimal group number.
 
 The analysis was undertaken by first assessing the number of page views per user and sessions per users; and using these as the criteria to cluster users into groups of similarity. 
@@ -616,6 +618,7 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 
 #### Determining the optimal number of clusters for grouping users
+
 The code below was used for the analysis. Inferred from the average silhouette method, the optimal number of clusters for grouping users is 2.
 
 

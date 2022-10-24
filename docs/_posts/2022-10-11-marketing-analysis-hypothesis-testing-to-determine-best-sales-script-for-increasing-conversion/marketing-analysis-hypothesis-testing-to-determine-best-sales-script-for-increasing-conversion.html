@@ -1692,7 +1692,7 @@ memory usage: 2.0+ MB</code></pre>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>(ggplot(conversion_total, aes(x<span class="op">=</span><span class="st">&#39;conversion&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat <span class="op">=</span> <span class="st">&#39;identity&#39;</span>) <span class="op">+</span> ggtitle(<span class="st">&#39;Bar chart of Total Conversion and non-conversion&#39;</span>) <span class="op">+</span> theme_light()</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>&lt;ggplot: (8773821362092)&gt;</code></pre>
+<pre><code>&lt;ggplot: (8764977132755)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-1.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="estimating-c1">Estimating C1</h3>
@@ -1735,7 +1735,7 @@ memory usage: 2.0+ MB</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>(ggplot(company_conversion, aes(x<span class="op">=</span><span class="st">&#39;company_group&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_count&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of company&#39;</span>)</span></code></pre></div>
-<pre><code>&lt;ggplot: (8773822043886)&gt;</code></pre>
+<pre><code>&lt;ggplot: (8764984360819)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-3.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <p>From our research questions and hypothesis, conversion based on sales script type is will offer valuable insight hence the data is grouped and conversion is estimated and visualized for the different sales group before testing their hypothesis further.</p>
@@ -1761,7 +1761,7 @@ memory usage: 2.0+ MB</code></pre>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>(ggplot(script_conversion, aes(x<span class="op">=</span><span class="st">&#39;sales_script_type&#39;</span>, y<span class="op">=</span><span class="st">&#39;total_conversion&#39;</span>, fill<span class="op">=</span><span class="st">&#39;conversion&#39;</span>))</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a> <span class="op">+</span> geom_col(stat<span class="op">=</span><span class="st">&#39;identity&#39;</span>, position<span class="op">=</span><span class="st">&#39;dodge&#39;</span>)) <span class="op">+</span> theme_dark() <span class="op">+</span> ggtitle(<span class="st">&#39;Conversion based on type of sales script&#39;</span>)</span></code></pre></div>
-<pre><code>&lt;ggplot: (8773822066887)&gt;</code></pre>
+<pre><code>&lt;ggplot: (8764984393710)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-5.png" width="614" data-distill-preview=1 style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="insights-from-the-visuals">Insights from the visuals</h3>
@@ -1862,7 +1862,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>(ggplot(data <span class="op">=</span> df_grp_sum, mapping <span class="op">=</span> aes(x <span class="op">=</span> <span class="st">&#39;sales_script_type&#39;</span>, y <span class="op">=</span> <span class="st">&#39;total_conversion&#39;</span>))</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="op">+</span> geom_boxplot() <span class="op">+</span> </span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a> ggtitle(<span class="st">&#39;Total conversion by script type (based on conversion counts of demo day)&#39;</span>)) </span></code></pre></div>
-<pre><code>&lt;ggplot: (8773822002809)&gt;</code></pre>
+<pre><code>&lt;ggplot: (8764977177152)&gt;</code></pre>
 <p><img src="marketing-analysis-hypothesis-testing-to-determine-best-sales-script-for-increasing-conversion_files/figure-html5/unnamed-chunk-2-7.png" width="614" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="insights-from-boxplot-of-total-conversions-based-on-demo-date">Insights from boxplot of total conversions based on demo date</h3>
