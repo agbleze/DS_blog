@@ -59,13 +59,19 @@ magick::image_read(path = py$img_preview_path)
 
 ```
 
+## Introduction
+
+Online space is now a ubiquitous market place for almost every company; not just eCommerce. Just like office spaces and sales centers, there is high competition for who gets offered the place to display and sell goods and services. Ads campaign and online marketing in general is often seen as the silver bullet by most marketing teams so much so that budget for traditional word of mouth marketing or sign-post are increasingly being redistributed among several online marketing channels.This highlight the demand for online marketing by advertisers. Taking note of this trend, a number of online businesses have sprung up as online space providers for marketers with the promise of linking marketers to end-consumers to increase sales and providing end-users with the best offer. This promise in itself has become a business problem where online marketing platforms introduces bidding systems that not only identifies which ads get displayed on the platform but also selects Ads that is relevant and offer best value to users to enable the platform to deliver on their promise. 
+
+While this problem could be tackled from both ends, that is either the marketing team designing ads that increase conversion or platform providers selecting ads that are likely to drive engagement hence satisfy both the advertiser and platform visitor, the latter is addressed in this post.
+
+Thus, the analysis is undertaken for a business that provides it platform for ads advertisement with the aim of selecting ads that are likely to have higher clicks in order to fulfill the promise of optimizing online marketing for clients and offering the best deal to platform visitors. Platform visitors aim to click ads and patronize services that offer value for money. 
+
+
 ## Problem Statement
 
-
-The business problem define by trivago requires a strategic decision making which seeks to balance the satisfaction between 
-end-users at opposite divide; mainly advertisers who run campaigns and users (consumers) who consume (click) those campaign ads.
-Identified among others is the the number of clicks as a Key Performance Indicator (KPI) capturing satisfaction by both users
-and advertisers. From this, the higher the number of clicks, the higher the perceived campaign success by advertisers and 
+For an anonymous online advertisement platform provider, the business problem deciding which ads gets to be advertise on the platform to online visitors requires a strategic decision making which seeks to balance the satisfaction between end-users at opposite divide; mainly advertisers who run campaigns and users (consumers) who consume (click) those campaign ads.
+Identified among others is the the number of clicks as a Key Performance Indicator (KPI) capturing satisfaction by both users and advertisers. From this, the higher the number of clicks, the higher the perceived campaign success by advertisers and 
 the higher the user utility (to some extent). With this understanding, a higher number of click is likely to result from 
 displaying ads with accommodattion characteristics that satisfy users' interests. This suggests that predicting number of 
 clicks can be done by identifying patterns in accommodation ads characteristics that compel users to click more often.
