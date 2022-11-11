@@ -21,11 +21,18 @@ categories:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
-                      fig.height = 7, fig.width = 7,
-                      tidy = 'styler', fig.keep = 'all', 
-                      fig.show = 'asis', fig.align = 'center'
-                      )
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "center",
+	fig.height = 7,
+	fig.keep = "all",
+	fig.show = "asis",
+	fig.width = 7,
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE,
+	tidy = "styler"
+)
 ```
 
 
@@ -70,21 +77,16 @@ Thus, the analysis is undertaken for a business that provides it platform for ad
 
 ## Problem Statement
 
-For an anonymous online advertisement platform provider, the business problem deciding which ads gets to be advertise on the platform to online visitors requires a strategic decision making which seeks to balance the satisfaction between end-users at opposite divide; mainly advertisers who run campaigns and users (consumers) who consume (click) those campaign ads.
-Identified among others is the the number of clicks as a Key Performance Indicator (KPI) capturing satisfaction by both users and advertisers. From this, the higher the number of clicks, the higher the perceived campaign success by advertisers and 
-the higher the user utility (to some extent). With this understanding, a higher number of click is likely to result from 
-displaying ads with accommodattion characteristics that satisfy users' interests. This suggests that predicting number of 
-clicks can be done by identifying patterns in accommodation ads characteristics that compel users to click more often.
+For an anonymous online advertisement platform provider with business clients advertising their accommodation services, the business problem of deciding which ads gets to be advertise on the platform to online visitors requires a strategic decision making which seeks to balance the satisfaction between end-users at opposite divide; mainly advertisers who run campaigns and users (consumers) who consume (click) those campaign ads. Identified among others is the the number of clicks as a Key Performance Indicator (KPI) capturing satisfaction by both users and advertisers. From this, the higher the number of clicks, the higher the perceived campaign success by advertisers and the higher the user utility (to some extent). With this understanding, a higher number of click is likely to result from displaying ads with accommodation characteristics that satisfy users' interests. This suggests that predicting number of clicks can be done by identifying patterns in accommodation Ads' characteristics that compel users to click more often.
 
 Thus, the number of clicks is the target variable and variables that capture various properties of the accommodation ads are the predictor variable.
 
 In order to translate this understanding into a technical solution that can be communicated to non-technical audience later, there is the need to capture the prevailing challenge as a snapshot with a problem design framework. 
 
 
-The Situation Complication Question (SCQ) framework was employed for that purpose. A key element is identifying the stakeholder and end-user
-of the solution to be provided. This will require some level of insider information about the various stakeholders who 
-have identified clicks prediction as their pain point. Hypothetically, the stakeholder is defined to be the bidding team with support 
-from the data science team. The SCQ is depicted below;
+The Situation Complication Question (SCQ) framework will serve as a great tool for that purpose. A key element is identifying the stakeholder and end-user of the solution to be provided. Hypothetically, the bidding team is tasked with the problem of Ads bidding and number of clicks is one of the key components of their bidding system hence identified as a stakeholder and end-user of the analysis.
+
+The SCQ is depicted below;
 
 
 ```{r, results='hide', results='hold', echo=FALSE, warning=FALSE, message=FALSE}
@@ -95,7 +97,7 @@ magick::image_read(path = py$img_path)
 
 ### Identifying variables in the data
 
-In developing an algorithm for prediction, identifying the variables to use and how to categorize them is important. The following were deduced;
+In developing an algorithm for prediction, identifying the variables to use and how to categorize them is important. The following is deduced;
 
 #### Target / Response / Outcome variable
 n clicks: Continuous variable
@@ -105,7 +107,7 @@ n clicks: Continuous variable
 
 • content score: ordinal
 
-• n images: continuous
+• n images: discrete
 
 • distance to center: continuous
 
@@ -120,22 +122,18 @@ n clicks: Continuous variable
 • avg saving percent: discrete 
 
 
-By identifying the type of variable, appropriate visualization can be undertaken for different 
-variables during exploratory data analysis.
+By identifying the type of variable, appropriate visualization can be undertaken for different variables during exploratory data analysis.
 
 
 
-### Exploratory data analysis
+## Exploratory data analysis
 
-Given that target variable is present, a supervised machine learning algorithmn will be used for the prediction. Generally, 
-algorithmns can be seen to belong to two categories, namely parametric and non-parametric. Deciding on the 
-category from which an algorithmn is chosen for modelling is dependent on whether the dataset exhibits characteristics that satisfy certain assumptions. This need to be verified by undertaking exploratory analysis and visualization hence the focus of this section.
-The insights gained from the exploratory analysis serves as basis on which to narrow down the selection of algorithmns that will produce good results
+Given that target variable is present, a supervised machine learning algorithm will be used for the prediction exercise. Generally, algorithms can be seen to belong to two categories, namely parametric and non-parametric. Deciding on the category from which an algorithm is chosen for modeling is dependent on whether the dataset exhibits characteristics that satisfy certain assumptions. This need to be verified by undertaking exploratory analysis and visualization hence the focus of this section.
+The insights gained from the exploratory analysis serves as basis on which to narrow down the group of algorithms that will produce good results
 
 
 
-The implementation of the exploratory analysis is highlighted below beginnning with importing packages and loading the 
-dataset
+The implementation of the exploratory analysis is highlighted below beginning with importing packages and the dataset
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
@@ -167,12 +165,9 @@ print(data.head())
 ```
 
 
-##### Basic descriptive statistics
+### Basic descriptive statistics
 
-One of the first checks to do during exploratory analysis is to obtain a description of the data by identifying
-
-the mean, median, quantiles among others to enable understanding of the data distribution among others. This is
-done as follows; 
+One of the first checks to do during exploratory analysis is to obtain a description of the data by identifying the mean, median, quantiles among others to enable understanding of the data distribution among others. This is done as follows; 
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -180,18 +175,12 @@ data.describe()
 ```
 
 
-From the above, the maximum avg_price is 8000 while the 75th percentile is 120 which suggests 
-there could be outliers.  This high difference between the maximum and the 75th percentile is 
-also noted for n_views, n_clicks among others. The issue of outliers will be better visualize with a boxplot and is a key consideration in the exploration in determining which model to choose as some models are more robust to outliers than others.
-
+From the above, the maximum avg_price is 8000 while the 75th percentile is 120 which suggests there could be outliers.  This high difference between the maximum and the 75th percentile is also noted for n_views, n_clicks among others. Outliers are better visualize with Boxplot and are a key consideration in determining which model to choose as some models are more robust to outliers than others.
 
 
 #### Missing values
 
-An important consideration for analysis and modelling is the proportion of missing values.
-This usually defines the type of preprocessing tasks which could include imputing missing values 
-or choosing a model that handles that well. Hence, the number of missing values are analyzed below to make such decision.
-
+An important consideration for analysis and modeling is the proportion of missing values. This usually defines the type of preprocessing tasks which could include imputing missing values or choosing a model that handles missing values well. Hence, the number of missing values are analyzed below to make such decision.
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -217,34 +206,16 @@ print(f"Percentage of data left if all missing values are removed: {narm_percent
 ```
 
 
-72% (286,026) of data will remain after removing all missing values. While a sizeable amount of data will still be left for modeling, a lost of 28% of data could be quite impactful on the model to be developed particularly when attempt is made to impute missing values. Dropping all missing values will lead to loss of information while an imputation could lead to introducing 
-a sizeable amount of noise or "fake" data that may deviate from reality. In this regard, a decision is made in favour of choosing an algorithm that natively handles and less impacted by missing values.
-
+72% (286,026) of data will remain after removing all missing values. While a sizeable amount of data will still be left for modeling, a lost of 28% of data could be quite impactful on the model to be developed particularly when attempt is made to impute missing values. Dropping all missing values will lead to loss of information while an imputation could lead to introducing a sizable amount of noise or "fake" data that may deviate from reality. In this regard, a decision is made in favour of choosing an algorithm that natively handles and is less impacted by missing values.
 
 
 #### Data visualization to ascertain certain assumptions required by some models
 
-Various plots are used to visualize certain characteristics of the data 
-to ascertain if certain assumptions are met for some models to be used.
-Generally, parametric models like linear regression requires data to be 
-normally distributed and a linear relationship to exist between the predictor 
-and target variable (s).
+Generally, parametric models like linear regression requires data to be normally distributed and a linear relationship to exist between the predictor and target variable (s). Among others, data visualization is one of the techniques used to verify such assumptions. Various plots are used to visualize certain characteristics of the data to ascertain if certain assumptions are met for certain models to be used.
 
 
-To investigate this, histogram was used to visualize the distribution of data for 
+To investigate this, histogram is used to visualize the distribution of data for 
 continuous variables. This is implemented below.
-
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-
-data['city_id'].nunique()
-
-```
-
-
-city_id is a high cardinality categorical variable with 33213 unique values. Plotting that number of bars will not be legible and requires some computational power.
-
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -257,8 +228,6 @@ variables=['content_score', 'n_images',
             ]
             
 ```
-
-
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -276,8 +245,6 @@ def plot_histogram(data: pd.DataFrame, colname: str):
                        )
     plt.show()
     
-
-            
 ```
 
 
@@ -289,19 +256,9 @@ for colname in variables:
 ```
 
 
-
 The result shows that most of the variables are right skewed. The variable content_score is left skewed (not too bad). The variables n_images, distance_to_center, avg_rating, n_reviews, avg_rank, avg_price, avg_saving_percent and n_clicks are right skewed
 
-city_id is a categorical variable which has been hashed.
-A number of ways exist to treat categorical variable including
-OneHot encoding method. This method has the disadvantage of
-significantly increasing the dimensionality of the dataset
-when several categorical variables are present or even when
-a single categorical variable with numerous classes exist.
-This could lead to significant increase in computation time of model.
-Hence, the decision on how to handle city_id variable is 
-made by first understanding number of classes it has below.
-
+city_id is a categorical variable and a number of ways exist to treat such variables including OneHot encoding method. This method has the disadvantage of significantly increasing the dimensionality of the dataset when several categorical variables are present or even when a single categorical variable with numerous classes exist. This could lead to significant increase in computation time of model. Hence, the decision on how to handle city_id variable is made by first understanding number of classes it has below.
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -309,16 +266,12 @@ data['city_id'].nunique()
 
 ```
 
-
-city_id is a high cardinality categorical variable with 33213 unique values. This will make OneHot encoding an expensive exercise for modelling. Worthy of notice is that the city_id has been hashed as numeric values which makes it acceptable for the sklearn API.
-
+city_id is a high cardinality categorical variable with 33213 unique values. This will make OneHot encoding an expensive exercise for modeling. Worthy of notice is that the city_id has been hashed as numeric values which makes it acceptable for the Scikit-learn API.
 
 
 #### Boxplot to visualize outliers
 
-
 As indicated earlier, a key factor in deciding which algorithm to use is the distribution of the target and predictor variables. Some algorithms are influence by the presence of outliers hence analyzed to make an inform decision on which class of algorithm to choose from.
-
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -336,19 +289,16 @@ def make_boxplot(data: pd.DataFrame, variable_name: str):
                  )
     fig.show()
 
-
 ```
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 for var in variables:
     make_boxplot(data=data, variable_name=var)
 ````
 
 
-
 From the boxplot of content_score, the least score of 7 is quite distant from the lower fence and could be seen as an outlier. The boxplot of other variables such as n_images, distance_to_center, avg_rating, n_reviews, avg_price,n_clicks suggest outliers are present upon visual inspection. This information informs our decision making process about which model to choose. From the visualization, a decision is made in favour of choosing a model that is fairly robust against outliers instead of removing or imputing the outliers altogether.
-
 
 
 ### Scatterplot to visualize outliers
@@ -356,7 +306,7 @@ From the boxplot of content_score, the least score of 7 is quite distant from th
 In order to investigate whether or not a linear relationship between the target variable and predictor variables exists, a scatterplot is used to visualize them. Thus, all the predictor variables are plotted against n_clicks on the y-axis This is implemented below;
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 def plot_scatterplot(data: pd.DataFrame,
                  x_colname: str,
                  y_colname: str = 'n_clicks'):
@@ -388,13 +338,12 @@ for colname in variables:
 ```
 
 
-The scatterplots show that none of the predictors has a linear relationship with the response variable. Hence an insight is being gain that parametric algorithms with the assumption of linear relationship such as linear regression are less likely to produce a convincing prediction with low error.
-
+The scatterplots show that none of the predictors has a linear relationship with the response variable. Hence an insight is being gain that parametric algorithms such as linear regression with the assumption of linear relationship are less likely to produce a convincing prediction with low error.
 
 
 ### Correlation analysis to check for multicollinearity
 
-Another exploration to do for the data is checking for multicollinearity among predictor variables given that some algorithmns assume that the variables are not strongly correlated to each other. Strong correlation between variables implies the variables are supplying similar information to the algorithmn hence dimension reduction technique could be used to reduce or select only variables that enable the algorithmn to gain new insights from the data and improve predictive power.
+Another exploration to do for the data is checking for multicollinearity among predictor variables given that some algorithms assume that the variables are not strongly correlated to each other. Strong correlation between variables implies the variables are supplying similar information to the algorithm hence dimension reduction technique could be used to reduce or select only variables that enable the algorithm to gain new insights from the data and improve predictive power.
 
 Correlation analysis is undertaken on the predictor variables to check for multicollinearity as follows;.
 
@@ -405,7 +354,7 @@ y = data['n_clicks']
 ```
 
 
-hotel_id is not included as predictor because it is just an identifier and offers no real insight about a hotel ad characteristics for modelling. 
+hotel_id is not included as predictor because it is just an identifier and offers no real insight about a hotel Ad characteristics for modeling. 
 
 
 
@@ -438,42 +387,21 @@ sns.heatmap(corr, mask=mask, cmap=sns.color_palette("GnBu_d"), vmax=.3, center=0
 ```
 
 
-The correlation analysis shows a weak correlation 
-between the predictor variables hence multicollinearity is absent.
+The correlation analysis shows a weak correlation between the predictor variables hence multicollinearity is absent.
 
 
 
-### Using insights gained from exploratory analysis to inform modelling approach
+### Using insights gained from exploratory analysis to inform modeling approach
 
-The findings of non-linear relationship between 
-the predictors and the outcome variable(s), presence of outliers,
-and sizeable missing values suggest that a non-parametric
-model that handles non-linear relationship,
-outliers and missing values well 
-needs to be used. Moreover, the business goal is to achieve
-a good precision rather than 
-interpretability of the model. Given that a bonus question
-requires assessing and identifying the input variables with
-high predictive power, the model to be chosen need not be a
-complete blackbox such that it becomes too difficult to
-provide such answers. 
+The findings of non-linear relationship between the predictors and the outcome variable(s), presence of outliers, and sizable missing values suggest that a non-parametric model that handles non-linear relationship, outliers and missing values well needs to be used. Moreover, the business goal is to achieve a good precision rather than interpretability of the model. 
 
-On the basis of the findings from the exploratory analysis, a model 
-that employs decision tree will be used. Before that, a critical aspect of 
-the findings was that missing data is present and has to handled. 
-For this, a model that natively handles missing data as part of the modelling
-process is explored. Hence, HistGradientBoostingRegressor from the sklearn library
- is implemented because it is a decison tree based model 
- with an inbuilt handling of missing data.
-
-
+On the basis of the findings from the exploratory analysis, decision tree model will be used. Before that, a critical aspect of the findings was that missing data is present and has to handled. For this, a model that natively handles missing data as part of the modeling process is explored. Hence, HistGradientBoostingRegressor from the sklearn library is implemented because it is a decison tree based model with an inbuilt handling of missing data.
 
 The implementation is as follows;
 
 ### Splitting into Training and validation dataset
 
-The decision on how the data is proportioned for learning and evaluation is one that is sometimes subjective. For this exercise, 70% of the data is used for training and 30% for validation. Given that, there is relatively enough data, 70% dataset will likely provide enough data points to learn and derived as much insight from and 30% will still be probably be enough to test the model on data points capturing enough of the varying charateristerics that are unknown to the model.
-The implementation is as follows;
+The decision on how the data is proportioned for learning and evaluation is one that is sometimes subjective. For this exercise, 70% of the data is used for training and 30% for validation. Given that, there is relatively enough data, 70% dataset will likely provide enough data points to learn and derived as much insight from and 30% will probably be enough to test the model on data points capturing varying characteristics that are unknown to the model. The implementation is as follows;
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -483,69 +411,18 @@ X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=.3, random_sta
 ```
 
 
-#### Function for evaluation metric of model Normalized Weighted Mean Squared Error (NWMSE)
-
-
-Usually models are evaluated using Mean Squared Error (MSE), Root Mean Squared Error (RMSE) among others. These metrics have already been implemented in python and will be considered. However,
-for this work, Normalized Weighted Mean Squared Error (NWMSE) will be used for the evaluation. This needs to implemented according to the formulae of the question hence done below.
-
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-# normalized weighted Mean Squared Error
-def norm_weighted_mse(y_true: float, y_pred: float) -> float:
-    """
-    Implements normalized weighted mean square error suggested
-    for model evaluation
-    
-    Params:
-        y_true: This is the observed clicks
-        y_pred: This is the predicted clicks
-    """
-    # w is the weight as suggested in the question
-    w = np.log(y_true + 1) + 1
-    # norm is the normalization which is given by 1/n
-    # where n is understood to be number of observation
-    # as suggested in the question
-    norm = 1/len(y_true)
-    ## This is the implementation of the metric where
-    ## (y_pred - y_true) translates to (predictedClicks - observedClicks)
-    return norm*(np.sum(w*((y_pred - y_true)**2)) / np.sum(w))
-  
-```
-
-
-
-The normalized weighted MSE (NWMSE) is used to create a customized scorer to be used in the pipeline of the model. Given that the aim is to minimize the error, greater_is_better is set to false. This is implemented below
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-# nwmse means Normalized Weighted Mean Squared Error
-nwmse = make_scorer(norm_weighted_mse, greater_is_better=False)
-
-```
-
-
 ### Define baseline model
 
-Modelling can be an iterative process in attempt to optimize and arrive at the best generalizable model. 
+Modeling can be an iterative process in attempt to optimize and arrive at the best generalizable model. 
 
-A key question that needs to be answered before beginning the modelling process is at what level of performance do we accept the model as doing a better job than random guesses hence adding value to the business. There is the need to ascertain that efforts and resources put into developing a model is worthwhile than doing nothing and making radom guesses (in which case those resources are also saved)
+A key question that needs to be answered before beginning the modeling process is at what level of performance do we accept the model as doing a better job than random guesses hence adding value to the business. There is the need to ascertain that efforts and resources put into developing a model is worthwhile than doing nothing and making random guesses (in which case those resources are also saved)
 
-To provide an objective answer to this question requires defining 
-a baseline model that the model to be developed needs to perform 
-better than in order to be viable for acceptance and usage. This 
-implies that, all algorithmns used to develop the model including
-those for which hyperparameters have been tuned needs to do better than 
-the baseline model. Once this is satisfied, a comparison 
- between the models are made to select the best model using the evaluation 
-metric define.
 
-In defining the baseline model, an assumption is made that, for 
-each observation, the average of all clicks in the training data
-is predicted as the number of clicks for the validation data. With this, the error is 
-estimated for the baseline model for which the actual model
-needs to do better. Thus, the baseline model is estimated as follows,
+To provide an objective answer to this question requires defining a baseline model that the model to be developed needs to perform better than in order to be accepted for deployment. This implies that, all algorithms used to develop the model including
+those for which hyperparameters have been tuned need to do better than the baseline model. Once this is satisfied, a comparison between the models are made to select the best model using the evaluation metric define. In this case, the evaluation metric is defined to be Root Mean Squared Error (RMSE).
+
+
+In defining the baseline model, an assumption is made that, for each observation, the average of all clicks in the training data is predicted as the number of clicks for the validation data. With this, the error is estimated for the baseline model for which the actual model needs to do better. Thus, the baseline model is estimated as follows,
 
 
 
@@ -557,18 +434,12 @@ print(f"Average click is {mean_clicks: .3f}")
 ```
 
 
-With the assumption that prediction for all observations in the validation 
-dataset is the average clicks in training data, the the RMSE and NWMSE is estimated 
-as follows;
+With the assumption that prediction for all observations in the validation dataset is the average clicks in training data, the the RMSE estimated as follows;
 
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-# Baseline model NWMSE, RMSE, Mean Absolute Error (MAE)
-
-baseline_nwmse = norm_weighted_mse(y_val, mean_clicks)
-
-print(f"Validation data NWMSE for baseline model: {baseline_nwmse: .3f}")
+# Baseline model RMSE, Mean Absolute Error (MAE)
 
 # function to calculate RMSE
 def rmse(y_true, y_pred) -> float:
@@ -582,8 +453,7 @@ print(f"Validation data MAE for baseline model: {abs(y_val - mean_clicks).mean()
 ```
 
 
-From the above analysis, the baseline model metric performance is 0.55 for NWMSE, 114.057 for RMSE and 22.3 for MAE. Thus for the actual model to be accepted as worthy of adding value to business, it has to achieve an error better (lower) than NWMSE estimated or any of those identified metrics.
-
+From the above analysis, the baseline model metric performance is 114.057 for RMSE and 22.3 for MAE. Thus for the actual model to be accepted as worthy of adding value to business, it has to achieve an error better (lower) than RMSE estimated for baseline model.
 
 
 ### Developing model for click prediction -- HistGradientBoostingRegressor
@@ -596,9 +466,9 @@ After defining the baseline model performance, the actual model development is d
 #%% Histogram-based Gradient Boosting Regression Tree.
 ## chosen because it has an inbuilt handling on missing data
 
-# define the HistGradientBoostingRegressor model instance with NWMSE used for scoring
+# define the HistGradientBoostingRegressor model instance
 # random state set to achieve reproducible results  
-histgb = HistGradientBoostingRegressor(random_state=2022, scoring=nwmse)
+histgb = HistGradientBoostingRegressor(random_state=2022)
 
 # fit the model on the training dataset
 histgb.fit(X_train, y_train)
@@ -607,11 +477,10 @@ histgb.fit(X_train, y_train)
 
 
 
-#### Determining extent to which model captures pattern in the data
+### Determining extent to which model captures pattern in the data
 
 A common metric used to understand how well the model explains the data and capture 
-variance present is the co-efficient of determination. For regression models, the score 
-function is used to estimate that and implemented below;
+variance present is the co-efficient of determination. For regression models, the score function is used to estimate that and is implemented below;
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -623,36 +492,12 @@ print(f"HistGradientBoosting explains {(histgb_r2score * 100): .2f}% of variance
 ```
 
 
-The score estimates the co-efficient of determination as a metric.
-A score of 0.577 indicates that only about 57.7% of variance in the 
-training data is captured by the model leaving about 42.3% unaccounted for. Hence alot of insights and 
-patterns in the data has not been captured by the model.
+A co-efficient of 0.577 indicates that only about 57.7% of variance in the training data is captured by the model leaving about 42.3% unaccounted for. Hence a lot of insights and patterns in the data has not been captured by the model.
 
 
-#### Evaluation of Model 
+### Evaluation of Model 
 
-The Normalized Weighted Mean Squared Error (NWMSE) metric is used to evaluate the model as follows
-
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-#%% norm_weighted_mse to evaluate validation dataset
-histgb_nwmse_val = norm_weighted_mse(y_val, histgb.predict(X_val))
-
-print(f"NWMSE for HistGradientBoosting on validatation dataset is: {histgb_nwmse_val: .3f}")
-
-
-#%% norm_weighted_mse to evaluate training dataset
-histgb_nwmse_train = norm_weighted_mse(y_train, histgb.predict(X_train))
-
-print(f"NWMSE for HistGradientBoosting on training dataset is: {histgb_nwmse_train: .3f}")
-```
-
-
-The result shows a training normalized weighted mean squared error (NWMSE) of 0.119 and 0.345 for the validation data set. The model performs better than the baseline model and will offer even greater business value when optinized. The lower error on the training dataset compared to the validation dataset suggests the model is overfitting.
-
-
-Other evaluation metrics such as RMSE and MAE are also used to evaluate the model as follows;
+RMSE and MAE (Mean Absolute Error) is used to evaluate the model as follows
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -672,23 +517,18 @@ regressionSummary(y_val, histgb.predict(X_val))
 ```
 
 
-The results show a RMSE of 82.9 and 93.07 on 
-training and validation dataset respectively. Thus, it is suggested 
-that HistGradientBoosting model is quite overfitting to the training data.
-The 82.9 RMSE on the training data implies that 
+The results show a RMSE of 82.9 and 93.07 on training and validation dataset respectively. Thus, it is suggested that HistGradientBoosting model is quite overfitting to the training data. The 82.9 RMSE on the training data implies that 
 on the average, the model predicts 83 more or less clicks than the actual
-number of clicks made.  These evaluation metrics collaborate that of the NWMSE that this model is better than the baseline model. Nonetheless, there is the need to improve the model by tuning hyperparameters and using alternative models.
+number of clicks made. The evaluation indicates that the model is performing better than the baseline model. Nonetheless, there is the need to improve the model by tuning hyperparameters and using alternative models.
 
 
-#### Hyperparameter tuning
+### Hyperparameter tuning
 
-While model with the default parameters is doing a better job than random guess (suggested by the baseline model), the aim is to reduce error as much as possible to increase accuracy 
-in prediction. While it is possible to achieve this by using a different model, a common approach 
-is to tune hyperparameters of the model already developed to verify if improvement is attainable. Hyperparameter tuning can be undertaken using the grid search where a set of parameters are specified and a search is made using various combinations or permutation to test which combination best reduces error. Another approach is the Radomized grid search where a range is specified for numeric parameters and the algorithmn randomly select the values of the hyperparameter within the range or condition specified to optimize the model. Bayesian optimization is also another approach.
+While model with the default parameters is doing a better job than random guess (suggested by the baseline model), the aim is to reduce error as much as possible to increase accuracy in prediction. While it is possible to achieve this by using a different model, a common approach is to tune hyperparameters of the model already developed to verify if improvement is attainable. Hyperparameter tuning can be undertaken using the grid search where a set of parameters are specified and a search is made using various combinations or permutation to test which combination best reduces error. Another approach is the Radomized grid search where a range is specified for numeric parameters and the algorithmn randomly select the values of the hyperparameter within the range or condition specified to optimize the model. Bayesian optimization is also another approach.
 
 For grid search, all possible combinations are used while random search randomly choose some of the combination a number of times equal to the value of n_iter argument specified.
 
-GridSearh is demonstrated below. Given the time and computational constraints, limited combinations of paramters are specified to tune HistGradientBoosting Regressor.
+GridSearch is demonstrated below. Given the time and computational constraints, limited combinations of parameters can be specified to tune HistGradientBoosting Regressor.
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
@@ -703,8 +543,7 @@ param_grid = {'max_depth': [10,11,12,],
 gridSearch = GridSearchCV(HistGradientBoostingRegressor(random_state=2022,
                                                         verbose=0
                                                         ),
-                          param_grid, cv=5,
-                          scoring=nwmse
+                          param_grid, cv=5
                           )
 # fit the model for grid search
 gridSearch.fit(X_train, y_train)
@@ -718,25 +557,14 @@ gridSearch.fit(X_train, y_train)
 print('Best parameters: ', gridSearch.best_params_)
 
 ```
-The hyperparameter tuning was done as a quick search for demonstration purpose only. A well designed parameter set will take a longer computational time to achieve good result. 
-That noted, the best model from the tuning is evaluated as follows;
+
+The hyperparameter tuning was done as a quick search for demonstration purpose only. A well designed parameter set will take a longer computational time to achieve good result. That noted, the parameters for the best model from the tuning is evaluated as follows;
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
 improved_histboostgb = gridSearch.best_estimator_
-hist_grid_nwmse_train = norm_weighted_mse(y_train, improved_histboostgb.predict(X_train))
-# use NWMSE to evaluate model on validation data
-hist_grid_nwmse_val = norm_weighted_mse(y_val, improved_histboostgb.predict(X_val))
-
-print(f"NWMSE for Best tuned HistGradientBoosting on training dataset is: {hist_grid_nwmse_train: .3f}")
-
-print(f"NWMSE for Best tuned HistGradientBoosting on validatation dataset is: {hist_grid_nwmse_val: .3f}")
 
 ```
-
-
-Based on the normalized weighted MSE, training data error reduced from 0.119 to 0.107 and that of validation reduced from 0.345 to 0.338. Generally, some reduction in error is attainable with 
-hyperparameter tuning particularly when and time and computational resource is dedicated to it.
 
 
 
@@ -745,7 +573,6 @@ print(f"Metrics for best tuned HistGradientBoosting on Training dataset")
 regressionSummary(y_train, improved_histboostgb.predict(X_train))
 
 ```
-
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -758,18 +585,13 @@ regressionSummary(y_val, improved_histboostgb.predict(X_val))
 
 
 
-Using a grid search for various combinations of the hyperparameters specified,
-RMSE reduced from 82.9 to 79.07 on training data and that of validation data 
-reduced from 93.09 to 92.11. Overfitting is suggested in the result and could be handled by tuning the regularization parameter. 
+Using a grid search for various combinations of the hyperparameters specified, RMSE reduced from 82.9 to 79.07 on training data and that of validation data reduced from 93.09 to 92.11. Generally, some reduction in error is attainable with hyperparameter tuning particularly when and time and computational resource is dedicated to it. Overfitting is suggested in the result and could be handled by tuning the regularization parameter. 
 
 
 
 ### Bagging as an approach to improving model performance and overfitting
 
-In order to further reduce the error, the tuned model is bagged. This approach undertakes multiple
-random sampling with replacement and for each sample fits HistGradientBoostingRegressor to 
-produce scores which are aggregated. As expected, this helps reduce overfitting as more samples
- are fitted hence making the model more stable to unseen data.
+In order to further reduce the error, the tuned model is bagged. This approach undertakes multiple random sampling with replacement and for each sample fits HistGradientBoostingRegressor to produce scores which are aggregated. As expected, this helps reduce overfitting as more samples are fitted hence making the model more stable to unseen data.
 
 Bagging is implemented for the HistGradientBoostingRegressor as follows
 
@@ -798,32 +620,11 @@ bagging.fit(X_train, y_train)
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-#%% NWMSE to evaluate bagged histgradientboosting
-bagg_hist_nwmse_val = norm_weighted_mse(y_val, bagging.predict(X_val))
-bagg_hist_nwmse_train = norm_weighted_mse(y_train, bagging.predict(X_train))
-
-
-print(f"NWMSE for Bagged HistGradientBoosting on training dataset is: {bagg_hist_nwmse_train: .3f}")
-
-print(f"NWMSE for Bagged HistGradientBoosting on validatation dataset is: {bagg_hist_nwmse_val: .3f}")
-
-```
-
-
-
-The result for bagging of HistGradientBoosting shows further improvement with NWMSE on the validation data reducing to 0.329 compared to 0.338 by the tuned HistGradientBoosting. 
-
-In addition, an insight provided is that bagging equally reduced the amount of overfitting on the training dataset given that it decreased the difference in error between validation NWMSE and training NWMSE (0.329 vs. 0.114) compared to HistGradientBoosting which produced 0.338 and 0.107 for validation and training. Generally, the lesser the difference in error between the training and validation dataset, the better and the lower the overfitting or underfitting. The goal is to produce a model that scores lower error with minimal difference on the validation and training dataset.
-
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
 print("Metrics for bagged HistGradientBoosting on Validation dataset")
 
 regressionSummary(y_val, bagging.predict(X_val))
 
 ```
-
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -833,8 +634,9 @@ regressionSummary(y_train, bagging.predict(X_train))
 
 ```
 
+The result for bagging of HistGradientBoosting shows further improvement with RMSE on the validation data reducing to 90.28 compared to 92.11 by the tuned HistGradientBoosting without bagging. 
 
-Other metrics such as RMSE and MAE show similar trend.
+In addition, an insight provided is that bagging equally reduced the amount of overfitting on the training dataset given that it decreased the difference in error between validation RMSE and training RMSE (90.28 vs. 80.75) compared to tuned HistGradientBoosting which produced 92.1132 and 79.0735 for validation and training RMSE. Generally, the lesser the difference in error between the training and validation dataset, the better and the lower the overfitting or underfitting. The goal is to produce a model that scores lower error with minimal difference on the validation and training dataset.
 
 
 ### Alternative models -- XGBRFRegressor
@@ -842,7 +644,7 @@ Other metrics such as RMSE and MAE show similar trend.
 XGBRFRegressor is Extreme Gradient Boosting Random Forest regression model and be seen as an advance variation of decision tree model where multiple trees are grown with random sampling of features and data hence Random Forest. This API also inherently handles missing data hence another option to using decision tree models that cater for missing data as undertaken with HistGradientBoostingRegressor.
 
 
-Its implementation is implemented as below;
+Its implementation as below;
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
@@ -863,27 +665,6 @@ xgb.fit(X_train, y_train)
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
-# evaluate model with NWMSE on training data
-xgb_nwmse_train = norm_weighted_mse(y_train, xgb.predict(X_train))
-
-print(f"NWMSE for XGBRFRegressor on training dataset is: {xgb_nwmse_train: .3f}")
-
-
-# evaluate model with NWMSE on validation data 
-xgb_nwmse_val = norm_weighted_mse(y_val, xgb.predict(X_val))
-
-print(f"NWMSE for XGBRFRegressor on Validation dataset is: {xgb_nwmse_val: .3f}")
-
-```
-
-
-With 0.402 NWMSE on the validation data, XGBRFRegressor performs better than the baseline model but with a higher error compared to HistGradientBoosting. Thus, HistGradientBoosting will be chosen over XGBRFRegressor on the basis of a lower NWMSE on the validation dataset.
-
-
-It is equally important to evaluate the model with other metrics considered to gain some insight on performance. This is undertaken below;
-
-
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
 # XGBRFRegressor model evaluation on training data 
 
 print(f"Metrics for XGBRFRegressor on Training dataset")
@@ -901,7 +682,7 @@ regressionSummary(y_val, xgb.predict(X_val))
 ```
 
 
-The RMSE of 99.1 on validation dataset for XGBRFRegressor indicates better performance of XGBRFRegressor compared to the baseline model.
+The RMSE of 99.1 on validation dataset for XGBRFRegressor indicates better performance of XGBRFRegressor compared to the baseline model but with a higher error compared to HistGradientBoosting. Thus, HistGradientBoosting will be chosen over XGBRFRegressor on the basis of a lower RMSE on the validation dataset.
 
 
 The importance of various features in contributing to the model, otherwise known as predictive power of the variables can be estimated for the model below.
@@ -922,7 +703,7 @@ feature_importance_df
 ```
 
 
-#### Visualize feature importance
+### Visualize feature importance
 
 
 ```{python, echo=TRUE, warning=FALSE, message=FALSE}
@@ -940,24 +721,29 @@ From the visualization above, avg_saving_percent has the most predictive power i
 
 ### Potential measures for to improve the model
 
-Modelling can be a very iterative exercise with time and resource such as computational power constraints and this is duly recognized here. It is therefore concluded that, there is a good 
-chance the model developed here can be further improved with those available resources using appropriate measures. Instead of aimimng to exhaust all implementation to produce the lowest error possible for a model; some of the measures to improve the model are highlighted here as further course of action.
+Modeling can be a very iterative exercise with time and resource such as computational power constraints and this is duly recognized here. It is therefore concluded that, there is a good chance the model developed here can be further improved with those available resources using appropriate measures. Instead of aiming to exhaust all implementation to produce the lowest error possible for a model; some of the measures to improve the model are highlighted here as further course of action.
 
 
-1. Feature selection and engineering: Feature selection could be explored when using some other 
-models to select only the most influencial features and probably reduce overfitting. Some categorical features could also be transformed by encoding if computation power allows for the increase in data dimensionality to explore the potential of improving the model. One-Hot encoding was ruled-out for city_id due to its high cardinality. While only normalization or scaling 
-is less likely to significantly improve performance of decision tree based models explored here, the technique should be explore for other type of models. Closely related is the option of augmenting the data with new variables. Potential variables and data to use or collect include availability of special services at hotels like excursions and guided tours, cultural performace among others. This could be an influential variable the appeal to users to click and book. This could be a categorical variable or all special serivces use to rate a hotel as an ordinal variable. 
+1. Feature selection and engineering: 
 
-2. Experiment with different techniques of handling missing data to discover which approach reliably produce a stable and optimized model. This approach could be iterative but a very interesting domain to put resource to establish domain relevant method of handling missing data since it appears to be a challenge for the data.
+Feature selection could be explored to select only the most influential features and probably reduce overfitting. Some categorical features could also be transformed by encoding if computation power allows for the increase in data dimensionality to explore the potential of improving the model. One-Hot encoding was ruled-out for city_id due to its high cardinality. While only normalization or scaling 
+is less likely to significantly improve performance of decision tree based models explored here, the technique should be explore for other type of models. Closely related is the option of augmenting the data with new variables. Potential variables and data to use or collect include availability of special services at hotels like excursions and guided tours, cultural performance among others. This could be an influential variable that appeal to users to click and book. This could be a categorical variable or all special services use to rate a hotel as an ordinal variable. 
 
-3. Tuning hyperparameters: The models developed can further be improved by experimenting with hyperparameters to select combinations that best reduces error.
+
+2. Experiment with different techniques of handling missing data to discover which approach reliably produce a stable and optimized model. This approach could be iterative but a very interesting domain dedicate resources to establish domain relevant method of handling missing data since it appears to be a challenge for the data.
+
+
+3. Tuning hyperparameters: 
+
+The models developed can further be improved by experimenting with hyperparameters to select combinations that best reduces error.
 
 
 
 ## Making prediction on test data
 
-To make predictions on the test data, the bagged HistGradienBoostingRegressor model is used.
-Generally, the prediction made were float values some of which do not reconceal with reality in terms of the unit of measuring the target variable which is count of clicks. For instance, a prediction of 8.387 in reality deviates from logic as there can only be clicks numbering whole numbers and not decimals. Thus, the prediction were round-off to nearest whole numbers which for this example will be 8. It should be noted that, this action in itself could introduce some margin of error. 
+The test data is not used in the training the model but for prediction. This is one of the approaches used in gaining an objective view of the model's generalizable performance. Something that was done on the validation dataset. To make predictions on the test data, the bagged HistGradienBoostingRegressor model is used.
+
+Generally, the prediction made were float values some of which do not reconcile with reality in terms of the unit of measuring the target variable which is count of clicks. For instance, a prediction of 8.387 in reality deviates from logic as there can only be clicks numbering whole numbers and not decimals. Thus, the prediction were round-off to nearest whole numbers which for this example will be 8. It should be noted that, this action in itself could introduce some margin of error. More importantly, number of clicks are counts hence a poisson regression could be more appropriate for the modeling exercise and should be explored.
 
 
 
@@ -987,11 +773,6 @@ test_data
 ```
 
 
+## Summary
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
-## select only columns required for submission
-submission = test_data[['hotel_id', 'n_clicks']]
-
-
-```
-
+This project demonstrates a real world approach to using machine learning to solve business problem. The problem was that the bidding team lacks a mechanism that supports them to achieve their goal of enabling advertisers run successful campaign ads. The solution offered is a prediction tool powered by decision tree model that enables the bidding team predict ads clicks better than random guesses. The project demonstrates how exploratory analysis is undertaken as a sign-post showing the way for which machine learning algorithm to use. The model was trained and evaluated and hyperpramater tuning undertaken. Bagging was also undertaken to reduce overfitting. Further, suggestions are provided to be explored in improving the model.
