@@ -1,7 +1,10 @@
 ---
 title: "Analyzing the impact of various factors on apartment booking sales"
 description: |
-  This post uses linear regression to analyze how various factors influence booking sales.
+  This post uses analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability.
+  
+  
+  to analyze how various factors influence booking sales.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -18,15 +21,12 @@ categories:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 ```
 
 
+## Background
 
-
-
-
-### Analyzing the impact of various factors on apartment booking sales 
 A key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this. 
 
 The aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions
