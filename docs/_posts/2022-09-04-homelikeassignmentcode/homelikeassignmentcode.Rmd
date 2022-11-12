@@ -1,7 +1,7 @@
 ---
 title: "Product analysis: A/B testing and KPI analysis of products for a start-up"
 description: |
-  This post discusses identifying and analyzing KPIs for products as well as undertaking A/B testing to make recommendations to the products team. The post is an end-to-end project that demonstrates how to support product development with statistical analysis.
+  This post discusses identifying and analyzing KPIs for products as well as undertaking A/B testing to make recommendations to that are relevant to product teams. The post is an end-to-end project that demonstrates how to support product development with statistical analysis.
   
 author:
   - name: Linus Agbleze
@@ -73,43 +73,49 @@ magick::image_read(path = py$img_path)
 
 ## Background 
 
-Almost all businesses exist to solve problems and their solutions are regarded as products offered to clients and customers. The success of a business, at least financially, is thus dependent on the product. That does not necessarily mean that all businesses failed because their product was not great. A great product can fail to deliver for a firm because it was not monitored and better positioned to be received in the market or it has not been innovated overtime to response to market and user dynamics. This is where product performance monitoring and analytics come to play. The pending failure of a product can only be predicted if proper records exists and the right indicators are set to measure its performance.
+Almost all businesses exist to solve problems and their solutions are regarded as products offered to clients and customers. The success of a business, at least financially, is thus dependent on the product. That does not necessarily mean that all businesses failed because their products were not great. A great product can fail to deliver for a firm because it was not monitored and better positioned to be received in the market or it has not been innovated overtime to response to market and user dynamics. This is where product performance monitoring and analytics come to play. The pending failure of a product can only be predicted if proper records exists and the right indicators are set to measure its performance.
 
 
-Key Performance Indicators (KPIs) are design to monitor business goals and objectives and in this case product goals. By this, there is the need to first set business goals or objectives that need to be achieved and based on that, various KPIs are designed to comprehensively achieve them. The type of KPI that a business uses depends on the industry and the product it is offering to end-users. Thus, selection of a good KPI is informed by a clear undertstanding of the product to be analyzed.
+Key Performance Indicators (KPIs) are design to monitor business goals and objectives and in this case product goals. By this, there is the need to first set business goals or objectives that need to be achieved and based on that, various KPIs designed to comprehensively measure them. The type of KPI that a business uses depends on the industry and the product it is offering to end-users. Thus, selection of a good KPI is informed by a clear understanding of the product to be analyzed.
 
 
 
-For this case study, the analysis is for an online accommodation booking firm. The product is an online booking platform where users can search for accommodation, select a number of features such as location, number of booking days among others. A number of KPI can be proposed for the product team to be monitored for analysis. These are as follows;
+For this case study, the analysis is for an online accommodation booking firm. The product is an online booking platform where users can search for accommodation, select a number of features such as location, number of booking days among others. A number of KPIs can be proposed for the product team to be monitored for analysis. These are as follows;
 
 *I. Conversion rate:*  
-This should be defined to be purchase oriented. That is, a conversion is defined to have occurred when a visitor successfully book an apartment on Homelike webpage. The conversion rate will be the total bookings successfully requested divided by total number of sessions and then multiply the result by 100%. The rational behind recommending this KPI is to enable the product team assess the monetary value contribution of their product to the company as this is likely the primary means of achieving financial viability of Homelike. More importantly, conversion rate is likely to have a positive relationship with sales hence this KPI will enable the monitoring of our first business goal.
+
+This should be defined to be purchase oriented. That is, a conversion is defined to have occurred when a visitor successfully book an apartment. The conversion rate will be the total bookings successfully requested divided by total number of sessions made by oneline visitors and then multiply the result by 100%. The rational behind recommending this KPI is to enable the product team assess the monetary value contribution of their product to the company as this is usually the primary means of achieving financial viability. More importantly, conversion rate is likely to have a positive relationship with sales hence this KPI will enable the monitoring of a goal such as to increase sales by X amount on the platform.
+
 
 *II. Customer acquisition:*  
-Customer acquisition is one of the key indicators for measuring market outreach which is related to sales. For Homelike, customers can be conceptualized to be online visitors who register on the platform in hopes of using the platform to book an apartment. Therefore, customer acquisition can be monitored using the number of people who register on the platform. 
+
+Customer acquisition is one of the key indicators for measuring market outreach which is related to sales. For an online booking platform, customers can be conceptualized to be online visitors who register on the platform in hopes of using the platform to book an apartment. Therefore, customer acquisition can be monitored using the number of people who registered on the platform. 
+
 
 *III. Total number of unique visitors:*
-The number of visitors who access Homelike page will provide clues to its web traffic which has the potential of translating into sales. This KPI is also a measure for monitoring marketing efforts and popularity of the products
+
+The number of visitors who access the platform will provide clues to its web traffic which has the potential of translating into sales. This KPI is also a measure for monitoring marketing efforts and popularity of the products
+
 
 *IV. Average session per User:*
-Average sessions per user helps monitor web traffic flow and a high average session per user indicates that several visitors are requesting multiple sessions hence continue to use our product overtime.
+
+Average sessions per user helps monitor web traffic flow and a high average session per user indicates that several visitors are requesting multiple sessions hence repeatedly using the product.
+
 
 *V. Bounce rate:*
-Bounce rate indicates single page view without further interaction with the product and this KPI should be monitored to keep it to the minimum possible. Bounce rate is likely to be negatively correlated with revenue and indicative of the user experience of the products.
+
+Bounce rate indicates single page view without further interaction with the product and this KPI should be monitored to keep it to the minimum possible. Bounce rate is likely to be negatively correlated with revenue and indicative of the poor user experience for platform. A number of reasons could be possible including poor User Interface, product not being cross-platform friendly or responsive, not mobile-friendly among others.
 
 
-#### Estimating conversion rate
+## Analyzing KPIs suggested
 
-##### Data analysis
+Defining the KPI is not enough but more importantly analyzing and monitoring it. The KPIs suggested are analyzed as follows;
 
-The analysis of the data was undertaken using R programming and Rstudio and several other packages.
 
-##### Method
+### Data analysis
 
-In order to estimate conversion rate, there is the need to define what is regarded as conversion for our products.
-After studying the dataset and trying to make meaning of the variables, I concluded that conversion is said to have occured when 'page_type == request/success'. This means that a visitor's request for booking an apartment has been successful hence shown the request/success webpage.
+The analysis of the data is undertaken using R programming and Rstudio and several other packages. The code for loading required packages and reading the data is as follows;
 
-The day chosen for the analysis is 2021-07-18 hence the corresponding dataset bq-results-20210718.csv. The code for the analysis is provided below. First all packages are load and the data is clean and transformed for the analysis.
 
 ```{r message=FALSE}
 library(readr)
@@ -119,46 +125,48 @@ library(GGally)
 library(ggstatsplot)
 library(plotly)
 library(highcharter)
-library(cluster)  ### working with clusters
-library(factoextra) ## cal and visualizing clusters
 library(gridExtra) ## plotting multiple graphs
 library(DT)
 library(stringr)
 library(stringi)
-library(modelr)     # provides easy pipeline modeling functions
-library(broom)      # helps to tidy up model outputs
-library(car)  ## for regression
-library(haven)
-library(caret)
-library(h2o)
-library(rsample)
 ```
 
-Now the datasets are loaded. I achieved this using the code below;
 
 ```{r message=FALSE}
-bq_results_20210718 <- read_csv("bq-results-20210718.csv")
-bq_results_20210717 <- read_csv("bq-results-20210717.csv")
-bq_results_20210716 <- read_csv("bq-results-20210716.csv")
-bq_results_20210715 <- read_csv("bq-results-20210715.csv")
-bq_results_20210714 <- read_csv("bq-results-20210714.csv")
+# read the dataset
 
-data14 <- bq_results_20210714
-data15 <- bq_results_20210715
-data16 <- bq_results_20210716
-data17 <- bq_results_20210717
-data18 <- bq_results_20210718
+data18 <- read_csv("bq-results-20210718.csv")
 
 ```
 
-I will first view the first 100 rows for the data using the code below
+
+The dataset read above contains user behaviour on the platform including how users journeyed and used various features. The first 100 rows for the data is viewed in a table using the code below
 
 ```{r message=FALSE}
 datatable(data18[1:100, ]) ## view the data 
 ```
 
+```{r}
+## features in the dataset
+colnames(data18)
 
-I undertook data cleaning and omitted missing vales for the selected variables. Then, I analyzed the total number of unique visitors and sessions using the code below
+```
+
+### Estimating conversion rate -- Method
+
+In order to estimate conversion rate, there is the need to define what is regarded as conversion in an analytical way.
+
+So, it is time to make meaning out of the dataset. Typically, the page_type variable provides a clue as to where a user is on the path to conversion. The values of this variable is checked using the code below to verify if this is possible.
+
+```{r}
+unique(data18$page_type)
+```
+
+"request/success" is one of the values in the page_type variable and can be deduced to mean that a booking request by a user has been successful hence defined to be conversion. In other words, conversion is said to have occurred when 'page_type == request/success' and the number of such instances defines the number of conversions. 
+
+
+First, the total number of unique visitors and sessions is analyzed using the code below
+
 ```{r}
 #### Total number of unique visitors
 unique_visitors_count<- data18 %>%
@@ -173,15 +181,15 @@ unique_session_count <- data18 %>%
   count(session_id)
 ```
 
-The total number of unique visitors is 17,453 and total number of unique sessions is 18,872.  
-The total number of unique sessions is required to calculate the conversion rate which is estimated with the code below;
+
+Conversion rate is estimated by first identifying number of conversions, thus filtering page_type to be "request/success". The result is divided by number of unique sessions and multiplied by 100.
 
 
 ```{r message=FALSE}
-#############################################  Task 1:  #######################################################
-########### What KPIs / Metrics do you recommend for the product team to use?
+
 ## Conversion rate
 ## Conversion occurs when page_type == request/success
+
 # find number of conversions made
 request_success_data <- data18 %>%
   dplyr::select(page_type)%>%
@@ -193,12 +201,14 @@ conversion_rate$n  ## conversion rate is 0.159 %
 ```
 
 
+#### Therefore, the overall conversion rate is 0.159% 
 
-##### Therefore, the overall conversion rate for 2021-07-18 is 0.159% 
 
-Before, proceeding with the next question, I will demonstrate how to estimate some of KPIs I have recommended in my first question using the code below;
+### Estimating Bounce rate
 
-#### Bounce_rate om 2021-07-18
+Bounce rate is estimated from session_id, and page_type. The single page indicator can be estimated by counting the number of session_id that visited only one page. First the session_id is grouped and the number of pages that each session_id visited is counted. Where only 1 page was visited, it is counted as a bounce; otherwise not a bounce. The code for executing the process is below
+
+
 ```{r message=FALSE}
 ## Bounce_rate
 bounce <- data18%>%
@@ -220,11 +230,13 @@ bounce_rate <- (bounce_group[1,2]/sum(bounce_group$n)) * 100
 bounce_rate$n  ## 13.54% bounce rate
 ```
 
-From the above analysis, it is concluded that bounce rate is 13.54% on 2021-07-18
+From the above analysis, it is concluded that bounce rate was 13.54%.
 
-##### Customer acquisition as KPI 
 
-For the customer acquisition KPI that I recommended, the code below can be used to estimate it.
+### Estimating Customer acquisition as KPI 
+
+The customer acquisition KPI recommended can be estimated from the event_type variable. First the values for event_type variable is checked to choose the appropriate one to use. Given that there are as many as 173 values, they are not shown here. But then, there is the value "user_register_success" which shows that a new user has successfully registered on the platform hence a customer acquired. This is counted for the customer acquisition KPI. The code below can be used to estimate it.
+
 
 ```{r message=FALSE}
 ## Customer acquisition as KPI 
@@ -237,15 +249,17 @@ customer_acquisition_count$n
 
 ```
 
-It is estimated that 76 new users register for our services on 2021-07-18. This represents our customer acquisition.
+It is estimated that 76 new users registered on the platform. This represents customer acquisition.
 
 
-#### ●What is the conversion rate for users searching in Berlin.
-In order to estimate conversion rate for users searching in Berlin, we need to filter the dataset to focus on Berlin users, then estimate the number of sessions and conversion using the code below. This is done for 2021-07-18.
+### Double down: Conversion rate for users searching in Berlin
+
+The KPI analysis can be disaggregated further based on location among others. Sometimes, this disaggregation is important in providing localized analysis and identifying regions where there is the need to double efforts. A case is made for Berlin where conversion rate is estimated. In order to estimate conversion rate for users searching in Berlin, the dataset is filtered to focus on Berlin users and the number of sessions and conversion estimated using the code below. 
 
 ```{r message=FALSE}
 
-########## ●What is the conversion rate for users searching in Berlin.
+# conversion rate for users searching in Berlin
+
 ## select users searching in Berlin
 berlin_users <- data18%>%
   filter(user_location_city == "Berlin")%>%
@@ -256,72 +270,74 @@ berlin_conversion <- berlin_users%>%
   filter(page_type == "request/success")
 
 berlin_session <- berlin_users%>%
-#  unique(berlin_users$session_id)%>%
     count(session_id)
 
 berlin_session_count <- count(berlin_session) 
-berlin_session_count$n ## Total number of sessions from Berlin is 804
+berlin_session_count$n  # Total number of sessions in Berlin is 804
 
 berlin_conversion_rate <- (count(berlin_conversion) / count(berlin_session))
-berlin_conversion_rate$n ### conversion rate in Berlin is 0%
+berlin_conversion_rate$n  # conversion rate in Berlin is 0%
 
 
 
 ```
 
-##### From the analysis above, it is clear that there were no conversions on 2021-01-18 for users searching in Berlin despite 804 sessions were made.
+
+#### From the analysis above, it is clear that there were no conversions for users searching in Berlin despite 804 sessions were made.
 
 
-### Analysis of “rcsp’ A/B test 
+### Analyzing A/B test 
 
-##### Background
-In order to provide a baseline for the A/B testing, I defined goals for the product. It is assumed that we are striving to assess which of our product user groups will help as achieve our goals better. I translated these goals into KPIs to be measured for the A/B testing.
+A/B testing is usually preceded by identifying KPI to be tested for the experimentation. This is probably the most important prerequisite for designing the testing system. This test aims to assess which of the solutions for user groups (control vs test group) will help achieve the business goals better. The KPIs to be tested for the A/B testing are identified as follows;
 
-**KPI compared for the various groups**  
+### KPI analyzed for A/B test  
 
-**I. Conversion rate**   
-**II.User journey**
+**Conversion rate** 
 
-#### Data analysis
+**Bounce rate**
 
-#### Splitting of data into test and control group
+**User journey**
 
-From the “test_groups” column, I identified “rcsp=ref” as the control group and “rcsp=show” as the test group. The KPI identified for the analysis was used as a benchmark to analyze the test group and control group. The code below was used to analyze the data.
 
-#### Conversion rate based on A/B testing
+### Splitting of data into test and control group
+
+From the “test_groups” column, “rcsp=ref” can be identified as the control group and “rcsp=show” as the test group. The “rcsp=show” is a feature implemented for users on search page that results in faster page loading time. This solution is offered to users selected as part of the test group (“rcsp=show”). Conversion rate is analyze for the test and control group. The code below is used to analyze the data.
+
+
+### Conversion rate based on A/B testing
 
 ```{r}
 
-################################     Task 2: Analyse  ################################################
-########## ●Analyse results of our “rcsp’ A/B test and present results to the product team. 
-####   ○The “rcsp=show” test users of page_type=search_page experience a faster loading time of the page. 
+# divide data into test group and control group
 
-## divide data into test group and control group
 # subset test group
 rcsp_show <- subset(data18, grepl('"rcsp":"show"', test_groups))
+
+
 # subset control group
 rcsp_ref <- subset(data18, grepl(pattern = '"rcsp":"ref"', test_groups))
 
-######## conversion rate for control
+# conversion rate for control
 rcsp_ref_conversion <- rcsp_ref%>%
   filter(page_type == "request/success") %>%
   na.omit()
 rcsp_ref_conversion_count <- count(rcsp_ref_conversion) 
 rcsp_ref_conversion_count$n   ## Conversions for control group is 19
 
-## number of sessions made by rcsp_ref
+# number of sessions made by rcsp_ref
 rcsp_ref_session <- rcsp_ref%>%
   dplyr::select(session_id)%>%
   na.omit()%>%
   count(session_id)
 
 rcsp_ref_session_count <- count(rcsp_ref_session) 
-rcsp_ref_session_count$n # # 9467 sessions for rcsp_ref 
+rcsp_ref_session_count$n #  9467 sessions for rcsp_ref 
 
 rcsp_ref_conversion_rate <- (count(rcsp_ref_conversion)/count(rcsp_ref_session)) * 100
-rcsp_ref_conversion_rate$n ## 0.2% conversion rate for rcsp_ref
+rcsp_ref_conversion_rate$n  ## 0.2% conversion rate for rcsp_ref
 
-######### conversion rate for test group rcsp:show
+# conversion rate for test group rcsp:show
+
 rcsp_show_conversion <- rcsp_show%>%
   dplyr::select(page_type, session_id)%>%
   na.omit()%>%
@@ -329,7 +345,8 @@ rcsp_show_conversion <- rcsp_show%>%
 rcsp_show_conversion_count <- count(rcsp_show_conversion)  
 rcsp_show_conversion_count$n  ## conversion for test group is 11
 
-## number of sessions for rcsp_show
+# number of sessions for rcsp_show
+
 rcsp_show_session <- rcsp_show%>%
   dplyr::select(session_id, page_type)%>%
   na.omit() %>%
@@ -340,7 +357,8 @@ rcsp_show_session_count$n  ## 9,463 sessions were made by  rcsp_show test group
 ## conversion rate rcsp_show
 rcsp_show_conversion_rate <- (count(rcsp_show_conversion)/count(rcsp_show_session)) * 100
 rcsp_show_conversion_rate$n ## 0.116 % conversion rate for rcsp_show
-###### Thus the test group ( test_groups == rcsp:show) achieved a lower conversion rate compared to the
+
+# Thus the test group ( test_groups == rcsp:show) achieved a lower conversion rate compared to the
 ## control group (test_groups == rcsp:ref )
 ```
 
@@ -349,22 +367,22 @@ From the above analysis of A/B testing, it was estimated that the control group 
 
 For the test user group (rcsp:show), there were 11 conversions and 9,462 user sessions hence a conversion rate of 0.116% 
 
-Thus, it is concluded that based on conversion rate the test user group had a lower conversion rate (0.116%) compared to the control group (0.2%). Therefore, if we are to solely base our decision on conversion, the new feature which is shown to the test group is not recommended.
+Thus, it is concluded that based on conversion rate the test user group had a lower conversion rate (0.116%) compared to the control group (0.2%). Therefore, base on conversion, the new feature which is shown to the test group is not recommended.
+
+**It should be noted that further inquiry can be made as to whether the difference in conversion between the control and test group is statistically significant.**
 
 
 
-#### Bounce rate (A/B testing)
+### Bounce rate analysis for A/B test
  
 A key concern for the product team will be to ensure that they do not roll out a feature that has detrimental effect on user engagement and experience hence bounce rate. Thus, the A/B testing could also be undertaken based on bounce rate.
 
-Assessing bounce rate, it was estimated that the control user group (rcsp:ref) had a bounce rate of 13.62% while the test user group (rcsp:show) had 13.59 % bounce rate. Thus, in terms of bounce rate,  the test group had a slightly lower bounce rate compared to the control group. The result is however not conclusive of which feature is better as there is the need to conduct further analysis to determine whether the difference is statistically significant. 
-
-The code for this analysis is provided below
-
+The previous steps used to estimate bounce rate is applied for the control and test group and the results compared. A more robust decision can be made when test of significance for difference in bounce rate is undertaken. The code for analyzing bounce rate for the test and control group is as follows;
 
 ```{r}
 
-#### bounce rate for A/B testing
+# bounce rate for A/B testing
+
 ## Bounce_rate for rcsp_ref
 bounce_rcsp_ref <- rcsp_ref %>%
   dplyr::select(session_id, page_type)%>%
@@ -384,7 +402,8 @@ bounce_group_rcsp_ref <- bounce_rcsp_ref%>%
 bounce_rate_rcsp_ref <- (bounce_group_rcsp_ref[1,2]/sum(bounce_group_rcsp_ref$n)) * 100
 bounce_rate_rcsp_ref$n  ## 13.61572% bounce rate
 
-#####  Bounce_rate for A/B testing (test group)
+
+#  Bounce_rate for A/B testing (test group)
 ## Bounce rate rcsp_show
 bounce_rcsp_show <- rcsp_show%>%
   dplyr::select(session_id, page_type)%>%
@@ -406,23 +425,26 @@ bounce_rate_rcsp_show$n  ## 13.59 % bounce rate for rcsp_show
 
 ```
 
-#### User journey for A/B testing
+From the analysis, the control user group (rcsp:ref) had a bounce rate of 13.62% while the test user group (rcsp:show) had 13.59% bounce rate. Thus, in terms of bounce rate, the test group had a slightly lower bounce rate compared to the control group. The result is however not conclusive of which feature is better as there is the need to conduct further analysis to determine whether the difference is statistically significant. However, the mere fact that the test group is producing preferable results reinforce the earlier assertion that it is important to decide on the main KPI to analyze for the A/B testing experiment. It is not uncommon to see conflicting results or recommendations for different KPIs. As in this case, the control group produces a preferred result with higher conversion rate while the test group produces the preferred result for bounce rate. Seemingly, the results follow expected logic on the grounds that the faster loading time experienced by test group will lead to lower bounce rate while getting past the first page does not necessarily mean that the customer will book an apartment.
 
-Given that the difference in bounce rate between the two groups is a very small margin, further inquiry will be to analyze the user journey and display the result using a funnel chart. This will enable visualizing pages where users leave Homelike website and get a sense of which group makes is closer to final conversion. 
 
-The code for user journey for A/B testing is provided below.
+### Analysis of user journey for A/B test
 
+Given that the difference in bounce rate between the two groups is a very small margin, further inquiry will be to analyze the user journey and display the result using a funnel chart. This will enable visualizing pages where users leave the platform and get a sense of which group makes it closer to final conversion. 
+
+The code for analyzing user journey is provided below;
 
 ```{r, message=FALSE}
-####### User journey for A/B testing
-##### user journey for user_ref
+# User journey for A/B testing
+
+# user journey for control group -- user_ref
 rcsp_ref_user_jour <- rcsp_ref%>%
   dplyr::select(page_type)%>%
   na.omit()%>%
   group_by(page_type)%>%
   count()
 
-## user journey rcsp_show 
+# user journey for test group -- rcsp_show 
 rcsp_show_user_jour <- rcsp_show%>%
   dplyr::select(page_type)%>%
   na.omit()%>%
@@ -460,200 +482,14 @@ rcsp_funl
 ```
 
 
-### Clustering clients in logical groups 
+## Summary
 
-There are a number of ways to segment our users into groups. The first approach will be to simply group users based on features that they have in common and second approach will be to use a clustering algorithm such as k-means clustering to segment them into groups of similarity.
-
-I will first visualize the simple groupings using the code below. This funnel chart for user journey is based on dataset of 2021-07-18 and not just the A/B testing groups as above. Hover of the funnel chart to display number of users for each page.
-
-
-```{r message=FALSE}
-##########   ●Cluster our users in logical groups based on the data you have in hand. 
-
-## funnel charts for user journey
-page_type_count <- data18%>%
-  dplyr::select(page_type)%>%
-  na.omit()%>%
-  group_by(page_type)%>%
-  count()%>%
-  arrange(desc(n))
-
-user_jour_funnel <- page_type_count %>%
-  hchart(
-    "funnel", hcaes(x = page_type, y = n),
-    name = "user_journey"
-  )
-user_jour_funnel
-```
-
-
-#### Grouping users based on device type
-For this, I analyzed the number of visitors based on device used to access Homelike website using the code below.
-
-```{r}
-### clusters users into groups based on device type
-users_device_class <- data18%>%
-  dplyr::select(visitor_id, device_class)%>%
-  na.omit()%>%
-  group_by(device_class)%>%
-  distinct(visitor_id)%>%
-  count(visitor_id)%>%
-  tally(wt = n)%>%
-  arrange(desc(n)) %>%
-  dplyr::rename("Number of users" = n)
-
-ggplot(data = users_device_class, mapping = aes(x = reorder(device_class, -`Number of users`), y = `Number of users`)) + geom_col() + ggtitle(label = "Number of users based on devices used") + xlab("Device class")
-
-```
-
-#### Clustering customers into groups based country 
-
-Based on the country users access Homelike page from, the total number of users is analyzed and the top twenty (20) countries with highest number of visitors are visualized.
-
-
-```{r message=FALSE}
-### clusters users into groups based on user country 
-users_country <- data18%>%
-  dplyr::select(visitor_id, user_location_country)%>%
-  na.omit()%>%
-  group_by(user_location_country)%>%
-  distinct(visitor_id)%>%
-  count(visitor_id)%>%
-  tally(wt = n)%>%
-  arrange(desc(n)) %>%
-  dplyr::rename("Number of users" = n)
-
-top20_users_country <- dplyr::top_n(users_country, n = 20)
-
-ggplot(data = top20_users_country, mapping = aes(x = reorder(user_location_country, -`Number of users`), y = `Number of users`)) + geom_col() + ggtitle("Top 20 countries with highest number of visitors") + xlab("Countries of users")
-
-```
-
-#### Clustering customers into groups based on device brower used
-
-```{r message=FALSE}
-### clusters users into groups based on device brower used
-users_browser <- data18%>%
-  dplyr::select(visitor_id, device_browser)%>%
-  na.omit()%>%
-  group_by(device_browser)%>%
-  distinct(visitor_id)%>%
-  count(visitor_id)%>%
-  tally(wt = n)%>%
-  arrange(desc(n)) %>%
-  dplyr::rename("Number of users" = n)
-
-ggplot(data = top_n(users_browser, n =5), mapping= aes(x = reorder(device_browser, -`Number of users`), y = `Number of users`)) + geom_col() + ggtitle("Number of users based on browser used") + xlab("Type of brower used")
-```
-
-
-### K-means clustering to cluster users into groups of similarity
-
-A more robust way to segment users into groups of similarity involves using K-means clustering analysis. This method have been employed here to segment our users to groups. The number of groups to segment users into can vary. In order to choose the optimal number of groups for the clustering, I used average silhouettes method to determine the optimal group number.
-
-The analysis was undertaken by first assessing the number of page views per user and sessions per users; and using these as the criteria to cluster users into groups of similarity. 
-
-**It was assessed that optimal group to clusters into groups of similarity was 2 as deduced from average silhouette method.**
-
-The code below was used for the analysis. First, the number of pageview and sessions per user is analyzed. 
-
-```{r message=FALSE}
-####################### cluster analysis
-## pageviews per visitor
-user_pageviews <- data18%>%
-  dplyr::select(visitor_id,page_type)%>%
-  na.omit()%>%
-  group_by(visitor_id)%>%
-  count(page_type)%>%
-  tally(wt = n)%>%
-  mutate(num_pages = n)%>%
-  dplyr::select(-2)
-
-## number of sessions per visitor
-user_sess <- data18%>%
-  dplyr::select(visitor_id, session_id) %>%
-  na.omit()%>%
-  group_by(visitor_id)%>%
-  distinct(session_id)
-
-user_sess_num <- user_sess%>%
-  group_by(visitor_id)%>%
-  count()%>%
-  mutate(num_sessions = n)%>%
-  dplyr::select(-2)
-
-### merge num_pages and num_sessions for visitors
-users_all <- merge(user_pageviews, user_sess_num)
-visitor_pageviews_sessions_num <- merge(user_pageviews, user_sess_num)
-```
-
-
-After preparing the variables, they are scaled, their distance measure estimated and clustering analysis undertaken. For this analysis, outliers were not remove and may influence the result even though scaling and standardization was undertaken.
-
-
-```{r message=FALSE}
-## k-mean clustering
-visitor_pageviews_sessions_num <- na.omit(visitor_pageviews_sessions_num)
-## scale data
-visitor_pageviews_sessions_num <- scale(visitor_pageviews_sessions_num[,c(2:3)])
-
-##### K means clustering
-k2_visitor <- kmeans(visitor_pageviews_sessions_num, centers = 2, nstart = 25)
-
-k3_visitor <- kmeans(visitor_pageviews_sessions_num, centers = 3, nstart = 25) ## kmeans with 3 clusters
-k4_visitor <- kmeans(visitor_pageviews_sessions_num, centers = 4, nstart = 25) ## kmeans with 4 clusters
-k5_visitor <- kmeans(visitor_pageviews_sessions_num, centers = 5, nstart = 25) ## kmeans with 5 clusters
-
-# plots to compare
-p1 <- fviz_cluster(k2_visitor, geom = "point", data = visitor_pageviews_sessions_num) + ggtitle("k = 2")
-p2 <- fviz_cluster(k3_visitor, geom = "point", data = visitor_pageviews_sessions_num) + ggtitle("k = 3")
-p3 <- fviz_cluster(k4_visitor, geom = "point", data = visitor_pageviews_sessions_num) + ggtitle("k = 4")
-p4 <- fviz_cluster(k5_visitor, geom = "point", data = visitor_pageviews_sessions_num) + ggtitle("k = 5")
-
-############# plot all graphs together  #######
-grid.arrange(p1, p2, p3, p4, nrow = 2)
-
-```
+This post demonstrated how to undertake a real world analysis for a product team that aims to adopt a data driven approach to growth. The business problem was absence of relevant product monitory and decision support system that provides insights on the usefulness of features being implemented. The end-user and stakeholder of the analysis was identified to be the product team for an online accommodation booking service provider. The solution provided was to define and conceptualize relevant Key Performance Indicators (KPIs) for monitoring the product. Further, data provided was used to show how the KPIs can be estimated. Features are released mainly to drive businesses forward and this goal need to be evaluated. This was undertaken using A/B testing. The data-driven approach provided insights on how the solution implemented impacted bounce rate, conversion rate and user journey funnel while also highlighting further call to action such as statistical test of significance to verify if the difference between the control and test group is significant.
 
 
 
-#### Determining the optimal number of clusters for grouping users
-
-The code below was used for the analysis. Inferred from the average silhouette method, the optimal number of clusters for grouping users is 2.
 
 
-```{r message=FALSE, warning=FALSE}
-##Determing optimal number of clusters using average silhouettes method 
-silh_visitors <- fviz_nbclust(visitor_pageviews_sessions_num, kmeans, method = "silhouette")
-silh_visitors
-
-```
 
 
-#### Clustering users into 2 groups as the optimal number of cluster groups is shown below
 
-
-```{r}
-#####  compute k-means clustering with k = 2  // the optimal clusters according to silhoutte
-set.seed(123)
-optimal_clusters_visitors <- kmeans(visitor_pageviews_sessions_num, 2, nstart = 25)
-
-optimal_clust_viz <- fviz_cluster(optimal_clusters_visitors, data = visitor_pageviews_sessions_num)
-optimal_clust_viz
-```
-
-
-The cluster group for each user is identified by adding the clustering result to the data. The first 50 users are shown below. 
-
-
-```{r}
-###extracting clustering and adding to data
-user_cluster_groups <- users_all%>%
-  mutate(Cluster_group = optimal_clusters_visitors$cluster) %>%
-  group_by(Cluster_group) #%>%
-#  summarise_all("mean")
-DT::datatable(user_cluster_groups[1:50,])
-```
-
-
-##### NOTE: From the data, it is deduced that most of the first 50 users are in cluster group 2 and indeed only a few users are in cluster group one as a whole. This is likely the influence of outliers since outliers were not removed and some users had an extermely high number of pageviews and sessions. This could be an error in the data collection process.
