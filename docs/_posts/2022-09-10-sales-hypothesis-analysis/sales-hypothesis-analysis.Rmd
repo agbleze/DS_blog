@@ -16,6 +16,9 @@ draft: false
 categories:
   - Machine learning
   - Python
+  
+base_url: https://agbleze.github.io/DS_blog/posts/2022-09-10-sales-hypothesis-analysis
+
 ---
 
 
@@ -706,7 +709,7 @@ feature_importance_df
 ### Visualize feature importance
 
 
-```{python, echo=TRUE, warning=FALSE, message=FALSE}
+```{python, echo=TRUE, warning=FALSE, message=FALSE, preview=TRUE}
 fig = px.bar(data_frame=feature_importance_df, y="Predictors", x="importance", orientation="h",
              color="Predictors", title="Feature Importance in XGBRFRegressor",template="plotly_dark"
              )
