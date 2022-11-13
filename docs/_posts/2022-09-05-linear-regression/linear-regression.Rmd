@@ -93,8 +93,11 @@ user_verified_sales
 ```
 
 ```{r}
-ggplot(data=user_verified_sales, mapping=aes(x=user_verified, y=avg_sales, fill=user_verified)) + geom_col()+ 
-  ggtitle('Average sales (verification status)') + xlab("user verification status") + ggthemes::theme_wsj() + ylab("Average booking sales")
+ggplot(data=user_verified_sales, 
+       mapping=aes(x=user_verified, y=avg_sales, fill=user_verified)) +   geom_col()+ 
+  ggtitle('Average sales (verification status)') + 
+  xlab("user verification status") + ggthemes::theme_wsj() + 
+  ylab("Average booking sales")
 ```
 
 The result shows that verified users booked more rooms, generating almost twice as much sales on the average compared to non-verified users.
@@ -147,10 +150,12 @@ avg_sales_test_status
 ```{r}
 
 ggplot(data = avg_sales_test_status, 
-       mapping = aes(x = test_status, y = avg_sales, fill = test_status)) + 
+       mapping = aes(x = test_status, y = avg_sales, fill = test_status)) +
   geom_col() + ylab("Average booking sales") + 
-  ggtitle("Average sales (test status)") + ylab("Average booking sales") +
-  xlab("Test status") + ggthemes::theme_wsj()
+  ggtitle("Average sales (test status)") + 
+  ylab("Average booking sales") +
+  xlab("Test status") + 
+  ggthemes::theme_wsj()
 
 ```
 
@@ -200,7 +205,7 @@ model4_results <- augment(model4_all_convern_factors, train_all_convern.lmvar)
 booking_sales.predictioplot <- ggcoefstats(
   x = stats::lm(formula = total_paid.EUR ~ test_status + instant_booking +
                   user_verified, data = train_all_convern.lmvar),
-  ggtheme = ggplot2::theme_gray(), # changing the default theme
+  ggtheme = ggplot2::theme_gray(),
   title = "Regression analysis: Predicting the influence of various factors on booking sales",
 ) 
 
