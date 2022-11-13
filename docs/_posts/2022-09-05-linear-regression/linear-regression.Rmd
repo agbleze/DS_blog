@@ -1,10 +1,7 @@
 ---
 title: "Analyzing the impact of various factors on apartment booking sales"
 description: |
-  This post uses analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability.
-  
-  
-  to analyze how various factors influence booking sales.
+  This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability.
 author:
   - name: Linus Agbleze
     url: https://agbleze.github.io/Portfolio/
@@ -27,38 +24,36 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 
 ## Background
 
-A key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this. 
+Businesses exist to make money and this simple assertion also has a simple rule. Do more of what grows the business and less of what makes losses. This golden rule is known by all but practice by few. In fact, it is not knowing it that matters but identifying the  impact of various business drivers that is the silver bullet. Luckily, many businesses have what it takes to take the perfect shot. It is data analysis and that is what an anonymized firm requires to make an inform decision to increase sales. The product team is preoccupied with the question of how user interaction is influencing sales on their booking platform. For such an analysis the aim is not to develop a well optimized model that predict sales but to understand how the various features on their platform influence sales. How much of an insights is derive to drive the business is dependent on the dataset features. With the undertanding of what the business is and what the product team wants, the first step for the analysis is to formulate a research question that the analysis should provide answers to. This analysis proceeds to answer the following key questions
 
-The aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions
 
-1.  What is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?
+## Research question
+
+1.  What is the impact of user verification, instant booking, and faster page loading time on booking sales
+
 2.  To what extent does these variables explain booking sales?
 
 
-#### Problem Design framework
+## Data analysis -- Overview of the variables
+
+Two main categories of variables are required for the analysis; outcome variable and predictor variable. The analysis to be undertaken is regression given that the outcome variable is numeric and continuous. It is extremely important to group the variables in the dataset rightly as this informs the modeling process. The outcome variable is what is being predicted or explained while the predictors are the set variables that are used in predicting or explaining the outcome variable. For this analysis, the following variables are available for use
 
 
+### Outcome variable 
+
+Total booking sales: This variable depicts the total price that a customer pays for booking an apartment 
 
 
+### Predictors 
 
+Test status:  This is a binary predictor where customers who were offered the feature of a faster page loading time as classified as test  and those without that feature are named as control. For this analysis, the reference group is designated to be test users. The reference group is exempted from the model and serve as the benchmark for comparison for that variable.
 
-
-#### Data analysis
-
-For this analysis, the following variables were used
-
-#### Outcome variable 
-
-
-Total booking sales: This variable was extracted from the “params” column in the dataset as indicated by “total”.
-
-
-#### Predictors 
-Test status:  as a binary predictor is deduced from the A/B testing groupings in the data. All visitors identified with “rcsp:show” in the “params” column were classified as test group and all others as control group. For the analysis, the reference group was designated to be users without “rcsp:show”.
-
-User verification is a binary predictor indicating whether a user has been verified or not. This is captured as “user_verified” in the “params” column. The reference group for the regression analysis for this variable was users who are not verified.
+User verification is a binary predictor indicating whether a user has been verified or not. Users who are verified are labeled 'Verified' and those not verified are named as 'Not_verified' for the variable “user_verified”. The reference group for the regression analysis for this variable was users who are not verified.
 
 Instant booking: is a binary predictor indicating whether or not a customer used the instant booking feature. Customers who used the instant booking feature were designated as the reference group for the analysis
+
+
+Worthy of notice is that all the predictors are binary categorical variables but numeric and continuous variables can also be use when available. The various libraries for the analysis are loaded and the dataset read using the code below.
 
 
 
@@ -85,12 +80,114 @@ all_conversions_variables = read_csv("all_conversions_variables.csv")
 ```
 
 
+```{r}
+colnames(all_conversions_variables)
+
+```
 
 ```{r}
-##### Spliting dataset into training and testing samples
+unique(all_conversions_variables$user_verified)
+
+
+```
+
+## Visualization of the data
+
+It is always a good idea to do visualization of the variables for the prediction to gain some understanding before the modeling process. First the average sales made by verified and non-verified users is estimated and visualized using the code below.
+
+
+```{r}
+user_verified_sales <-  all_conversions_variables %>% 
+  select(user_verified, total_paid.EUR) %>%
+  na.omit() %>%
+  dplyr::group_by(user_verified) %>%
+  dplyr::summarise(avg_sales = mean(total_paid.EUR)) 
+user_verified_sales
+```
+
+```{r}
+ggplot(data=user_verified_sales, mapping=aes(x=user_verified, y=avg_sales, fill=user_verified)) + geom_col()+ 
+  ggtitle('Average sales based on user verification status') + xlab("user verification status") + ggthemes::theme_wsj() + ylab("Average sales")
+```
+
+The result shows that verified users booked more rooms earning almost twice as much sales on the average compared to non-verified users.
+
+
+### Average sales based on whether customer used instant booking feature
+
+In order to get the average sales based on instant booking feature usage, the data is grouped based on instant_booking variable and the mean sales for each group is estimated. This is undertaken as follows;
+
+
+```{r}
+
+# estimate avg booking sales by instant booking
+avg_instant_booking = all_conversions_variables %>%
+  dplyr::select(instant_booking, total_paid.EUR) %>%
+  dplyr::group_by(instant_booking) %>%
+  dplyr::summarise(avg_sales = mean(total_paid.EUR))
+
+avg_instant_booking
+```
+The result is visualized as follows;
+
+```{r}
+ggplot(data = avg_instant_booking, mapping = aes(x = instant_booking, y = avg_sales, fill = instant_booking)) + geom_col() + 
+  ggtitle("Average booking sales based on instant booking") + 
+  xlab("Instant booking types") + ylab("Average booking sales") + ggthemes::theme_wsj()
+
+```
+
+
+### Avergare sales based on test status
+
+A feature was tested and average sales made by test group can be compared to the control group. Users labelled as test experienced a faster page loading time. The average sales can be estimated using the code below.
+
+
+```{r}
+avg_sales_test_status <- all_conversions_variables %>%
+  select(test_status, total_paid.EUR) %>%
+  na.omit() %>%
+  dplyr::group_by(test_status) %>%
+  dplyr::summarise(avg_sales = mean(total_paid.EUR))
+
+avg_sales_test_status
+
+```
+
+```{r}
+
+ggplot(data = avg_sales_test_status, mapping = aes(x = test_status, y = avg_sales, fill = test_status)) + geom_col() + ylab("Average booking sales") + 
+  ggtitle("Average sales (test status)") + ylab("Average booking sales") +
+  xlab("Test status") + ggthemes::theme_wsj()
+
+```
+
+
+## Regression analysis
+
+After visualization, it is time to build a regression model. Given that the focus is one interpretability, linear regression will be built using all the variables identified. The procedure is highlighted as follows;
+
+1. Set seed to make splitting of dataset reproducible
+2. Randomly split the dataset into training and test set. This process is a standard for all machine learning processes. Nonetheless, it can be avoided here given that the focus is not on estimating the performance of the model on unseen data.
+3. Build the model, identifying the outcome and predictor variables
+4. Estimate model coefficient for the various predictor variables and their significance
+5. Estimate the coefficient of determination to explain the amount of variablility in the data explained by the model
+6. Interpret the results
+
+The steps identified above are implemented as code as follows
+
+
+```{r}
+# set seed for reproducibility
 set.seed(123)
+
+# Spliting dataset into training and testing samples
 sample_all_conversions <- sample(c(TRUE, FALSE), nrow(all_conversions_variables), replace = T, prob = c(0.6,0.4))
+
+# retrieve training dataset
 train_all_convern.lmvar <- all_conversions_variables[sample_all_conversions, ]
+
+## retrieve testing dataset
 test_all_convern.lmvar <- all_conversions_variables[!sample_all_conversions, ]
 
 ## regression for qualitative predictors (categorical dataset -- factors) 
@@ -105,7 +202,8 @@ model4_results <- augment(model4_all_convern_factors, train_all_convern.lmvar)
 ```
 
 
-#### Plot of regression analysis
+## Plot results of regression analysis
+
 ```{r, preview=TRUE}
 booking_sales.predictioplot <- ggcoefstats(
   x = stats::lm(formula = total_paid.EUR ~ test_status + instant_booking +
@@ -117,7 +215,9 @@ booking_sales.predictioplot <- ggcoefstats(
 booking_sales.predictioplot
 ```
 
+### Determining extent to which various variables explain booking sales
 
+The second question for this analysis will answer by estimating the co-efficient of determination as follows
 
 
 ```{r}
@@ -129,10 +229,29 @@ rsquare(model4_all_convern_factors, data = test_all_convern.lmvar)
 
 ```
 
-#### Result interpretation
-The results shows that visitors in the test group(rcsp:show) made bookings worth 452 EUR less than what is ordered by the control group (not rcsp:show). Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Moreover, users who are verified made bookings worth 1,085 EUR more than those who are not verified. This result however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases. 
+## Results and interpretation
 
-Moreover, the predictors analyzed explains only 4% of variations in booking sales (rsquare = 0.0416). Thus, there is the need to consider other more important variables if we are too develop good models for forecasting booking sales.
+The answers to the first question for this analysis is answered by the coefficient of the variables which explains their influence on booking sales.
 
 
+
+The results shows that based on test status, test visitors, that is those who experienced faster page loading time are less likely to make higher booking sales as they made bookings worth 452 Euros less than what is ordered by the control group. Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Hence instant booking is less likely to result in higher booking sales. A possible explanation is customers may be using instant booking for cheap offers that will not last long and need to booked immediately. Thus, on the average generate lower revenue compared to those who book more expensive offers that are price stable.
+
+
+Moreover, users who are verified made bookings worth €1,085 more than those who are not verified. A possible explanation is getting verified means investing one's trust in the platform to be legitimate and worthwhile hence the make more high value bookings.
+
+The results however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases. 
+
+In response to the second question for this analysis, the predictors analyzed explains only 4% of variations in booking sales  (rsquare = 0.0416) as explained by the co-efficient of determination for training set. The predictive power of the model on unseen data is very low as it explains only 0.9% of variability for test dataset but this is not the focus so no optimization technique will be employed for that purpose. 
+
+
+## Recommendations
+1. Now it is time to restate the golden rule, implement more strategies to entice users to get verified as it give them the confidence to book more high value accommodations
+
+2. Resources dedicated to faster page loading time are not contributing to high sales. In case, this is the main objective of faster page loading time, then it needs to be reconsidered. It is however noted that, such resources may not be entirely wasted given that faster page loading time reduces bounce rate as assessed in a related analysis. Thus, the final decision should be entirely based on the strategic business goal.
+
+
+## Summary
+
+This blog post discussed taking a data-driven approach to running a business. The business problem was absence of a clear understanding of how features implemented by an anonymized online accommodation booking firm are being used by their client to impact sales. The solution provided was a linear regression explain the extent to which the various variables analyze account for sales. With focus on gaining insight on how the various factors influence sales, the model developed suffices.However, there is the need to consider other important variables if we are to focus on developing precise models for predicting booking sales. 
 
