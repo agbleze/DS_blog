@@ -90,7 +90,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
 <title>Data science tutorials: Analyzing the impact of various factors on apartment booking sales</title>
 
-<meta property="description" itemprop="description" content="This post uses linear regression to analyze how various factors influence booking sales."/>
+<meta property="description" itemprop="description" content="This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability."/>
 
 <link rel="canonical" href="https://addurl/posts/2022-09-05-linear-regression/"/>
 
@@ -102,9 +102,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
 <meta property="og:title" content="Data science tutorials: Analyzing the impact of various factors on apartment booking sales"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="This post uses linear regression to analyze how various factors influence booking sales."/>
+<meta property="og:description" content="This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability."/>
 <meta property="og:url" content="https://addurl/posts/2022-09-05-linear-regression/"/>
-<meta property="og:image" content="https://addurl/posts/2022-09-05-linear-regression/linear-regression_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="og:image" content="https://addurl/posts/2022-09-05-linear-regression/linear-regression_files/figure-html5/unnamed-chunk-12-1.png"/>
 <meta property="og:image:width" content="1248"/>
 <meta property="og:image:height" content="768"/>
 <meta property="og:locale" content="en_US"/>
@@ -113,9 +113,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="Data science tutorials: Analyzing the impact of various factors on apartment booking sales"/>
-<meta property="twitter:description" content="This post uses linear regression to analyze how various factors influence booking sales."/>
+<meta property="twitter:description" content="This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability."/>
 <meta property="twitter:url" content="https://addurl/posts/2022-09-05-linear-regression/"/>
-<meta property="twitter:image" content="https://addurl/posts/2022-09-05-linear-regression/linear-regression_files/figure-html5/unnamed-chunk-4-1.png"/>
+<meta property="twitter:image" content="https://addurl/posts/2022-09-05-linear-regression/linear-regression_files/figure-html5/unnamed-chunk-12-1.png"/>
 <meta property="twitter:image:width" content="1248"/>
 <meta property="twitter:image:height" content="768"/>
 
@@ -123,12 +123,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Analyzing the impact of various factors on apartment booking sales"]},{"type":"character","attributes":{},"value":["This post uses linear regression to analyze how various factors influence booking sales."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Linus Agbleze"]},{"type":"character","attributes":{},"value":["https://agbleze.github.io/Portfolio/"]}]}]},{"type":"character","attributes":{},"value":["2022-09-05"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["Linear regression","revenue impact assessment"]},{"type":"character","attributes":{},"value":["https://addurl/posts/2022-09-05-linear-regression/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","categories","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Analyzing the impact of various factors on apartment booking sales"]},{"type":"character","attributes":{},"value":["This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Linus Agbleze"]},{"type":"character","attributes":{},"value":["https://agbleze.github.io/Portfolio/"]}]}]},{"type":"character","attributes":{},"value":["2022-09-05"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["Linear regression","revenue impact assessment"]},{"type":"character","attributes":{},"value":["https://addurl/posts/2022-09-05-linear-regression/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["all_conversions_variables.csv","linear-regression_files/anchor-4.2.2/anchor.min.js","linear-regression_files/bowser-1.9.3/bowser.min.js","linear-regression_files/distill-2.2.21/template.v2.js","linear-regression_files/figure-html5/unnamed-chunk-4-1.png","linear-regression_files/header-attrs-2.14/header-attrs.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.map","linear-regression_files/popper-2.6.0/popper.min.js","linear-regression_files/tippy-6.2.7/tippy-bundle.umd.min.js","linear-regression_files/tippy-6.2.7/tippy-light-border.css","linear-regression_files/tippy-6.2.7/tippy.css","linear-regression_files/tippy-6.2.7/tippy.umd.min.js","linear-regression_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["all_conversions_variables.csv","linear-regression_files/anchor-4.2.2/anchor.min.js","linear-regression_files/bowser-1.9.3/bowser.min.js","linear-regression_files/distill-2.2.21/template.v2.js","linear-regression_files/figure-html5/unnamed-chunk-10-1.png","linear-regression_files/figure-html5/unnamed-chunk-12-1.png","linear-regression_files/figure-html5/unnamed-chunk-4-1.png","linear-regression_files/figure-html5/unnamed-chunk-6-1.png","linear-regression_files/figure-html5/unnamed-chunk-8-1.png","linear-regression_files/header-attrs-2.14/header-attrs.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.js","linear-regression_files/jquery-3.6.0/jquery-3.6.0.min.map","linear-regression_files/popper-2.6.0/popper.min.js","linear-regression_files/tippy-6.2.7/tippy-bundle.umd.min.js","linear-regression_files/tippy-6.2.7/tippy-light-border.css","linear-regression_files/tippy-6.2.7/tippy.css","linear-regression_files/tippy-6.2.7/tippy.umd.min.js","linear-regression_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2105,7 +2105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Analyzing the impact of various factors on apartment booking sales","description":"This post uses linear regression to analyze how various factors influence booking sales.","authors":[{"author":"Linus Agbleze","authorURL":"https://agbleze.github.io/Portfolio/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-09-05T00:00:00.000+02:00","citationText":"Agbleze, 2022"}
+{"title":"Analyzing the impact of various factors on apartment booking sales","description":"This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability.","authors":[{"author":"Linus Agbleze","authorURL":"https://agbleze.github.io/Portfolio/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-09-05T00:00:00.000+02:00","citationText":"Agbleze, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2141,7 +2141,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <a href="../../index.html#category:revenue_impact_assessment" class="dt-tag">revenue impact assessment</a>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>This post uses linear regression to analyze how various factors influence booking sales.</p></p>
+<p><p>This post analyzes how various strategies employed by a business for growth actually influences their sales. The data driven approach aims to assess how a firm will progress forward. To gain such actionable insights, this post demonstartes how to undertake a linear regression with focus on result interpretability.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2151,22 +2151,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
-<h3 id="analyzing-the-impact-of-various-factors-on-apartment-booking-sales">Analyzing the impact of various factors on apartment booking sales</h3>
-<p>A key question that is likely to be on the minds of the product team is how user interaction with our products will impact sales. This can be understond to be an early stage of trying to forecast sales. The available data can be used to demonstrate this.</p>
-<p>The aim here is not to develop a well optimized model that predict sales considering that the dataset does not provide key indicators needed for such an analysis. Nonetheless, in order to draw a clue to such trend, this analysis proceeds to answer the following key questions</p>
+<h2 id="background">Background</h2>
+<p>Businesses exist to make money and this simple assertion also has a simple rule. Do more of what grows the business and less of what makes losses. This golden rule is known by all but practice by few. In fact, it is not knowing it that matters but identifying the impact of various business drivers that is the silver bullet. Luckily, many businesses have what it takes to take the perfect shot. It is data analysis and that is what an anonymized firm requires to make an inform decision to increase sales. The product team is preoccupied with the question of how user interaction is influencing sales on their booking platform. For such an analysis the aim is not to develop a well optimized model that predict sales but to understand how the various features on their platform influence sales. How much of an insights is derive to drive the business is dependent on the dataset features. With the undertanding of what the business is and what the product team wants, the first step for the analysis is to formulate a research question that the analysis should provide answers to. This analysis proceeds to answer the following key questions</p>
+<h2 id="research-question">Research question</h2>
 <ol type="1">
-<li>What is the impact of user verification, instant booking, and the rcsp:show feature for the A/B testing on booking sales?</li>
-<li>To what extent does these variables explain booking sales?</li>
+<li><p>What is the impact of user verification, instant booking, and faster page loading time on booking sales</p></li>
+<li><p>To what extent does these variables explain booking sales?</p></li>
 </ol>
-<h4 id="problem-design-framework">Problem Design framework</h4>
-<h4 id="data-analysis">Data analysis</h4>
-<p>For this analysis, the following variables were used</p>
-<h4 id="outcome-variable">Outcome variable</h4>
-<p>Total booking sales: This variable was extracted from the “params” column in the dataset as indicated by “total”.</p>
-<h4 id="predictors">Predictors</h4>
-<p>Test status: as a binary predictor is deduced from the A/B testing groupings in the data. All visitors identified with “rcsp:show” in the “params” column were classified as test group and all others as control group. For the analysis, the reference group was designated to be users without “rcsp:show”.</p>
-<p>User verification is a binary predictor indicating whether a user has been verified or not. This is captured as “user_verified” in the “params” column. The reference group for the regression analysis for this variable was users who are not verified.</p>
+<h2 id="data-analysis-overview-of-the-variables">Data analysis – Overview of the variables</h2>
+<p>Two main categories of variables are required for the analysis; outcome variable and predictor variable. The analysis to be undertaken is regression given that the outcome variable is numeric and continuous. It is extremely important to group the variables in the dataset rightly as this informs the modeling process. The outcome variable is what is being predicted or explained while the predictors are the set variables that are used in predicting or explaining the outcome variable. For this analysis, the following variables are available for use</p>
+<h3 id="outcome-variable">Outcome variable</h3>
+<p>Total booking sales: This variable depicts the total price that a customer pays for booking an apartment</p>
+<h3 id="predictors">Predictors</h3>
+<p>Test status: This is a binary predictor where customers who were offered the feature of a faster page loading time as classified as test and those without that feature are named as control. For this analysis, the reference group is designated to be test users. The reference group is exempted from the model and serve as the benchmark for comparison for that variable.</p>
+<p>User verification is a binary predictor indicating whether a user has been verified or not. Users who are verified are labeled ‘Verified’ and those not verified are named as ‘Not_verified’ for the variable “user_verified”. The reference group for the regression analysis for this variable was users who are not verified.</p>
 <p>Instant booking: is a binary predictor indicating whether or not a customer used the instant booking feature. Customers who used the instant booking feature were designated as the reference group for the analysis</p>
+<p>Worthy of notice is that all the predictors are binary categorical variables but numeric and continuous variables can also be use when available. The various libraries for the analysis are loaded and the dataset read using the code below.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
@@ -2192,10 +2192,123 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>##### Spliting dataset into training and testing samples</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>all_conversions_variables</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code> [1] &quot;...1&quot;            &quot;visitor_id&quot;      &quot;num_sessions&quot;   
+ [4] &quot;test_groups&quot;     &quot;session_id&quot;      &quot;device_class&quot;   
+ [7] &quot;params&quot;          &quot;days&quot;            &quot;city&quot;           
+[10] &quot;country&quot;         &quot;price&quot;           &quot;tenant_fee&quot;     
+[13] &quot;landlord_fee&quot;    &quot;total_paid&quot;      &quot;currency&quot;       
+[16] &quot;test_status&quot;     &quot;instant_booking&quot; &quot;user_verified&quot;  
+[19] &quot;total_paid.EUR&quot; </code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>all_conversions_variables</span><span class='op'>$</span><span class='va'>user_verified</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] &quot;Verified&quot;     &quot;Not_verified&quot;</code></pre>
+</div>
+<h2 id="visualization-of-the-data">Visualization of the data</h2>
+<p>It is always a good idea to do visualization of the variables for the prediction to gain some understanding before the modeling process. First the average sales made by verified and non-verified users is estimated and visualized using the code below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>user_verified_sales</span> <span class='op'>&lt;-</span>  <span class='va'>all_conversions_variables</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>user_verified</span>, <span class='va'>total_paid.EUR</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>user_verified</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>avg_sales <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>total_paid.EUR</span><span class='op'>)</span><span class='op'>)</span> </span>
+<span><span class='va'>user_verified_sales</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  user_verified avg_sales
+  &lt;chr&gt;             &lt;dbl&gt;
+1 Not_verified      2475.
+2 Verified          4965.</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>user_verified_sales</span>, mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>user_verified</span>, y<span class='op'>=</span><span class='va'>avg_sales</span>, fill<span class='op'>=</span><span class='va'>user_verified</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>'Average sales based on user verification status'</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"user verification status"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_wsj.html'>theme_wsj</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Average sales"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="linear-regression_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>The result shows that verified users booked more rooms earning almost twice as much sales on the average compared to non-verified users.</p>
+<h3 id="average-sales-based-on-whether-customer-used-instant-booking-feature">Average sales based on whether customer used instant booking feature</h3>
+<p>In order to get the average sales based on instant booking feature usage, the data is grouped based on instant_booking variable and the mean sales for each group is estimated. This is undertaken as follows;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># estimate avg booking sales by instant booking</span></span>
+<span><span class='va'>avg_instant_booking</span> <span class='op'>=</span> <span class='va'>all_conversions_variables</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>instant_booking</span>, <span class='va'>total_paid.EUR</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>instant_booking</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>avg_sales <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>total_paid.EUR</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_instant_booking</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  instant_booking avg_sales
+  &lt;chr&gt;               &lt;dbl&gt;
+1 Instant             2983.
+2 Not_instant         5424.</code></pre>
+</div>
+<p>The result is visualized as follows;</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_instant_booking</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>instant_booking</span>, y <span class='op'>=</span> <span class='va'>avg_sales</span>, fill <span class='op'>=</span> <span class='va'>instant_booking</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Average booking sales based on instant booking"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Instant booking types"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Average booking sales"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_wsj.html'>theme_wsj</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="linear-regression_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
+</div>
+<h3 id="avergare-sales-based-on-test-status">Avergare sales based on test status</h3>
+<p>A feature was tested and average sales made by test group can be compared to the control group. Users labelled as test experienced a faster page loading time. The average sales can be estimated using the code below.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>avg_sales_test_status</span> <span class='op'>&lt;-</span> <span class='va'>all_conversions_variables</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>test_status</span>, <span class='va'>total_paid.EUR</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>test_status</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>avg_sales <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>total_paid.EUR</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>avg_sales_test_status</span></span></code></pre>
+</div>
+<pre><code># A tibble: 2 × 2
+  test_status avg_sales
+  &lt;chr&gt;           &lt;dbl&gt;
+1 control         4345.
+2 test            5482.</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>avg_sales_test_status</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>test_status</span>, y <span class='op'>=</span> <span class='va'>avg_sales</span>, fill <span class='op'>=</span> <span class='va'>test_status</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Average booking sales"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Average sales (test status)"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Average booking sales"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Test status"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>ggthemes</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_wsj.html'>theme_wsj</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="linear-regression_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
+</div>
+<h2 id="regression-analysis">Regression analysis</h2>
+<p>After visualization, it is time to build a regression model. Given that the focus is one interpretability, linear regression will be built using all the variables identified. The procedure is highlighted as follows;</p>
+<ol type="1">
+<li>Set seed to make splitting of dataset reproducible</li>
+<li>Randomly split the dataset into training and test set. This process is a standard for all machine learning processes. Nonetheless, it can be avoided here given that the focus is not on estimating the performance of the model on unseen data.</li>
+<li>Build the model, identifying the outcome and predictor variables</li>
+<li>Estimate model coefficient for the various predictor variables and their significance</li>
+<li>Estimate the coefficient of determination to explain the amount of variablility in the data explained by the model</li>
+<li>Interpret the results</li>
+</ol>
+<p>The steps identified above are implemented as code as follows</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># set seed for reproducibility</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Spliting dataset into training and testing samples</span></span>
 <span><span class='va'>sample_all_conversions</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>TRUE</span>, <span class='cn'>FALSE</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>all_conversions_variables</span><span class='op'>)</span>, replace <span class='op'>=</span> <span class='cn'>T</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.6</span>,<span class='fl'>0.4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># retrieve training dataset</span></span>
 <span><span class='va'>train_all_convern.lmvar</span> <span class='op'>&lt;-</span> <span class='va'>all_conversions_variables</span><span class='op'>[</span><span class='va'>sample_all_conversions</span>, <span class='op'>]</span></span>
+<span></span>
+<span><span class='co'>## retrieve testing dataset</span></span>
 <span><span class='va'>test_all_convern.lmvar</span> <span class='op'>&lt;-</span> <span class='va'>all_conversions_variables</span><span class='op'>[</span><span class='op'>!</span><span class='va'>sample_all_conversions</span>, <span class='op'>]</span></span>
 <span></span>
 <span><span class='co'>## regression for qualitative predictors (categorical dataset -- factors) </span></span>
@@ -2208,7 +2321,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <span><span class='va'>model4_results</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/augment.html'>augment</a></span><span class='op'>(</span><span class='va'>model4_all_convern_factors</span>, <span class='va'>train_all_convern.lmvar</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<h4 id="plot-of-regression-analysis">Plot of regression analysis</h4>
+<h2 id="plot-results-of-regression-analysis">Plot results of regression analysis</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>booking_sales.predictioplot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://indrajeetpatil.github.io/ggstatsplot/reference/ggcoefstats.html'>ggcoefstats</a></span><span class='op'>(</span></span>
@@ -2220,8 +2333,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <span></span>
 <span><span class='va'>booking_sales.predictioplot</span></span></code></pre>
 </div>
-<p><img src="linear-regression_files/figure-html5/unnamed-chunk-4-1.png" width="624" data-distill-preview=1 /></p>
+<p><img src="linear-regression_files/figure-html5/unnamed-chunk-12-1.png" width="624" data-distill-preview=1 /></p>
 </div>
+<h3 id="determining-extent-to-which-various-variables-explain-booking-sales">Determining extent to which various variables explain booking sales</h3>
+<p>The second question for this analysis will answer by estimating the co-efficient of determination as follows</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://modelr.tidyverse.org/reference/model-quality.html'>rsquare</a></span><span class='op'>(</span><span class='va'>model4_all_convern_factors</span>, data <span class='op'>=</span> <span class='va'>train_all_convern.lmvar</span><span class='op'>)</span></span></code></pre>
@@ -2232,10 +2347,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <pre><code>[1] 0.009705932</code></pre>
 </div>
-<h4 id="result-interpretation">Result interpretation</h4>
-<p>The results shows that visitors in the test group(rcsp:show) made bookings worth 452 EUR less than what is ordered by the control group (not rcsp:show). Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Moreover, users who are verified made bookings worth 1,085 EUR more than those who are not verified. This result however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases.</p>
-<p>Moreover, the predictors analyzed explains only 4% of variations in booking sales (rsquare = 0.0416). Thus, there is the need to consider other more important variables if we are too develop good models for forecasting booking sales.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="results-and-interpretation">Results and interpretation</h2>
+<p>The answers to the first question for this analysis is answered by the coefficient of the variables which explains their influence on booking sales.</p>
+<p>The results shows that based on test status, test visitors, that is those who experienced faster page loading time are less likely to make higher booking sales as they made bookings worth 452 Euros less than what is ordered by the control group. Also, visitors who did not use instant booking made purchase worth 2,319 EUR more than those who used instant booking. Hence instant booking is less likely to result in higher booking sales. A possible explanation is customers may be using instant booking for cheap offers that will not last long and need to booked immediately. Thus, on the average generate lower revenue compared to those who book more expensive offers that are price stable.</p>
+<p>Moreover, users who are verified made bookings worth €1,085 more than those who are not verified. A possible explanation is getting verified means investing one’s trust in the platform to be legitimate and worthwhile hence the make more high value bookings.</p>
+<p>The results however suggests that there is no statistically significant difference in purchases among visitors based on the variables analyzed given that the p-value found was greater than 0.05 in all cases.</p>
+<p>In response to the second question for this analysis, the predictors analyzed explains only 4% of variations in booking sales (rsquare = 0.0416) as explained by the co-efficient of determination for training set. The predictive power of the model on unseen data is very low as it explains only 0.9% of variability for test dataset but this is not the focus so no optimization technique will be employed for that purpose.</p>
+<h2 id="recommendations">Recommendations</h2>
+<ol type="1">
+<li><p>Now it is time to restate the golden rule, implement more strategies to entice users to get verified as it give them the confidence to book more high value accommodations</p></li>
+<li><p>Resources dedicated to faster page loading time are not contributing to high sales. In case, this is the main objective of faster page loading time, then it needs to be reconsidered. It is however noted that, such resources may not be entirely wasted given that faster page loading time reduces bounce rate as assessed in a related analysis. Thus, the final decision should be entirely based on the strategic business goal.</p></li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>This blog post discussed taking a data-driven approach to running a business. The business problem was absence of a clear understanding of how features implemented by an anonymized online accommodation booking firm are being used by their client to impact sales. The solution provided was a linear regression explain the extent to which the various variables analyze account for sales. With focus on gaining insight on how the various factors influence sales, the model developed suffices.However, there is the need to consider other important variables if we are to focus on developing precise models for predicting booking sales.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <div class="article-footer">
   <p class="social_footer">
